@@ -1,4 +1,4 @@
-package Jimmy;
+package Controller;
 
 import javafx.event.ActionEvent;
 
