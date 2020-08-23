@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Jimmy.MainMenu">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="599.0" text="UNO">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Pane prefHeight="383.0" prefWidth="600.0">
+         <children>
+            <Line endX="456.0" layoutX="143.0" startX="-143.0" />
+            <VBox layoutX="413.0" layoutY="68.0" prefHeight="200.0" prefWidth="100.0" spacing="25.0">
+               <children>
+                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#playGame" prefHeight="27.0" prefWidth="101.0" text="Start">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="leaderBoard" mnemonicParsing="false" onAction="#showLeaderBoard" prefHeight="27.0" prefWidth="101.0" text="Leader Board">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="instructions" mnemonicParsing="false" onAction="#showInstruction" prefHeight="27.0" prefWidth="101.0" text="Instructions">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="settings" mnemonicParsing="false" onAction="#showSettings" prefHeight="27.0" prefWidth="101.0" text="Settings">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#quit" prefHeight="27.0" prefWidth="101.0" text="Quit">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+   </children>
+</VBox>
