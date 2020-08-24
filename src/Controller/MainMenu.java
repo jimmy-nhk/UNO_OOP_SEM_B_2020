@@ -6,6 +6,7 @@ public class MainMenu {
 
 
     public void playGame(ActionEvent actionEvent) {
+        // sthing sthing shtin
     }
 
     public void showLeaderBoard(ActionEvent actionEvent) {
