@@ -25,3 +25,21 @@ At the start of the game, each player has 7 cards. The pile of the other cards a
 * **Leaderboard**: Names of the players with the highest scores are displayed on the Leaderboard. To see Leaderboard, go to _**Menu &#8594; Leaderboard.**_ 
 * **User-friendly Interface**: the game was built with standard and accessible User Interface, easy rules and clear instructions.
 * **Networking**: Players are to play together via a multi-computer network.
+# Installation
+* **Open the project using Intellij IDEA 2019.
+* Setup the JDK to version 11.
+# Add the JavaFX library
+* From the main menu, select File | Project Structure or Ctrl+Shift+Alt+S on the toolbar.
+* Specify the path to the lib folder in the JavaFX SDK package, for example: C:\javafx-sdk-11.0.2\lib
+* In the Choose Modules dialog, select the FinalASM_OOP module and click OK.
+# Add VM options
+* From the main menu, select Run | Edit Configurations.
+* Select Application | Main from the list on the left. *In the VM options field, specify: --module-path %PATH_TO_FX% --add     modules=javafx.controls,javafx.fxml,javafx.media
+* Instead of %PATH_TO_FX%, specify the path to the JavaFX SDK lib directory, for example: C:/javafx-sdk-11.0.2/lib.
+# Compile and Run
+* Open class Main.java.
+* Press Shift + F10 or go to Run tools and hit Run 'Main'.
+* To test the Network feature by setting up a localhost, run ServerMain and then run at most 4 Main in parallel mode (can be setup in the Run | Edit Configurations)
+# Acknowledgement
+* Mr Quang's lecturer slides.
+* Package javafx.scene.media : https://docs.oracle.com/javafx/2/api/javafx/scene/media/package-summary.html
