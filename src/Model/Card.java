@@ -12,14 +12,18 @@ import java.net.URL;
 public class Card extends ImageView{
     private String properties;
     private String value;
+
     public Card (String url, String properties, String value) throws MalformedURLException {
         super(url);
         this.properties = properties;
         this.value = value;
     }
 
-    // Extend from ImageView
-    public void setProperties(int preferLength, int preferWidth){
-        super(preferLength, preferWidth);
+    public void setProperties(String properties) {
+        this.properties = properties;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }
