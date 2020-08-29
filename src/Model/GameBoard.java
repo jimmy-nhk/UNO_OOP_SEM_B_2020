@@ -56,5 +56,20 @@ public class GameBoard {
             positionOfCurrentPlayer = ( positionOfCurrentPlayer - 1 ) % inGamePlayers.size();
     }
 
+        //Check if the Card is empty or not.
+    public boolean checkDeckIsEmpty(){
+        if (deck.getSize() <= 4)
+            return true;
+        else
+            return false;
+    }
+
+    // Player's card return to deck number 2
+    public void resetDeck() {
+        if (IsDeckEmpty()) {
+           deck.getCards() = playedCards; // Change the first deck as second deck if first deck is empty
+           playedCards.size() = deck.getSize();
+        }
+    }
 
 }
