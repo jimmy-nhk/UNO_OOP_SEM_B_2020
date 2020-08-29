@@ -1,7 +1,6 @@
 package Model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Deck {
@@ -41,23 +40,23 @@ public class Deck {
             if (!c.equals(Color.Wild)){
 
                 // add the zero card first
-                cards.add(new Card("pngfind.com-"+ 0 + c +"-card-png-3806009.png"));
+                cards.add(new Card("pngfind.com-"+ 0 + c +"-card-png-3806009.png", "zero" , c.toString()) );
 
                 // there are two each of digit 1 through 9
                 // and two each of action cards: skip , draw too , reverse
                 for (int i = 1 ; i < 13; i++){
-                    cards.add(new Card("pngfind.com-"+ i + c +"-card-png-3806009.png"));
-                    cards.add(new Card("pngfind.com-"+ i + c +"-card-png-3806009.png"));
+                    cards.add(new Card("pngfind.com-"+ i + c +"-card-png-3806009.png", i+ "" , c.toString()) );
+                    cards.add(new Card("pngfind.com-"+ i + c +"-card-png-3806009.png", i + "" , c.toString()) );
                 }
 
             } else {
 
-                // Add the wild cards
+                 // Add the wild cards
                 for ( int i = 13 ; i < 14 ; i ++){
-                    cards.add(new Card("pngfind.com-"+ i + "-card-png-3806009.png"));
-                    cards.add(new Card("pngfind.com-"+ i + "-card-png-3806009.png"));
-                    cards.add(new Card("pngfind.com-"+ i + "-card-png-3806009.png"));
-                    cards.add(new Card("pngfind.com-"+ i + "-card-png-3806009.png"));
+                    cards.add(new Card("pngfind.com-"+ i + "-card-png-3806009.png", i+ "" , c.toString()));
+                    cards.add(new Card("pngfind.com-"+ i + "-card-png-3806009.png", i+ "" , c.toString()));
+                    cards.add(new Card("pngfind.com-"+ i + "-card-png-3806009.png", i+ "" , c.toString()));
+                    cards.add(new Card("pngfind.com-"+ i + "-card-png-3806009.png", i+ "" , c.toString()));
                 }
             }
         }
@@ -69,9 +68,19 @@ public class Deck {
     }
 
     // the card will be withdrawn from the deck
-    public Card drawCard (){
+    public Card updateCard (){
         Card card = cards.get(cards.size() - 1); // take the last card of the deck
         cards.remove(cards.size() - 1); // reduce the size of the deck
         return card;
+    }
+
+    // Get size of the deck
+    public int getSize(){
+        return cards.size();
+    }
+
+    // Get top card of the deck
+    public Card getTopCard (){
+        return cards.get(cards.size() - 1 );
     }
 }
