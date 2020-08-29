@@ -56,5 +56,8 @@ public class GameBoard {
             positionOfCurrentPlayer = ( positionOfCurrentPlayer - 1 ) % inGamePlayers.size();
     }
 
+    public boolean checkDeckIsEmpty(){
+
+    }
 
 }
