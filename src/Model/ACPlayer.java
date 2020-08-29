@@ -55,13 +55,17 @@ public class Account implements Comparable<Account>, Serializable {
     public void setLoss(int loss) {
         this.loss = loss;
     }
-    
-    //  Overriding compareTo() from interface Comparable
+//  used in Leaderboard
+    public double calculateWinRate(int win, int loss) {
+        return ((double) win) / (double) (win + loss);
+    }
+
+//  Overriding compareTo() from interface Comparable
     @Override
     public int compareTo(Account account) {
-        if (getWin()/(getWin()+getLoss()) == account.getWin()/(account.getWin()+account.getLoss())) {
+        if (calculateWinRate(getWin(),getLoss())== account.calculateWinRate(getWin(),getLoss())) {
             return 0;
-        } else if (getWin()/(getWin()+getLoss()) > account.getWin()/(account.getWin()+account.getLoss())) {
+        } else if (calculateWinRate(getWin(),getLoss())> account.calculateWinRate(getWin(),getLoss())) {
             return 1;
         } else return -1;
 
