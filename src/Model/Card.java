@@ -18,6 +18,7 @@ public class Card extends ImageView{
         this.value = value;
     }
 
+    // Extend from ImageView
     public void setProperties(int preferLength, int preferWidth){
         super(preferLength, preferWidth);
     }
