@@ -17,6 +17,7 @@ public class Deck {
     // Methods:
 
     Deck(){
+        cards = new ArrayList<>();
         loadCards(); // Load cards from the source to it
         shuffleDeck(); // Shuffle the deck before playing
 
@@ -31,24 +32,24 @@ public class Deck {
             if (!p.equals(Properties.Wild)){
 
                 // add the zero card first
-                cards.add(new Card("pngfind.com-"+ "ZERO-" + p +"-card-png-3806009.png", "ZERO" ,p +"") );
+                cards.add(new Card("pngfind.com-"+ "ZERO-" + p +"-card-png-3806009.png", Values.ZERO ,p ) );
 
                 // there are two each of digit 1 through 9
                 // and two each of action cards: skip , draw too , reverse
-                for (int i = 1 ; i <= 13; i++){
-                    cards.add(new Card("pngfind.com-"+ Card.values[i] + p +"-card-png-3806009.png", Card.values[i] +"" , p +"") );
-                    cards.add(new Card("pngfind.com-"+ Card.values[i] + p +"-card-png-3806009.png", Card.values[i] +"" , p +"") );
+                for (int i = 1 ; i <= 12; i++){
+                    cards.add(new Card("pngfind.com-"+ Card.values[i] + p +"-card-png-3806009.png", Card.values[i]  , p ) );
+                    cards.add(new Card("pngfind.com-"+ Card.values[i] + p +"-card-png-3806009.png", Card.values[i]  , p ) );
                 }
 
 
             } else {
 
                  // Add the wild cards
-                for ( int i = 14 ; i <= 15 ; i ++){
-                    cards.add(new Card("pngfind.com-"+ Card.values[i] + "-card-png-3806009.png", Card.values[i] +"" , p +""));
-                    cards.add(new Card("pngfind.com-"+ Card.values[i] + "-card-png-3806009.png", Card.values[i] +"" , p +""));
-                    cards.add(new Card("pngfind.com-"+ Card.values[i] + "-card-png-3806009.png", Card.values[i] +"" , p +""));
-                    cards.add(new Card("pngfind.com-"+ Card.values[i] + "-card-png-3806009.png", Card.values[i] +"" , p +""));
+                for ( int i = 13 ; i <= 14 ; i ++){
+                    cards.add(new Card("pngfind.com-"+ Card.values[i] + "-card-png-3806009.png", Card.values[i]  , p ));
+                    cards.add(new Card("pngfind.com-"+ Card.values[i] + "-card-png-3806009.png", Card.values[i]  , p ));
+                    cards.add(new Card("pngfind.com-"+ Card.values[i] + "-card-png-3806009.png", Card.values[i]  , p ));
+                    cards.add(new Card("pngfind.com-"+ Card.values[i] + "-card-png-3806009.png", Card.values[i]  , p ));
                 }
             }
         }

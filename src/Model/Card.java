@@ -24,7 +24,6 @@ enum Values {
     SEVEN ,
     EIGHT ,
     NINE ,
-    TEN ,
     SKIP ,
     REVERSE ,
     PLUS_TWO ,
@@ -39,21 +38,21 @@ public class Card extends ImageView{
     public static Values[] values = Values.values();
 
 
-    private String property;
-    private String value;
+    private Properties property;
+    private Values value;
 
-    public Card (String url, String value, String property)  {
+    public Card (String url, Values value, Properties property)  {
         super();
         this.setImage(new Image(url));
         this.property = property;
         this.value = value;
     }
 
-    public void setProperties(String properties) {
+    public void setProperties(Properties properties) {
         this.property = properties;
     }
 
-    public void setValue(String value) {
+    public void setValue(Values value) {
         this.value = value;
     }
 
