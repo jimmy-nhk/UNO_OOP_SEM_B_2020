@@ -3,35 +3,47 @@ package Model;
 import java.util.ArrayList;
 
 public class Player {
-    private String name;
+
+    private Account account;
     private ArrayList<Card> cardList;
 
     //  Default Constructor
     public Player() {
-        name = null;
+        account = new Account();
         cardList = new ArrayList<Card>();
     }
 
     //  Constructor
-    public Player(String name, ArrayList<Card> cardList) {
-        this.name = name;
+    public Player(Account account , ArrayList<Card> cardList) {
+        this.account = account;
         this.cardList = cardList;
+
     }
 
     //  Accessor
-    public String getName() {
-        return name;
+    public Account getAccount() {
+        return account;
+    }
+
+    public ArrayList<Card> getCardList() {
+        return cardList;
     }
 
     //  Mutator
-    public void setName(String name) {
-        this.name = name;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
 
-    public void drawCard() {
+    public void drawCard(Card card) {
+        cardList.add(card);
     }
 
-    public void playCard() {
+    public void playCard(Card card) {
+        for (int i=0 ; i < cardList.size(); i ++) {
+            if (cardList.get(i).equals(card)) {
+                cardList.remove(i);
+            }
+        }
     }
 }
