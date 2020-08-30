@@ -6,22 +6,13 @@ import java.util.Collections;
 public class Deck {
 
     // The deck consists of 108 cards: four each of "Wild" and "Wild Draw Four,"
-    // and 25 each of four different colors (red, yellow, green, blue).
-    // Each color consists of one zero, two each of 1 through 9,
+    // and 25 each of four different Properties (red, yellow, green, blue).
+    // Each Properties consists of one zero, two each of 1 through 9,
     // and two each of "Skip," "Draw Two," and "Reverse." These last three types are known as "action cards."
-
-    enum Color {
-        Red,
-        Yellow,
-        Green,
-        Blue,
-        Wild
-    }
-
-    Color[] colors = Color.values();
+    
 
     // Data fields
-    ArrayList<Card> cards;
+    private ArrayList<Card> cards;
 
     // Methods:
 
@@ -33,30 +24,31 @@ public class Deck {
 
     // Load the cards inside the deck
     public void loadCards(){
-        // Load the color cards inside the deck first
-        for (Color c :colors){
+        // Load the Properties cards inside the deck first
+        for (Properties p : Properties.values()){
 
-            // Check if the color is not WILD
-            if (!c.equals(Color.Wild)){
+            // Check if the Properties is not WILD
+            if (!p.equals(Properties.Wild)){
 
                 // add the zero card first
-                cards.add(new Card("pngfind.com-"+ 0 + c +"-card-png-3806009.png", "zero" , c.toString()) );
+                cards.add(new Card("pngfind.com-"+ "ZERO-" + p +"-card-png-3806009.png", "ZERO" ,p +"") );
 
                 // there are two each of digit 1 through 9
                 // and two each of action cards: skip , draw too , reverse
-                for (int i = 1 ; i < 13; i++){
-                    cards.add(new Card("pngfind.com-"+ i + c +"-card-png-3806009.png", i+ "" , c.toString()) );
-                    cards.add(new Card("pngfind.com-"+ i + c +"-card-png-3806009.png", i + "" , c.toString()) );
+                for (int i = 1 ; i <= 13; i++){
+                    cards.add(new Card("pngfind.com-"+ Card.values[i] + p +"-card-png-3806009.png", Card.values[i] +"" , p +"") );
+                    cards.add(new Card("pngfind.com-"+ Card.values[i] + p +"-card-png-3806009.png", Card.values[i] +"" , p +"") );
                 }
+
 
             } else {
 
                  // Add the wild cards
-                for ( int i = 13 ; i < 14 ; i ++){
-                    cards.add(new Card("pngfind.com-"+ i + "-card-png-3806009.png", i+ "" , c.toString()));
-                    cards.add(new Card("pngfind.com-"+ i + "-card-png-3806009.png", i+ "" , c.toString()));
-                    cards.add(new Card("pngfind.com-"+ i + "-card-png-3806009.png", i+ "" , c.toString()));
-                    cards.add(new Card("pngfind.com-"+ i + "-card-png-3806009.png", i+ "" , c.toString()));
+                for ( int i = 14 ; i <= 15 ; i ++){
+                    cards.add(new Card("pngfind.com-"+ Card.values[i] + "-card-png-3806009.png", Card.values[i] +"" , p +""));
+                    cards.add(new Card("pngfind.com-"+ Card.values[i] + "-card-png-3806009.png", Card.values[i] +"" , p +""));
+                    cards.add(new Card("pngfind.com-"+ Card.values[i] + "-card-png-3806009.png", Card.values[i] +"" , p +""));
+                    cards.add(new Card("pngfind.com-"+ Card.values[i] + "-card-png-3806009.png", Card.values[i] +"" , p +""));
                 }
             }
         }
@@ -82,5 +74,11 @@ public class Deck {
     // Get top card of the deck
     public Card getTopCard (){
         return cards.get(cards.size() - 1 );
+    }
+
+    // Get arraylist of cards
+
+    public ArrayList<Card> getCards() {
+        return cards;
     }
 }

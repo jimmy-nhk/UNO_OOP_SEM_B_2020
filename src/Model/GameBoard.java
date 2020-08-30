@@ -57,7 +57,7 @@ public class GameBoard {
 //  +2   
     public void addTwo() {
         for (int i=0; i <2; i++) {
-            inGamePlayers.get(positionOfCurrentPlayer + 1).drawcard;
+            inGamePlayers.get(positionOfCurrentPlayer + 1).drawcard();
         }
         skip();
     }
@@ -66,10 +66,26 @@ public class GameBoard {
     //   need for choose-color scene
     public void addFour() {
         for (int i=0; i <4; i++) {
-            inGamePlayers.get(positionOfCurrentPlayer + 1).drawcard;
+            inGamePlayers.get(positionOfCurrentPlayer + 1).drawcard();
         }
         skip();
     //  right here...
         chooseColor();
+    }
+
+    //Check if the Card is empty or not.
+    public boolean isEmptyDeck(){
+        if (deck.getSize() < 4)
+            return true;
+        else
+            return false;
+    }
+
+    // Player's card return to deck number 2
+    public void resetDeck() {
+
+        deck.getCards().addAll(playedCards) ; // Change the first deck as second deck if first deck is empty
+        deck.shuffleDeck(); // shuffle the deck again
+
     }
 }
