@@ -46,6 +46,30 @@ public class GameBoard {
         positionOfCurrentPlayer = (positionOfCurrentPlayer + directionOfPlay) % inGamePlayers.size();
 
     }
+    
+    //choose color   
+    //need for choose-color scene
+    public void chooseColor() {
+    //   right here...
+        setPreviousCard();
+    }
+    
+//  +2   
+    public void addTwo() {
+        for (int i=0; i <2; i++) {
+            inGamePlayers.get(positionOfCurrentPlayer + 1).drawcard;
+        }
+        skip();
+    }
 
-
+//   +4
+    //   need for choose-color scene
+    public void addFour() {
+        for (int i=0; i <4; i++) {
+            inGamePlayers.get(positionOfCurrentPlayer + 1).drawcard;
+        }
+        skip();
+    //  right here...
+        chooseColor();
+    }
 }
