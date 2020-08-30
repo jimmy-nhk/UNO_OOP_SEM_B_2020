@@ -72,4 +72,13 @@ public class GameBoard {
     //  right here...
         chooseColor();
     }
+    
+//    isCardPlayable
+    public boolean isCardPlayable(Card card) {
+        if (card.getValue().equals(previousCard.getValue()) || card.getProperty().equals(previousCard.getProperty())) {
+            return true;
+        } else if (card.getProperty().equals(Properties.WILD)) {
+            return true;
+        } else return false;
+    }
 }
