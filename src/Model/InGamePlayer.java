@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Player {
+public class InGamePlayer {
     private Account account;
     private ArrayList<Card> cardList;
 
