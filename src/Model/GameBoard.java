@@ -83,9 +83,35 @@ public class GameBoard {
 
     // Player's card return to deck number 2
     public void resetDeck() {
+        if (isEmptyDeck()){
+            deck.getCards().addAll(playedCards) ; // Change the first deck as second deck if first deck is empty
+            deck.shuffleDeck(); // shuffle the deck again
+        }
+    }
 
-        deck.getCards().addAll(playedCards) ; // Change the first deck as second deck if first deck is empty
-        deck.shuffleDeck(); // shuffle the deck again
+    public void setPreviousCard() {
+        this.previousCard = deck.drawTopCard(); // remove previousCard from deck and set it to the top card in deck
+    }
 
+    public void drawCard() {
+        Player player = inGamePlayers.get(positionOfCurrentPlayer); // declare a copy of the current player
+        updateTurn(); // update the position of the next player
+        isWinner(player);
+        isEmptyDeck();
+        resetDeck(); // if the hand-out deck is empty, merge the shuffle the played cards and reuse them
+        player.drawCard(deck.drawTopCard());
+    }
+
+    public void playCard() {
+        Player player = inGamePlayers.get(positionOfCurrentPlayer);
+        updateTurn();
+        isWinner(player);
+        isEmptyDeck();
+        resetDeck();
+        playedCards.add(previousCard);
+    }
+
+    public boolean isWinner(Player player) {
+        return player.getCardList().isEmpty();
     }
 }
