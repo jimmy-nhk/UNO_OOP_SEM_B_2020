@@ -83,9 +83,9 @@ public class GameBoard {
 
     // Player's card return to deck number 2
     public void resetDeck() {
-
-        deck.getCards().addAll(playedCards) ; // Change the first deck as second deck if first deck is empty
-        deck.shuffleDeck(); // shuffle the deck again
-
+        if (isEmptyDeck()){
+            deck.getCards().addAll(playedCards) ; // Change the first deck as second deck if first deck is empty
+            deck.shuffleDeck(); // shuffle the deck again
+        }
     }
 }

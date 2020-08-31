@@ -61,7 +61,7 @@ public class Deck {
     }
 
     // the card will be withdrawn from the deck
-    public Card updateCard (){
+    public Card drawTopCard (){
         Card card = cards.get(cards.size() - 1); // take the last card of the deck
         cards.remove(cards.size() - 1); // reduce the size of the deck
         return card;
@@ -70,11 +70,6 @@ public class Deck {
     // Get size of the deck
     public int getSize(){
         return cards.size();
-    }
-
-    // Get top card of the deck
-    public Card getTopCard (){
-        return cards.get(cards.size() - 1 );
     }
 
     // Get arraylist of cards
