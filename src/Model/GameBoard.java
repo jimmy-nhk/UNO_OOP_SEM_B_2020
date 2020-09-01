@@ -109,7 +109,7 @@ public class GameBoard {
     }
     
     public void drawCard() {
-        inGamePlayers.get(positionOfCurrentPlayer).get.drawCard(deck.drawTopCard());
+        inGamePlayers.get(positionOfCurrentPlayer).drawCard(deck.drawTopCard());
         //*  isEmptyDeck();
         //* resetDeck(); // if the hand-out deck is empty, merge the shuffle the played cards and reuse them
         //*       updateTurn(); // update the position of the next player
