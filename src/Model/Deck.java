@@ -29,7 +29,7 @@ public class Deck {
         for (Properties p : Properties.values()){
 
             // Check if the Properties is not WILD
-            if (!p.equals(Properties.Wild)){
+            if (!p.equals(Properties.WILD)){
 
                 // add the zero card first
                 cards.add(new Card("pngfind.com-"+ "ZERO-" + p +"-card-png-3806009.png", Values.ZERO ,p ) );

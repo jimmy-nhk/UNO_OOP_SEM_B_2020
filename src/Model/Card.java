@@ -6,11 +6,11 @@ import javafx.scene.image.ImageView;
 import java.util.stream.Stream;
 
 enum Properties {
-    Red,
-    Yellow,
-    Green,
-    Blue,
-    Wild
+    RED,
+    YELLOW,
+    GREEN,
+    BLUE,
+    WILD
 }
 
 enum Values {
@@ -56,5 +56,21 @@ public class Card extends ImageView{
         this.value = value;
     }
 
+    public Values getValue() {
+        return value;
+    }
 
+    public Properties getProperty() {
+        return property;
+    }
+
+    //    isCardPlayable method
+    public boolean isCardPlayable(Card previousCard) {
+        if (this.getValue().equals(previousCard.getValue()) || this.getProperty().equals(previousCard.getProperty())) {
+            return true;
+        } else if (this.getProperty().equals(Properties.WILD)) {
+            return true;
+        } else
+            return false;
+    }
 }
