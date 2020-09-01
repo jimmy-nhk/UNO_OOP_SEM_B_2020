@@ -11,6 +11,7 @@ public class GameBoard {
     private int directionOfPlay;
     private Card previousCard;
     private int positionOfCurrentPlayer;
+    private Card selectedCard;
 
     // Constructors
     GameBoard(){
@@ -21,8 +22,16 @@ public class GameBoard {
         previousCard = null;
         positionOfCurrentPlayer = 0; // the first player of the list will play first
     }
+    
+//     Getter and Setter
+     public Card getSelectedCard() {
+        return selectedCard;
+    }
 
-
+    public void setSelectedCard(Card selectedCard) {
+        this.selectedCard = selectedCard;
+    }
+    
     // Skip methods:
     public void skip (){
 
@@ -43,15 +52,25 @@ public class GameBoard {
     public void updateTurn (){
 
         // If the direction is in the right, the next player will plus 1 , otherwise - 1.
-        positionOfCurrentPlayer = (positionOfCurrentPlayer + directionOfPlay) % inGamePlayers.size();
-
+//         TO form a loop
+        if (positionOfCurrentPLayer.equals(inGamePLayers.size()-1) && directionOfPlay == 1) {
+            positionOfCurrentPLayer == 0;
+        } else if (positionOfCurrentPLayer.equals(0) && directionOfPlay == -1) {
+            positionOfCurrentPLayer == inGamePLayers.size()-1;
+        } else {
+        positionOfCurrentPlayer = (positionOfCurrentPlayer + directionOfPlay);
+        }
     }
     
     //choose color   
     //need for choose-color scene
     public void chooseColor() {
-    //   right here...
-        setPreviousCard();
+        Properties color = null;
+        Card newCard;
+//        right here...
+        newCard = previousCard;
+        newCard.setProperty(color);
+        setPreviousCard(newCard);
     }
     
 //  +2   
@@ -87,5 +106,26 @@ public class GameBoard {
             deck.getCards().addAll(playedCards) ; // Change the first deck as second deck if first deck is empty
             deck.shuffleDeck(); // shuffle the deck again
         }
+    }
+    
+    public void drawCard() {
+        inGamePlayers.get(positionOfCurrentPlayer).get.drawCard(deck.drawTopCard());
+        //*  isEmptyDeck();
+        //* resetDeck(); // if the hand-out deck is empty, merge the shuffle the played cards and reuse them
+        //*       updateTurn(); // update the position of the next player
+    }
+
+    public void playCard(Card selectedCard) {
+        playedCards.add(inGamePlayers.get(positionOfCurrentPlayer).playCard());
+        setPreviousCard(selectedCard);
+        //* updateTurn();
+        //* isWinner(inGamePlayers.get(positionOfCurrentPlayer));
+        //* isEmptyDeck();
+        //* resetDeck();
+    }
+    
+
+    public void setPreviousCard(Card card) {
+        previousCard = card;
     }
 }
