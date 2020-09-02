@@ -21,7 +21,8 @@ public class GameBoard {
         previousCard = null;
         positionOfCurrentPlayer = 0; // the first player of the list will play first
     }
-
+    /** Use method when we have the GameBoard scene **/
+    public void initialize (){}
 
     // Skip methods:
     public void skip (){
@@ -57,7 +58,7 @@ public class GameBoard {
 //  +2   
     public void addTwo() {
         for (int i=0; i <2; i++) {
-            inGamePlayers.get(positionOfCurrentPlayer + 1).drawcard();
+            inGamePlayers.get(positionOfCurrentPlayer + 1).drawCard(deck.drawTopCard());
         }
         skip();
     }
@@ -66,7 +67,7 @@ public class GameBoard {
     //   need for choose-color scene
     public void addFour() {
         for (int i=0; i <4; i++) {
-            inGamePlayers.get(positionOfCurrentPlayer + 1).drawcard();
+            inGamePlayers.get(positionOfCurrentPlayer + 1).drawCard(deck.drawTopCard());
         }
         skip();
     //  right here...
@@ -88,6 +89,7 @@ public class GameBoard {
             deck.shuffleDeck(); // shuffle the deck again
         }
     }
+    
 
 
 }
