@@ -1,9 +1,11 @@
 package Controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 
 public class LogInController {
@@ -11,6 +13,9 @@ public class LogInController {
 
     public TextField txtName;
     public TextField txtPassword;
+
+    @FXML
+    private Pane logInScene;
 
     public void displaySignUpMessage(ActionEvent actionEvent) {
 
