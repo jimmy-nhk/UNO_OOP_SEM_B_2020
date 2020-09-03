@@ -53,13 +53,7 @@ public class GameBoard {
 
         // If the direction is in the right, the next player will plus 1 , otherwise - 1.
 //         TO form a loop
-        if (positionOfCurrentPLayer.equals(inGamePLayers.size()-1) && directionOfPlay == 1) {
-            positionOfCurrentPLayer == 0;
-        } else if (positionOfCurrentPLayer.equals(0) && directionOfPlay == -1) {
-            positionOfCurrentPLayer == inGamePLayers.size()-1;
-        } else {
-        positionOfCurrentPlayer = (positionOfCurrentPlayer + directionOfPlay);
-        }
+        positionOfCurrentPlayer = ( positionOfCurrentPlayer + directionOfPlay ) % inGamePlayers.size() ;
     }
     
     //choose color   
