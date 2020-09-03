@@ -13,11 +13,10 @@ public class Player {
         cardList = new ArrayList<Card>();
     }
 
-    //  Constructor
-    public Player(Account account , ArrayList<Card> cardList) {
+   //  Constructor
+    public Player(Account account) {
         this.account = account;
-        this.cardList = cardList;
-
+        cardList = new ArrayList<Card>();
     }
 
     //  Accessor
