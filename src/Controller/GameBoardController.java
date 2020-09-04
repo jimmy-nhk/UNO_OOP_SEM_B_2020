@@ -2,11 +2,16 @@ package Controller;
 
 import Model.Card;
 import Model.GameBoard;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
-public class GameBoardController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class GameBoardController implements Initializable {
     public Pane playerFour;
     public Pane playerTwo;
     public Pane playerOne;
@@ -29,6 +34,11 @@ public class GameBoardController {
     }
 
     public void goBackHome(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 
     }
 }
