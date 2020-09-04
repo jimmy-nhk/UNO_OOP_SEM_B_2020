@@ -39,11 +39,12 @@ public class Player {
         cardList.add(card);
     }
 
-    public void playCard(Card card) {
+    public Card playCard(Card selectedCard) {
         for (int i=0 ; i < cardList.size(); i ++) {
-            if (cardList.get(i).equals(card)) {
+            if (cardList.get(i).equals(selectedCard)) {
                 cardList.remove(i);
             }
         }
+        return selectedCard;
     }
 }

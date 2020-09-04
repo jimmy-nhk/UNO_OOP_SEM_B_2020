@@ -13,6 +13,7 @@ public class GameBoard {
     private int directionOfPlay;
     private Card previousCard;
     private int positionOfCurrentPlayer;
+    private Card selectedCard ;
 
     // Constructors
     GameBoard(){
@@ -22,6 +23,14 @@ public class GameBoard {
         directionOfPlay = 1;
         previousCard = null;
         positionOfCurrentPlayer = 0; // the first player of the list will play first
+    }
+
+    public Card getSelectedCard() {
+        return selectedCard;
+    }
+
+    public void setSelectedCard(Card selectedCard) {
+        this.selectedCard = selectedCard;
     }
 
     /** Use method when we have the GameBoard scene **/
@@ -64,8 +73,9 @@ public class GameBoard {
     //choose color   
     //need for choose-color scene
     public void chooseColor() {
-    //   right here...
-        // setPreviousCard();
+        Properties color = null;
+//        right here...
+        previousCard.setProperties(color);
     }
     
 //  +2   
@@ -102,7 +112,40 @@ public class GameBoard {
             deck.shuffleDeck(); // shuffle the deck again
         }
     }
-    
 
+
+    public void drawCard() {
+        inGamePlayers.get(positionOfCurrentPlayer).drawCard(deck.drawTopCard());
+        //*  isEmptyDeck();
+        //* resetDeck(); // if the hand-out deck is empty, merge the shuffle the played cards and reuse them
+        //*       updateTurn(); // update the position of the next player
+    }
+
+    public void playCard(Card selectedCard) {
+        playedCards.add(inGamePlayers.get(positionOfCurrentPlayer).playCard(selectedCard));
+        setPreviousCard(selectedCard);
+        //* updateTurn();
+        //* isWinner(inGamePlayers.get(positionOfCurrentPlayer));
+        //* isEmptyDeck();
+        //* resetDeck();
+    }
+    //     set winner + update win & loss
+    public boolean isWinner(Player player) {
+        if (player.getCardList().isEmpty()) {
+            for (int i = 0; i < 4; i ++) {
+                if (inGamePlayers.get(i).equals(player)) {
+                    player.getAccount().setWin(player.getAccount().getWin()+1);
+                } else {
+                    player.getAccount().setLoss(player.getAccount().getLoss()+1);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public void setPreviousCard(Card card) {
+        previousCard = card;
+    }
 
 }
