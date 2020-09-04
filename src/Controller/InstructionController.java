@@ -4,7 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 
-public class Instruction {
+public class InstructionController {
     @FXML
     private VBox instruction;
     private MainMenu mainMenu;

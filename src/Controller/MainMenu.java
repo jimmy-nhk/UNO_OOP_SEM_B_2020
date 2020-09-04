@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.GameBoard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -9,7 +8,7 @@ import javafx.scene.layout.VBox;
 public class MainMenu {
     @FXML
     private VBox mainMenu;
-    private Instruction instruction;
+    private InstructionController instruction;
     private Leaderboard leaderboard;
     private SettingController settingController;
 
