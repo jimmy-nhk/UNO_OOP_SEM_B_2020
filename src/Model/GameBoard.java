@@ -60,11 +60,8 @@ public class GameBoard {
     //need for choose-color scene
     public void chooseColor() {
         Properties color = null;
-        Card newCard;
 //        right here...
-        newCard = previousCard;
-        newCard.setProperty(color);
-        setPreviousCard(newCard);
+        previousCard.setProperty(color);
     }
     
 //  +2   
@@ -117,8 +114,21 @@ public class GameBoard {
         //* isEmptyDeck();
         //* resetDeck();
     }
+//     set winner + update win & loss
+     public boolean isWinner(Player player) {
+        if (player.getCardList().isEmpty()) {
+            for (int i = 0; i < 4; i ++) {
+                if (inGamePlayers.get(i).equals(player)) {
+                    player.getAccount().setWin(player.getAccount().getWin()+1);
+                } else {
+                    player.getAccount().setLoss(player.getAccount().getLoss()+1);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
     
-
     public void setPreviousCard(Card card) {
         previousCard = card;
     }
