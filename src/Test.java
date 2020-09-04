@@ -14,9 +14,9 @@ public class Test extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("resources/view/Log_in_scene.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/Log_in_scene.fxml"));
 
-        Scene scene = new Scene(root, 200,30);
+        Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
 

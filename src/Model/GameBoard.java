@@ -27,6 +27,7 @@ public class GameBoard {
     /** Use method when we have the GameBoard scene **/
     public void initialize (){}
 
+    /** Start the game with distribution cards to players **/
     public void startGame (){
         for (int i = 0 ; i < 7 ; i ++){
 
