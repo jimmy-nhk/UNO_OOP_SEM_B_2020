@@ -36,16 +36,17 @@ public class Card extends ImageView{
 
     public static Properties[] properties = Properties.values();
     public static Values[] values = Values.values();
-
+    public static final String BACKIMAGE = "UNO-BACK.png";
 
     private Properties property;
     private Values value;
+    private String frontImage;
 
     public Card (String url, Values value, Properties property)  {
-        super();
-        this.setImage(new Image(url));
+        super(new Image(url));
         this.property = property;
         this.value = value;
+        this.frontImage = url;
     }
 
     public void setProperties(Properties properties) {
@@ -72,5 +73,16 @@ public class Card extends ImageView{
             return true;
         } else
             return false;
+    }
+
+    // Set back image
+    public void setBackimage (){
+        super.setImage(new Image(BACKIMAGE));
+    }
+
+    // Set front image
+
+    public void setFrontImage() {
+        super.setImage(new Image(frontImage));
     }
 }
