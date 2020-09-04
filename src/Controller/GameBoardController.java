@@ -1,6 +1,7 @@
 package Controller;
 
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public class GameBoardController {
@@ -11,4 +12,12 @@ public class GameBoardController {
     public Pane playedCards;
     public Button withDrawButton;
     public Button playButton;
+
+    public void withdrawCard(MouseEvent mouseEvent) {
+
+    }
+
+    public void playCard(MouseEvent mouseEvent) {
+
+    }
 }
