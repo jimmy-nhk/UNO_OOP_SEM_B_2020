@@ -49,4 +49,8 @@ public class MainMenu {
 
     public void quit(ActionEvent actionEvent) {
     }
+
+    public VBox getMainMenu() {
+        return mainMenu;
+    }
 }

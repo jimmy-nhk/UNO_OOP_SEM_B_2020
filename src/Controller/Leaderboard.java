@@ -7,9 +7,10 @@ import javafx.scene.layout.VBox;
 public class Leaderboard {
     @FXML
     private VBox leaderBoard;
+    private MainMenu mainMenu;
 
     public void backMainMenu(ActionEvent actionEvent) {
-
+        mainMenu.getMainMenu().setVisible(true);
     }
 
     public VBox getLeaderBoard() {
