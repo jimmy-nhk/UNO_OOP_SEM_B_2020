@@ -76,7 +76,7 @@ public class Card extends ImageView{
     }
 
     // Set back image
-    public void setBackimage (){
+    public void setBackImage (){
         super.setImage(new Image(BACKIMAGE));
     }
 
