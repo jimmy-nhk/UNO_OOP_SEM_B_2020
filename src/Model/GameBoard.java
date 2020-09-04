@@ -1,5 +1,7 @@
 package Model;
 
+import javafx.scene.control.Button;
+
 import java.util.ArrayList;
 
 public class GameBoard {
@@ -21,9 +23,20 @@ public class GameBoard {
         previousCard = null;
         positionOfCurrentPlayer = 0; // the first player of the list will play first
     }
+
     /** Use method when we have the GameBoard scene **/
     public void initialize (){}
 
+    /** Start the game with distribution cards to players **/
+    public void startGame (){
+        for (int i = 0 ; i < 7 ; i ++){
+
+            // First, it is needed to distribute 7 cards for each player
+            for (int j = 0 ; j < inGamePlayers.size() ; j ++){
+                inGamePlayers.get(i).drawCard(deck.drawTopCard());
+            }
+        }
+    }
     // Skip methods:
     public void skip (){
 
@@ -52,7 +65,7 @@ public class GameBoard {
     //need for choose-color scene
     public void chooseColor() {
     //   right here...
-        setPreviousCard();
+        // setPreviousCard();
     }
     
 //  +2   
