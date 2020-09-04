@@ -7,6 +7,11 @@ import java.util.Collections;
 public class AccountList {
     static ArrayList<Account> accountList = new ArrayList<>();
 
+    // Constructor
+    public AccountList(){
+        loadFromFile(); // Whenever create the class AccountList, load the accounts to the accountList
+    }
+
     public void loadFromFile() {
         /**
          * Deserialize data from file
@@ -74,6 +79,7 @@ public class AccountList {
      * return a player when account exists, null when account does not exist
      */
     public Player signIn(String name, String password) {
+        loadFromFile();
         if (getAccountIndex(name, password) >= 0) {
             return new Player(accountList.get(getAccountIndex(name, password)), null);
         }
@@ -89,6 +95,7 @@ public class AccountList {
         }
         Account account = new Account(name, password, 0, 0);
         accountList.add(account);
+        saveToFile();
         return true;
     }
 }
