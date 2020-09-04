@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 
 <AnchorPane fx:controller="Controller.GameBoardController" prefHeight="641.0" prefWidth="906.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="&lt; Home" />
+   <Button fx:id="homeButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="&lt; Home" onMouseClicked="#goBackHome"/>
    <Pane fx:id="playerFour" layoutX="14.0" layoutY="73.0" prefHeight="500.0" prefWidth="120.0" />
    <Pane fx:id="playerTwo" layoutX="772.0" layoutY="73.0" prefHeight="500.0" prefWidth="120.0" />
    <Pane fx:id="playerOne" layoutX="203.0" layoutY="513.0" prefHeight="120.0" prefWidth="500.0" />
