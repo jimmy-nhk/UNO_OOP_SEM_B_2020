@@ -17,7 +17,7 @@ public class GameBoard {
 
     // Constructors
     GameBoard(){
-        inGamePlayers = new ArrayList<>();
+        inGamePlayers = AccountList.players; 
         playedCards = new ArrayList<>();
         deck = new Deck();
         directionOfPlay = 1;
