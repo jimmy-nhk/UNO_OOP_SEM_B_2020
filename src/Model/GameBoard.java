@@ -1,29 +1,61 @@
 package Model;
 
+import Model.Card;
+import Model.GameBoard;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class GameBoard {
+import static Model.Values.*;
 
-    // Data Fields:
-    private ArrayList<Player> inGamePlayers;
-    private ArrayList<Card> playedCards ;
-    private Deck deck;
-    private int directionOfPlay;
-    private Card previousCard;
-    private int positionOfCurrentPlayer;
-    private Card selectedCard ;
+public class GameBoardController {
+    public Pane playerFour;
+    public Pane playerTwo;
+    public Pane playerOne;
+    public Pane playerThree;
+    public Pane dropZone;
+    public Button withDrawButton;
+    public Button playButton;
+    public Button homeButton;
 
-    // Constructors
-    GameBoard(){
-        inGamePlayers = AccountList.players; 
-        playedCards = new ArrayList<>();
-        deck = new Deck();
-        directionOfPlay = 1;
-        previousCard = null;
-        positionOfCurrentPlayer = 0; // the first player of the list will play first
+    private ArrayList<Player> inGamePlayers = AccountList.players;
+    private ArrayList<Card> playedCards = new ArrayList<>();
+    private Deck deck = new Deck();
+    private int directionOfPlay = 1;
+    private Card previousCard = null;
+    private int positionOfCurrentPlayer = 0;
+    private Card selectedCard = null;
+
+
+
+    public void withdrawCard(ActionEvent actionEvent) {
+        drawCard();
+        updateTurn();
     }
+
+    public void playCard(ActionEvent actionEvent) {
+        playCard(selectedCard);
+        isWinner(inGamePlayers.get(positionOfCurrentPlayer));
+        resetDeck();
+        updateTurn();
+    }
+
+    public void chooseCard(MouseEvent mouseEvent) {
+        setSelectedCard();
+    }
+
+    public void goBackHome(ActionEvent actionEvent) { }
+
+    public void chooseGreen(MouseEvent mouseEvent) {}
+    public void chooseYellow(MouseEvent mouseEvent) {}
+    public void chooseRed(MouseEvent mouseEvent) {}
+    public void chooseBlue(MouseEvent mouseEvent) {}
 
     public Card getSelectedCard() {
         return selectedCard;
@@ -33,33 +65,24 @@ public class GameBoard {
         this.selectedCard = selectedCard;
     }
 
-    /** Use method when we have the GameBoard scene **/
-    public void initialize (){}
-
     /** Start the game with distribution cards to players **/
+    /** First, to distribute 7 cards for each player
+        And to put 1 card in the deck onto the table
+        And choose 1 random player to start
+    **/
     public void startGame (){
         for (int i = 0 ; i < 7 ; i ++){
-
-            // First, it is needed to distribute 7 cards for each player
             for (int j = 0 ; j < inGamePlayers.size() ; j ++){
                 inGamePlayers.get(i).drawCard(deck.drawTopCard());
             }
         }
-    }
-    // Skip methods:
-    public void skip (){
-
-        // It is needed to update position twice since the 2 next player is allowed to play
-        updateTurn();
-        updateTurn();
-        
+        setPreviousCard(deck.drawTopCard());
+        positionOfCurrentPlayer = (int) (Math.random() * (inGamePlayers.size()));
     }
 
     // Reverse tbe direction
     public void reverse () {
-
         directionOfPlay *= -1 ;
-
     }
 
     // If the card is played, then update the turn
@@ -69,31 +92,31 @@ public class GameBoard {
         positionOfCurrentPlayer = (positionOfCurrentPlayer + directionOfPlay) % inGamePlayers.size();
 
     }
-    
-    //choose color   
+
+    //choose color
     //need for choose-color scene
     public void chooseColor() {
         Properties color = null;
 //        right here...
         previousCard.setProperty(color);
     }
-    
-//  +2   
+
+    //  +2
     public void plusTwo() {
         for (int i=0; i <2; i++) {
             inGamePlayers.get(positionOfCurrentPlayer + 1).drawCard(deck.drawTopCard());
         }
-        skip();
+        updateTurn();
     }
 
-//   +4
+    //   +4
     //   need for choose-color scene
     public void plusFour() {
         for (int i=0; i <4; i++) {
             inGamePlayers.get(positionOfCurrentPlayer + 1).drawCard(deck.drawTopCard());
         }
-        skip();
-    //  right here...
+        updateTurn();
+        //  right here...
         chooseColor();
     }
 
@@ -108,36 +131,30 @@ public class GameBoard {
 
     public void drawCard() {
         inGamePlayers.get(positionOfCurrentPlayer).drawCard(deck.drawTopCard());
-        //*  isEmptyDeck();
-        //* resetDeck(); // if the hand-out deck is empty, merge the shuffle the played cards and reuse them
-        //*       updateTurn(); // update the position of the next player
     }
 
     public void playCard(Card selectedCard) {
         playedCards.add(inGamePlayers.get(positionOfCurrentPlayer).playCard(selectedCard));
         switch (selectedCard.getValue()) {
-            case Values.SKIP:
-                skip();
+            case SKIP:
+                updateTurn();
                 break;
-            case Values.REVERSE:
+            case REVERSE:
                 reverse();
                 break;
-            case Values.PLUS_ZERO:
+            case PLUS_ZERO:
                 chooseColor();
                 break;
-            case Values.PLUS_TWO:
+            case PLUS_TWO:
                 plusTwo();
                 break;
-            case Values.PLUS_FOUR:
+            case PLUS_FOUR:
                 plusFour();
                 break;
         }
         setPreviousCard(selectedCard);
-        //* updateTurn();
-        //* isWinner(inGamePlayers.get(positionOfCurrentPlayer));
-        //* isEmptyDeck();
-        //* resetDeck();
     }
+
     //     set winner + update win & loss
     public boolean isWinner(Player player) {
         if (player.getCardList().isEmpty()) {
@@ -154,6 +171,7 @@ public class GameBoard {
     }
 
     public void setPreviousCard(Card card) {
+        playedCards.add(card);
         previousCard = card;
     }
 
