@@ -79,7 +79,7 @@ public class GameBoard {
     }
     
 //  +2   
-    public void addTwo() {
+    public void plusTwo() {
         for (int i=0; i <2; i++) {
             inGamePlayers.get(positionOfCurrentPlayer + 1).drawCard(deck.drawTopCard());
         }
@@ -88,7 +88,7 @@ public class GameBoard {
 
 //   +4
     //   need for choose-color scene
-    public void addFour() {
+    public void plusFour() {
         for (int i=0; i <4; i++) {
             inGamePlayers.get(positionOfCurrentPlayer + 1).drawCard(deck.drawTopCard());
         }
@@ -97,17 +97,9 @@ public class GameBoard {
         chooseColor();
     }
 
-    //Check if the Card is empty or not.
-    public boolean isEmptyDeck(){
-        if (deck.getSize() < 4)
-            return true;
-        else
-            return false;
-    }
-
     // Player's card return to deck number 2
     public void resetDeck() {
-        if (isEmptyDeck()){
+        if (deck.getSize() < 4){
             deck.getCards().addAll(playedCards) ; // Change the first deck as second deck if first deck is empty
             deck.shuffleDeck(); // shuffle the deck again
         }
@@ -123,6 +115,23 @@ public class GameBoard {
 
     public void playCard(Card selectedCard) {
         playedCards.add(inGamePlayers.get(positionOfCurrentPlayer).playCard(selectedCard));
+        switch (selectedCard.getValue()) {
+            case Values.SKIP:
+                skip();
+                break;
+            case Values.REVERSE:
+                reverse();
+                break;
+            case Values.PLUS_ZERO:
+                chooseColor();
+                break;
+            case Values.PLUS_TWO:
+                plusTwo();
+                break;
+            case Values.PLUS_FOUR:
+                plusFour();
+                break;
+        }
         setPreviousCard(selectedCard);
         //* updateTurn();
         //* isWinner(inGamePlayers.get(positionOfCurrentPlayer));
