@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class AccountList {
-    static ArrayList<Account> accountList = new ArrayList<>();
-    public static ArrayList<Player> players = new ArrayList<>();
+    private static ArrayList<Account> accountList = new ArrayList<>();
+    private static ArrayList<Player> players = new ArrayList<>();
     // Constructor
     public AccountList(){
         loadFromFile(); // Whenever create the class AccountList, load the accounts to the accountList
@@ -74,7 +74,12 @@ public class AccountList {
         }
         return -1;
     }
-
+    
+    
+     public static ArrayList<Player> getPlayers() {
+        return players;
+    }
+    
    /**
      * return a player when account exists, null when account does not exist
      */
