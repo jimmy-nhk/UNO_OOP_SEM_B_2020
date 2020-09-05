@@ -75,7 +75,7 @@ public class GameBoard {
     public void chooseColor() {
         Properties color = null;
 //        right here...
-        previousCard.setProperties(color);
+        previousCard.setProperty(color);
     }
     
 //  +2   
