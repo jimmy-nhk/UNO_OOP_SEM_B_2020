@@ -49,7 +49,7 @@ public class Card extends ImageView{
         this.frontImage = url;
     }
 
-    public void setProperties(Properties properties) {
+    public void setProperty(Properties property) {
         this.property = properties;
     }
 
