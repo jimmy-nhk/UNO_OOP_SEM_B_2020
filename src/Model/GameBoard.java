@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 
 import static Model.Values.*;
 
-public class GameBoardController {
+public class GameBoard {
     public Pane playerFour;
     public Pane playerTwo;
     public Pane playerOne;
