@@ -5,32 +5,6 @@ import javafx.scene.image.ImageView;
 
 import java.util.stream.Stream;
 
-enum Properties {
-    RED,
-    YELLOW,
-    GREEN,
-    BLUE,
-    WILD
-}
-
-enum Values {
-    ZERO ,
-    ONE ,
-    TWO ,
-    THREE ,
-    FOUR,
-    FIVE ,
-    SIX ,
-    SEVEN ,
-    EIGHT ,
-    NINE ,
-    SKIP ,
-    REVERSE ,
-    PLUS_TWO ,
-    PLUS_ZERO ,
-    PLUS_FOUR
-}
-
 public class Card extends ImageView{
 
 
@@ -49,8 +23,9 @@ public class Card extends ImageView{
         this.frontImage = url;
     }
 
-    public void setProperty(Properties property) {
-        this.property = properties;
+    // Set property in this case is set the width and height of the image
+    public void setProperty(Properties  property) {
+        this.property = property;
     }
 
     public void setValue(Values value) {

@@ -16,7 +16,7 @@ public class Deck {
 
     // Methods:
 
-    Deck(){
+    public Deck(){
         cards = new ArrayList<>();
         loadCards(); // Load cards from the source to it
         shuffleDeck(); // Shuffle the deck before playing

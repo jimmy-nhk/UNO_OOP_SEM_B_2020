@@ -28,11 +28,11 @@ public class LogInController {
     private String password;
     private AccountList accountList;
 
-    LogInController(){
-        name = null;
-        password = null;
-        accountList = new AccountList(); // Load the account list from
-    }
+//    LogInController(){
+//        name = null;
+//        password = null;
+//        accountList = new AccountList(); // Load the account list from
+//    }
 
     public void displaySignUpMessage(ActionEvent actionEvent) {
 
