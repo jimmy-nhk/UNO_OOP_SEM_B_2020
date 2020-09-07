@@ -12,7 +12,7 @@ public class AccountList {
         loadFromFile(); // Whenever create the class AccountList, load the accounts to the accountList
     }
 
-    public void loadFromFile() {
+    public static void loadFromFile() {
         /**
          * Deserialize data from file
          */
@@ -35,7 +35,7 @@ public class AccountList {
     /**
      * Serialize data from file
      */
-    public void saveToFile() {
+    public static void saveToFile() {
         try
         {
             FileOutputStream fos = new FileOutputStream("data.uno");
@@ -60,14 +60,14 @@ public class AccountList {
     /**
      * Sorting players by points
      */
-    public void setRanking() {
+    public static void setRanking() {
         Collections.sort(accountList);
     }
 
     /**
      * Check if account already exists by searching for matching name and password, return -1 if account does not exist
      */
-    public int getAccountIndex(String name, String password) {
+    public static int getAccountIndex(String name, String password) {
         for (Account a: accountList) {
             if (name.equals(a.getName()) && password.equals(a.getPassword()))
                 return accountList.indexOf(a);
@@ -83,7 +83,7 @@ public class AccountList {
    /**
      * return a player when account exists, null when account does not exist
      */
-    public boolean signIn(String name, String password) {
+    public static boolean signIn(String name, String password) {
         loadFromFile();
         if (getAccountIndex(name, password) >= 0) {
             players.add(new Player(accountList.get(getAccountIndex(name, password))));
@@ -95,7 +95,7 @@ public class AccountList {
     /**
      * Sign up account, return true if sign up successfully, false if account already exists
      */
-    public boolean signUp(String name, String password) {
+    public static boolean signUp(String name, String password) {
         if (getAccountIndex(name, password) >= 0) {
             return false;
         }

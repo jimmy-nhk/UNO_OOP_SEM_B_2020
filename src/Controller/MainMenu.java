@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.GameBoard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -24,19 +23,19 @@ public class MainMenu {
     }
 
     public void showLeaderBoard(ActionEvent actionEvent) {
-        leaderboard.getLeaderBoard().setVisible(true);
         mainMenu.setVisible(false);
         instruction.getInstruction().setVisible(false);
         leaderboard.getLeaderBoard().setVisible(false);
         settingController.getSettingBoard().setVisible(false);
+        leaderboard.getLeaderBoard().setVisible(true);
     }
 
     public void showInstruction(ActionEvent actionEvent) {
         leaderboard.getLeaderBoard().setVisible(false);
         mainMenu.setVisible(false);
-        instruction.getInstruction().setVisible(true);
         leaderboard.getLeaderBoard().setVisible(false);
         settingController.getSettingBoard().setVisible(false);
+        instruction.getInstruction().setVisible(true);
     }
 
     public void showSettings(ActionEvent actionEvent) {

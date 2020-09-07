@@ -1,18 +1,12 @@
-package Model;
+package Controller;
 
-import Model.Card;
-import Model.GameBoard;
+import Model.*;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 
-import static Model.Values.*;
+import java.util.ArrayList;
 
 public class GameBoard {
     public Pane playerFour;
@@ -24,7 +18,7 @@ public class GameBoard {
     public Button playButton;
     public Button homeButton;
 
-    private ArrayList<Player> inGamePlayers = AccountList.players;
+    private ArrayList<Player> inGamePlayers = AccountList.getPlayers();
     private ArrayList<Card> playedCards = new ArrayList<>();
     private Deck deck = new Deck();
     private int directionOfPlay = 1;
@@ -47,7 +41,7 @@ public class GameBoard {
     }
 
     public void chooseCard(MouseEvent mouseEvent) {
-        setSelectedCard();
+        setSelectedCard(selectedCard);
     }
 
     public void goBackHome(ActionEvent actionEvent) { }
@@ -136,7 +130,7 @@ public class GameBoard {
     public void playCard(Card selectedCard) {
         playedCards.add(inGamePlayers.get(positionOfCurrentPlayer).playCard(selectedCard));
         switch (selectedCard.getValue()) {
-            case SKIP:
+            case  SKIP:
                 updateTurn();
                 break;
             case REVERSE:
