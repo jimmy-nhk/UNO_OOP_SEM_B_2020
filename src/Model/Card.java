@@ -24,8 +24,15 @@ public class Card extends ImageView{
     }
 
     // Set property in this case is set the width and height of the image
-    public void setProperty(Properties  property) {
+    public void setProperty(Properties property) {
         this.property = property;
+    }
+
+    public void setImage (){
+        super.setFitHeight(120);
+        super.setFitWidth(150);
+        super.setPreserveRatio(true);
+        super.setSmooth(true);
     }
 
     public void setValue(Values value) {
