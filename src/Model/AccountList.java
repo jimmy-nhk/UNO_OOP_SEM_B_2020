@@ -7,17 +7,17 @@ import java.util.Collections;
 public class AccountList {
     private static ArrayList<Account> accountList = new ArrayList<>();
     private static ArrayList<Player> players = new ArrayList<>();
+
     // Constructor
-    public AccountList(){
+    public AccountList() {
         loadFromFile(); // Whenever create the class AccountList, load the accounts to the accountList
     }
 
-    public void loadFromFile() {
+    public static void loadFromFile() {
         /**
          * Deserialize data from file
          */
-        try
-        {
+        try {
             FileInputStream fis = new FileInputStream("data.uno");
             ObjectInputStream ois = new ObjectInputStream(fis);
 
@@ -25,9 +25,7 @@ public class AccountList {
 
             ois.close();
             fis.close();
-        }
-        catch (IOException | ClassNotFoundException e)
-        {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -35,17 +33,14 @@ public class AccountList {
     /**
      * Serialize data from file
      */
-    public void saveToFile() {
-        try
-        {
+    public static void saveToFile() {
+        try {
             FileOutputStream fos = new FileOutputStream("data.uno");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(accountList);
             oos.close();
             fos.close();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -53,37 +48,37 @@ public class AccountList {
     /**
      * Display players on leaderboard
      */
-    public String displayLeaderboard() {
+    public static String displayLeaderboard() {
         return accountList.toString();
     }
 
     /**
      * Sorting players by points
      */
-    public void setRanking() {
+    public static void setRanking() {
         Collections.sort(accountList);
     }
 
     /**
      * Check if account already exists by searching for matching name and password, return -1 if account does not exist
      */
-    public int getAccountIndex(String name, String password) {
-        for (Account a: accountList) {
+    public static int getAccountIndex(String name, String password) {
+        for (Account a : accountList) {
             if (name.equals(a.getName()) && password.equals(a.getPassword()))
                 return accountList.indexOf(a);
         }
         return -1;
     }
-    
-    
-     public static ArrayList<Player> getPlayers() {
+
+
+    public static ArrayList<Player> getPlayers() {
         return players;
     }
-    
-   /**
+
+    /**
      * return a player when account exists, null when account does not exist
      */
-    public boolean signIn(String name, String password) {
+    public static boolean signIn(String name, String password) {
         loadFromFile();
         if (getAccountIndex(name, password) >= 0) {
             players.add(new Player(accountList.get(getAccountIndex(name, password))));
@@ -95,7 +90,7 @@ public class AccountList {
     /**
      * Sign up account, return true if sign up successfully, false if account already exists
      */
-    public boolean signUp(String name, String password) {
+    public static boolean signUp(String name, String password) {
         if (getAccountIndex(name, password) >= 0) {
             return false;
         }
