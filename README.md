@@ -21,7 +21,6 @@ At the start of the game, each player has 7 cards. The pile of the other cards a
 * **Playing with bots**: Players could play with a NPC (non-player character), which is operated by a designed algorithm.
 * **Timer**: A timer is designated for each player when it is their turn. When the time goes off and the player has not handed in their card, they will lose their turn.
 * **Multi languages**: The game is available in English and Vietnamese. Players are allowed to change the main language in _**Setting &#8594; Language.**_
-* **Multi languages**: The game is available in English and Vietnamese. Players are allowed to change the main language in _**Setting &#8594; Language.**_
 * **Various themes**: To change to a different background, players would have to go to _**Setting &#8594; Theme.**_
 * **Leaderboard**: Names of the players with the highest scores are displayed on the Leaderboard. To see Leaderboard, go to _**Menu &#8594; Leaderboard.**_ 
 * **User-friendly Interface**: the game was built with standard and accessible User Interface, easy rules and clear instructions.
