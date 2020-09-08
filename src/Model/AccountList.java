@@ -67,9 +67,9 @@ public class AccountList {
     /**
      * Check if account already exists by searching for matching name and password, return -1 if account does not exist
      */
-    public static int getAccountIndex(String name, String password) {
+    public static int getAccountIndex(String name) {
         for (Account a: accountList) {
-            if (name.equals(a.getName()) && password.equals(a.getPassword()))
+            if (name.equals(a.getName()) )
                 return accountList.indexOf(a);
         }
         return -1;
@@ -85,10 +85,12 @@ public class AccountList {
      */
     public static boolean signIn(String name, String password) {
         loadFromFile();
-        if (getAccountIndex(name, password) >= 0) {
-            players.add(new Player(accountList.get(getAccountIndex(name, password))));
+
+        if (password.equals(accountList.get(getAccountIndex(name)).getPassword())) {
+            players.add(new Player(accountList.get(getAccountIndex(name))));
             return true;
         }
+
         return false;
     }
 
@@ -96,7 +98,8 @@ public class AccountList {
      * Sign up account, return true if sign up successfully, false if account already exists
      */
     public static boolean signUp(String name, String password) {
-        if (getAccountIndex(name, password) >= 0) {
+        loadFromFile();
+        if (getAccountIndex(name) >= 0) {
             return false;
         }
         Account account = new Account(name, password, 0, 0);
