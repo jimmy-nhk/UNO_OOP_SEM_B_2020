@@ -51,7 +51,7 @@ public class LogInController {
     }
 
     public void displaySignInMessage(ActionEvent actionEvent) {
-        if (accountList.getAccountIndex(name,password) < 0) {
+        if (accountList.getAccountIndex(name) < 0) {
             Alert signUpBox = new Alert(Alert.AlertType.INFORMATION);
             signUpBox.setContentText("You may enter the wrong information\nOr the account does not exist");
             signUpBox.setResult(ButtonType.OK);

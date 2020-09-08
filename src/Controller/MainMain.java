@@ -58,7 +58,7 @@ public class MainMain implements Initializable {
         name = txtName.getText();
         password = passwordField.getText();
 
-        if (AccountList.signIn(name, password)) {
+        if (!AccountList.signIn(name, password)) {
             Alert signUpBox = new Alert(Alert.AlertType.INFORMATION);
             signUpBox.setContentText("You may enter the wrong information\nOr the account does not exist");
             signUpBox.setResult(ButtonType.OK);
@@ -82,7 +82,7 @@ public class MainMain implements Initializable {
         password = passwordField.getText();
     }
 
-    public void playGame(MouseEvent actionEvent) {
+    public void playGame(ActionEvent actionEvent) {
         /** Will go to the gameBoard or the selection scene **/
 
 
