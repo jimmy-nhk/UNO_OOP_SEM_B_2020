@@ -110,7 +110,8 @@ public class Timer extends Pane {
         // Draw circle
         Circle circle = new Circle(centerX, centerY, clockRadius);
         circle.setFill(Color.WHITE);
-        circle.setStroke(Color.BLACK); //stroke dày hơn, chạy từ số 12.
+        circle.setStroke(Color.BLACK);
+        //stroke dày hơn, chạy từ số 12.
         Text t1 = new Text(centerX - 5, centerY - clockRadius + 12, "12");
         Text t2 = new Text(centerX - clockRadius + 3, centerY + 5, "9");
         Text t3 = new Text(centerX + clockRadius - 10, centerY + 3, "3");
