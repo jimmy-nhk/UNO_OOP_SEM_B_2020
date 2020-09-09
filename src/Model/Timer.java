@@ -110,7 +110,7 @@ public class Timer extends Pane {
         // Draw circle
         Circle circle = new Circle(centerX, centerY, clockRadius);
         circle.setFill(Color.WHITE);
-        circle.setStroke(Color.BLACK);
+        circle.setStroke(Color.BLACK); //stroke dày hơn, chạy từ số 12.
         Text t1 = new Text(centerX - 5, centerY - clockRadius + 12, "12");
         Text t2 = new Text(centerX - clockRadius + 3, centerY + 5, "9");
         Text t3 = new Text(centerX + clockRadius - 10, centerY + 3, "3");
@@ -124,18 +124,8 @@ public class Timer extends Pane {
                 Math.cos(second * (2 * Math.PI / 60));
         Line sLine = new Line(centerX, centerY, secondX, secondY);
         sLine.setStroke(Color.RED);
-
-        // Draw minute hand
-        double mLength = clockRadius * 0.65;
-        double xMinute = centerX + mLength *
-                Math.sin(minute * (2 * Math.PI / 60));
-        double minuteY = centerY - mLength *
-                Math.cos(minute * (2 * Math.PI / 60));
-        Line mLine = new Line(centerX, centerY, xMinute, minuteY);
-        mLine.setStroke(Color.BLUE);
-
         getChildren().clear();
-        getChildren().addAll(circle, t1, t2, t3, t4, sLine, mLine);
+        getChildren().addAll(circle, t1, t2, t3, t4, sLine);
     }
 
     /* Animate the clock */
@@ -164,9 +154,15 @@ public class Timer extends Pane {
                                 timeSeconds--;
                                 // update timerLabel
                                 if (timeSeconds <= 0) {
+                                    timeline.stop();
+                                    pause();
                                 }
                             }
                         }));
         timeline.playFromStart();
+    }
+
+    public void pause() {
+        animation.pause();
     }
 }
