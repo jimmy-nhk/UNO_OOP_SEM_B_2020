@@ -32,7 +32,7 @@ public class Deck {
             if (!p.equals(Properties.WILD)){
 
                 // add the zero card first
-                cards.add(new Card("resources/Card/ZERO-" + p +"-card-png-3806009.png", Values.ZERO ,p ) );
+                cards.add(new Card("resources/Card/ZERO-" + p +"-card.png", Values.ZERO ,p ) );
 
                 // there are two each of digit 1 through 9
                 // and two each of action cards: skip , draw too , reverse

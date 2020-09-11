@@ -87,24 +87,41 @@ public class GameBoard implements Initializable {
 
 
         /** Set the location as well as the animation for the cards of the main player **/
-        arrangeCardsForHorizontalPlayer(true,mainPlayer,720, 120,150,400,660);
+        arrangeCardsForMainPlayer(mainPlayer);
         setAnimationForSelectedCard();
 
         /** Set the location  for the cards of the upper player **/
-        arrangeCardsForHorizontalPlayer(false,(mainPlayer + 2) % inGamePlayers.size() , 400,80,100,600,50 );
+        arrangeCardsForUpperPlayer((mainPlayer + 2) % inGamePlayers.size());
 
+        arrangeCardsForLeftPlayer((mainPlayer + 3) % inGamePlayers.size());
 
-        arrangeCardsForVerticalPlayer((mainPlayer + 3) % inGamePlayers.size(),150,200,400);
+        arrangeCardsForRightPlayer((mainPlayer + 1) % inGamePlayers.size());
     }
 
-    public void arrangeCardsForVerticalPlayer (int playerTh,double maxSize , double translateX , double translateY) {
+    /** GUI CARDS for left player **/
+    public void arrangeCardsForLeftPlayer (int playerTh) {
 
-        double step = 0 + maxSize / inGamePlayers.get(playerTh).getCardListSize();
+        double step =  150 / inGamePlayers.get(playerTh).getCardListSize();
         for (int i = 0 ; i < inGamePlayers.get(playerTh).getCardListSize(); i ++) {
+
             setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
-            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(translateX + i * step);
-            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(translateY - i * step);
+            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(200 + i * step);
+            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * step);
             inGamePlayers.get(playerTh).getCardList().get(i).setRotate(-15);
+            inGamePlayers.get(playerTh).getCardList().get(i).toBack();
+        }
+    }
+
+    /** GUI CARDS for right player **/
+    public void arrangeCardsForRightPlayer (int playerTh) {
+
+        double step =  150 / inGamePlayers.get(playerTh).getCardListSize();
+        for (int i = 0 ; i < inGamePlayers.get(playerTh).getCardListSize(); i ++) {
+
+            setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
+            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(1250 - i * step);
+            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * step);
+            inGamePlayers.get(playerTh).getCardList().get(i).setRotate(15);
             inGamePlayers.get(playerTh).getCardList().get(i).toBack();
         }
     }
@@ -115,28 +132,48 @@ public class GameBoard implements Initializable {
         card.setSmooth(true);
     }
 
+    /** GUI cards for main player **/
+    double step;
     // Set up the location as well as arrange Cards
-    public void arrangeCardsForHorizontalPlayer ( boolean ifMain, int playerTh,double maxSize , double width , double height , double translateX , double translateY) {
+    public void arrangeCardsForMainPlayer (  int playerTh) {
+        //arrangeCardsForMainPlayer(true,mainPlayer,720, 120,150,400,660);
 
         // Set up players in horizontal
-        double step =  maxSize / inGamePlayers.get(playerTh).getCardListSize();
+        step =  720 / inGamePlayers.get(playerTh).getCardListSize();
         for (int i = 0 ; i < inGamePlayers.get(playerTh).getCardListSize() ; i ++){
-            if (ifMain)
-                inGamePlayers.get(playerTh).getCardList().get(i).setFrontImage();
-            inGamePlayers.get(playerTh).getCardList().get(i).setFitWidth(width);
-            inGamePlayers.get(playerTh).getCardList().get(i).setFitHeight(height);
-            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(translateX + i * step);
-            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(translateY);
+
+            inGamePlayers.get(playerTh).getCardList().get(i).setFrontImage();
+            inGamePlayers.get(playerTh).getCardList().get(i).setFitWidth(120);
+            inGamePlayers.get(playerTh).getCardList().get(i).setFitHeight(150);
+            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(400 + i * step);
+            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(660);
             inGamePlayers.get(playerTh).getCardList().get(i).setRotate(0);
             inGamePlayers.get(playerTh).getCardList().get(i).toFront();
 
             if (inGamePlayers.get(playerTh).getCardListSize() < 5) {
-                inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(translateX + 100 + i * (step - 150) );
+                inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(400 + 100 + i * (step - 150) );
             }
-
         }
+    }
 
+    /**GUI cards for Upper Player**/
 
+    public void arrangeCardsForUpperPlayer (int playerTh) {
+
+        double step =  400 / inGamePlayers.get(playerTh).getCardListSize();
+        for (int i = 0 ; i < inGamePlayers.get(playerTh).getCardListSize() ; i ++){
+
+            inGamePlayers.get(playerTh).getCardList().get(i).setFitWidth(80);
+            inGamePlayers.get(playerTh).getCardList().get(i).setFitHeight(100);
+            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(600 + i * step);
+            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(50);
+            inGamePlayers.get(playerTh).getCardList().get(i).setRotate(0);
+            inGamePlayers.get(playerTh).getCardList().get(i).toFront();
+
+            if (inGamePlayers.get(playerTh).getCardListSize() < 5) {
+                inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(600 + 100 + i * (step - 150) );
+            }
+        }
     }
 
     /** This method only applies to main player which sets the selected animation **/
@@ -195,7 +232,7 @@ public class GameBoard implements Initializable {
         translate.setNode(current);
         current.toFront();
         current.setFrontImage();
-        translate.setToX(lastCard.getTranslateX() + 20 );
+        translate.setToX(lastCard.getTranslateX()  + step );
         translate.setToY(lastCard.getTranslateY());
 
         // Set the actual width and height of the card
@@ -209,13 +246,13 @@ public class GameBoard implements Initializable {
 
     public void drawAction(ActionEvent actionEvent) {
         if (selectedCard == null){
-            Card lastCard = inGamePlayers.get(positionOfCurrentPlayer).getLastCard();
+            Card lastCard = inGamePlayers.get(positionOfCurrentPlayer).getCardList().get(inGamePlayers.get(positionOfCurrentPlayer).getCardListSize() - 2);
             Card currentCard = deck.getCards().get(deck.getSize() - 1);
             currentCard.setFrontImage();
             inGamePlayers.get(positionOfCurrentPlayer).getCardList().add(currentCard);
             setDrawCardAnimation(currentCard,lastCard );
             deck.drawTopCard();
-            arrangeCardsForHorizontalPlayer(true,mainPlayer,720, 120,150,300,660);
+            arrangeCardsForMainPlayer(mainPlayer);
             setAnimationForSelectedCard();
         }
     }
