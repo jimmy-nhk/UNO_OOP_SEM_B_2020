@@ -1,5 +1,6 @@
 package Model;
 
+
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import java.util.Calendar;
@@ -18,16 +19,15 @@ public class Timer extends Pane {
     private int minute;
     private int second;
     private Timeline animation;
-    private static final Integer TIMESTART = 5;
+    private static  Integer TIMESTART = 60;
     private Timeline timeline;
     private Integer timeSeconds = TIMESTART;
 
     // Clock pane's width and height
-    private double w = 250, h = 250;
+    private double w = 100, h = 100;
 
     /** Construct a default clock with the current time */
     public Timer() {
-        setCurrentTime();
         animation = new Timeline(
                 new KeyFrame(Duration.millis(1000), e -> moveClock()));
         animation.setCycleCount(Timeline.INDEFINITE);
@@ -83,21 +83,10 @@ public class Timer extends Pane {
         return h;
     }
 
-    /** Set clock pane's heigt */
+    /** Set clock pane's height */
     public void setH(double h) {
         this.h = h;
         paintClock();
-    }
-
-    /* Set the current time for the clock */
-    public void setCurrentTime() {
-        // Construct a Calendar for the current date and time
-        Calendar calendar = new GregorianCalendar();
-
-        // Set current hour, minute and second
-        this.minute = calendar.get(Calendar.MINUTE);
-        this.second = calendar.get(Calendar.SECOND);
-        paintClock(); // Repaint the clock
     }
 
     /** Paint the clock */
@@ -111,11 +100,7 @@ public class Timer extends Pane {
         Circle circle = new Circle(centerX, centerY, clockRadius);
         circle.setFill(Color.WHITE);
         circle.setStroke(Color.BLACK);
-        //stroke dày hơn, chạy từ số 12.
-        Text t1 = new Text(centerX - 5, centerY - clockRadius + 12, "12");
-        Text t2 = new Text(centerX - clockRadius + 3, centerY + 5, "9");
-        Text t3 = new Text(centerX + clockRadius - 10, centerY + 3, "3");
-        Text t4 = new Text(centerX - 3, centerY + clockRadius - 3, "6");
+        circle.setStrokeWidth(10);
 
         // Draw second hand
         double sLength = clockRadius * 0.8;
@@ -126,7 +111,7 @@ public class Timer extends Pane {
         Line sLine = new Line(centerX, centerY, secondX, secondY);
         sLine.setStroke(Color.RED);
         getChildren().clear();
-        getChildren().addAll(circle, t1, t2, t3, t4, sLine);
+        getChildren().addAll(circle, sLine);
     }
 
     /* Animate the clock */
