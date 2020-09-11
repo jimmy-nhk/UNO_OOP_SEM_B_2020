@@ -1,32 +1,227 @@
 package Controller;
 
 import Model.*;
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.Shadow;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public class GameBoard {
-    public Pane playerFour;
-    public Pane playerTwo;
-    public Pane playerOne;
-    public Pane playerThree;
-    public Pane dropZone;
-    public Button withDrawButton;
-    public Button playButton;
-    public Button homeButton;
-
-    private ArrayList<Player> inGamePlayers = AccountList.getPlayers();
-    private ArrayList<Card> playedCards = new ArrayList<>();
-    private Deck deck = new Deck();
-    private int directionOfPlay = 1;
-    private Card previousCard = null;
-    private int positionOfCurrentPlayer = 0;
-    private Card selectedCard = null;
+public class GameBoard implements Initializable {
 
 
+    @FXML private Button btDraw;
+    @FXML private Pane pane;
+
+    private int mainPlayer ;
+    private ArrayList<Player> inGamePlayers ;
+    private ArrayList<Card> playedCards ;
+    private Deck deck ;
+    private int directionOfPlay ;
+    private Card previousCard ;
+    private int positionOfCurrentPlayer;
+    private Card selectedCard ;
+
+
+    public GameBoard(){
+        mainPlayer = 1 ;
+        inGamePlayers = new ArrayList<>();
+        Player player = new Player();
+        Player player1 = new Player();
+        Player player2 = new Player();
+        Player player3 = new Player();
+        inGamePlayers.add(player);
+        inGamePlayers.add(player1);
+        inGamePlayers.add(player2);
+        inGamePlayers.add(player3);
+        playedCards = new ArrayList<>();
+        deck = new Deck();
+        directionOfPlay = 1 ;
+        previousCard = null;
+        selectedCard = null;
+        Random random = new Random();
+        positionOfCurrentPlayer = 1 ;
+    }
+
+    public GameBoard( int mainPlayer) {
+        this.mainPlayer = mainPlayer ;
+        inGamePlayers = new ArrayList<>();
+        Player player = new Player();
+        Player player1 = new Player();
+        Player player2 = new Player();
+        Player player3 = new Player();
+        inGamePlayers.add(player);
+        inGamePlayers.add(player1);
+        inGamePlayers.add(player2);
+        inGamePlayers.add(player3);
+        playedCards = new ArrayList<>();
+        deck = new Deck();
+        directionOfPlay = 1 ;
+        previousCard = null;
+        selectedCard = null;
+        Random random = new Random();
+        positionOfCurrentPlayer = random.nextInt(3) ;
+    }
+
+    /** Create animation for cards in the board **/
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        setCardInDeck(); // Set up deck for drawing
+        startGame(); // distribute cards at the beginning
+
+
+
+        /** Set the location as well as the animation for the cards of the main player **/
+        arrangeCardsForHorizontalPlayer(true,mainPlayer,720, 120,150,400,660);
+        setAnimationForSelectedCard();
+
+        /** Set the location  for the cards of the upper player **/
+        arrangeCardsForHorizontalPlayer(false,(mainPlayer + 2) % inGamePlayers.size() , 400,80,100,600,50 );
+
+
+        arrangeCardsForVerticalPlayer((mainPlayer + 3) % inGamePlayers.size(),150,200,400);
+    }
+
+    public void arrangeCardsForVerticalPlayer (int playerTh,double maxSize , double translateX , double translateY) {
+
+        double step = 0 + maxSize / inGamePlayers.get(playerTh).getCardListSize();
+        for (int i = 0 ; i < inGamePlayers.get(playerTh).getCardListSize(); i ++) {
+            setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
+            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(translateX + i * step);
+            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(translateY - i * step);
+            inGamePlayers.get(playerTh).getCardList().get(i).setRotate(-15);
+            inGamePlayers.get(playerTh).getCardList().get(i).toBack();
+        }
+    }
+
+    public void setNotMainCards (Card card) {
+        card.setFitWidth(80);
+        card.setFitHeight(100);
+        card.setSmooth(true);
+    }
+
+    // Set up the location as well as arrange Cards
+    public void arrangeCardsForHorizontalPlayer ( boolean ifMain, int playerTh,double maxSize , double width , double height , double translateX , double translateY) {
+
+        // Set up players in horizontal
+        double step =  maxSize / inGamePlayers.get(playerTh).getCardListSize();
+        for (int i = 0 ; i < inGamePlayers.get(playerTh).getCardListSize() ; i ++){
+            if (ifMain)
+                inGamePlayers.get(playerTh).getCardList().get(i).setFrontImage();
+            inGamePlayers.get(playerTh).getCardList().get(i).setFitWidth(width);
+            inGamePlayers.get(playerTh).getCardList().get(i).setFitHeight(height);
+            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(translateX + i * step);
+            inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(translateY);
+            inGamePlayers.get(playerTh).getCardList().get(i).setRotate(0);
+            inGamePlayers.get(playerTh).getCardList().get(i).toFront();
+
+            if (inGamePlayers.get(playerTh).getCardListSize() < 5) {
+                inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(translateX + 100 + i * (step - 150) );
+            }
+
+        }
+
+
+    }
+
+    /** This method only applies to main player which sets the selected animation **/
+    public void setAnimationForSelectedCard () {
+
+        for (int i = 0 ; i < inGamePlayers.get(mainPlayer).getCardListSize(); i ++) {
+            TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), inGamePlayers.get(mainPlayer).getCardList().get(i));
+            AtomicBoolean check = new AtomicBoolean(false);
+            int finalI = i;
+            inGamePlayers.get(mainPlayer).getCardList().get(i).setOnMouseClicked(event -> {
+                if (!check.get()) {
+                    translateTransition.setByY(-40);
+                    translateTransition.play();
+                    check.set(true);
+                    selectedCard = inGamePlayers.get(mainPlayer).getCardList().get(finalI);
+                    for (int j = 0 ; j <  inGamePlayers.get(mainPlayer).getCardListSize(); j ++){
+                        if (inGamePlayers.get(mainPlayer).getCardList().get(j).equals(selectedCard)){
+                            continue;
+                        } else
+                            inGamePlayers.get(mainPlayer).getCardList().get(j).setDisable(true);
+                    }
+                } else {
+                    translateTransition.setByY(40);
+                    translateTransition.play();
+                    selectedCard = null;
+                    check.set(false);
+                    for (int j = 0 ; j <  inGamePlayers.get(mainPlayer).getCardListSize(); j ++){
+                        inGamePlayers.get(mainPlayer).getCardList().get(j).setDisable(false);
+                    }
+                }
+
+            });
+        }
+
+    }
+
+    // Set the animation for cards which are in deck
+    public void setCardInDeck () {
+        for (int i = 0; i < deck.getSize(); i++) {
+
+            deck.getCards().get(i).setRotate(-80);
+            deck.getCards().get(i).setTranslateX(250 + i * 0.5);
+            deck.getCards().get(i).setTranslateY(80 - i * 0.5);
+            deck.getCards().get(i).setFitWidth(80);
+            deck.getCards().get(i).setFitHeight(100);
+            deck.getCards().get(i).setBackImage();
+
+            pane.getChildren().add(deck.getCards().get(i));
+        }
+
+    }
+
+
+    public void setDrawCardAnimation (Card current , Card lastCard ) {
+        TranslateTransition translate = new TranslateTransition();
+        translate.setNode(current);
+        current.toFront();
+        current.setFrontImage();
+        translate.setToX(lastCard.getTranslateX() + 20 );
+        translate.setToY(lastCard.getTranslateY());
+
+        // Set the actual width and height of the card
+        current.setFitHeight(lastCard.getFitHeight());
+        current.setFitWidth(lastCard.getFitWidth());
+        current.setRotate(lastCard.getRotate()); // Rotate back to the right side
+        translate.play();
+    }
+
+    /** Event handler for buttons  **/
+
+    public void drawAction(ActionEvent actionEvent) {
+        if (selectedCard == null){
+            Card lastCard = inGamePlayers.get(positionOfCurrentPlayer).getLastCard();
+            Card currentCard = deck.getCards().get(deck.getSize() - 1);
+            currentCard.setFrontImage();
+            inGamePlayers.get(positionOfCurrentPlayer).getCardList().add(currentCard);
+            setDrawCardAnimation(currentCard,lastCard );
+            deck.drawTopCard();
+            arrangeCardsForHorizontalPlayer(true,mainPlayer,720, 120,150,300,660);
+            setAnimationForSelectedCard();
+        }
+    }
+
+
+    /** Methods deal with model **/
 
     public void withdrawCard(ActionEvent actionEvent) {
         drawCard();
@@ -40,16 +235,7 @@ public class GameBoard {
         updateTurn();
     }
 
-    public void chooseCard(MouseEvent mouseEvent) {
-        setSelectedCard(selectedCard);
-    }
 
-    public void goBackHome(ActionEvent actionEvent) { }
-
-    public void chooseGreen(MouseEvent mouseEvent) {}
-    public void chooseYellow(MouseEvent mouseEvent) {}
-    public void chooseRed(MouseEvent mouseEvent) {}
-    public void chooseBlue(MouseEvent mouseEvent) {}
 
     public Card getSelectedCard() {
         return selectedCard;
@@ -65,13 +251,11 @@ public class GameBoard {
         And choose 1 random player to start
     **/
     public void startGame (){
-        for (int i = 0 ; i < 7 ; i ++){
-            for (int j = 0 ; j < inGamePlayers.size() ; j ++){
+        for (int i = 0 ; i < inGamePlayers.size() ; i ++){
+            for (int j = 0 ; j < 7 ; j ++){
                 inGamePlayers.get(i).drawCard(deck.drawTopCard());
             }
         }
-        setPreviousCard(deck.drawTopCard());
-        positionOfCurrentPlayer = (int) (Math.random() * (inGamePlayers.size()));
     }
 
     // Reverse tbe direction
@@ -168,5 +352,9 @@ public class GameBoard {
         playedCards.add(card);
         previousCard = card;
     }
+
+
+
+
 
 }

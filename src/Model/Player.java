@@ -46,4 +46,12 @@ public class Player {
         }
         return selectedCard;
     }
+
+    public int getCardListSize (){
+        return cardList.size();
+    }
+
+    public Card getLastCard() {
+        return cardList.get(getCardListSize()-1);
+    }
 }

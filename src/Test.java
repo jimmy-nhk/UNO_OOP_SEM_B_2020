@@ -4,6 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.swing.text.html.ImageView;
 import java.io.IOException;
 
 public class Test extends Application {
@@ -14,7 +15,7 @@ public class Test extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/mainMain.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
 
 
         Scene scene = new Scene(root);
