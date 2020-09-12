@@ -122,12 +122,15 @@ public class GameBoard {
         }
     }
 
-
     public void drawCard() {
         inGamePlayers.get(positionOfCurrentPlayer).drawCard(deck.drawTopCard());
     }
 
     public void playCard(Card selectedCard) {
+        // create message playcard
+        // write this mesesge to server.
+        // ClientController clientController = new ClientController
+        // clientController.writeMessage(message)
         playedCards.add(inGamePlayers.get(positionOfCurrentPlayer).playCard(selectedCard));
         switch (selectedCard.getValue()) {
             case  SKIP:

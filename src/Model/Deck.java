@@ -1,9 +1,10 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Deck {
+public class Deck implements Serializable {
 
     // The deck consists of 108 cards: four each of "Wild" and "Wild Draw Four,"
     // and 25 each of four different Properties (red, yellow, green, blue).

@@ -3,9 +3,10 @@ package Model;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.Serializable;
 import java.util.stream.Stream;
 
-public class Card extends ImageView{
+public class Card extends ImageView implements Serializable {
 
 
     public static Properties[] properties = Properties.values();
@@ -16,7 +17,7 @@ public class Card extends ImageView{
     private Values value;
     private String frontImage;
 
-    public Card (String url, Values value, Properties property)  {
+    public Card(String url, Values value, Properties property) {
         super(new Image(url));
         this.property = property;
         this.value = value;
@@ -28,7 +29,7 @@ public class Card extends ImageView{
         this.property = property;
     }
 
-    public void setImage (){
+    public void setImage() {
         super.setFitHeight(120);
         super.setFitWidth(150);
         super.setPreserveRatio(true);
@@ -58,7 +59,7 @@ public class Card extends ImageView{
     }
 
     // Set back image
-    public void setBackImage (){
+    public void setBackImage() {
         super.setImage(new Image(BACKIMAGE));
     }
 

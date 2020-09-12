@@ -12,6 +12,10 @@ public class AccountList {
         loadFromFile(); // Whenever create the class AccountList, load the accounts to the accountList
     }
 
+    public static ArrayList<Account> getAccountList() {
+        return accountList;
+    }
+
     public static void loadFromFile() {
         /**
          * Deserialize data from file
