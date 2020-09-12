@@ -1,3 +1,5 @@
+package Controller;
+
 import Model.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.PathTransition;
@@ -22,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static Model.Values.*;
 
-public class GameBoard {
+public class GameBoardController {
     public Pane playerFour;
     public Pane playerTwo;
     public Pane playerOne;
@@ -42,12 +44,12 @@ public class GameBoard {
 
 
 
-    public void withdrawCard(ActionEvent actionEvent) {
+    public void withdrawCardButton(ActionEvent actionEvent) {
         drawCard();
         updateTurn();
     }
 
-    public void playCard(ActionEvent actionEvent) {
+    public void playCardButton(ActionEvent actionEvent) {
         playCard(selectedCard);
         isWinner(inGamePlayers.get(positionOfCurrentPlayer));
         resetDeck();
@@ -109,6 +111,11 @@ public class GameBoard {
                 AtomicBoolean b = new AtomicBoolean();
                 a.addAndGet(i);
                 cardList.get(i).setOnMouseClicked(e -> {
+/****check playable***/
+                    if (selectedCard.isCardPlayable(previousCard)) {
+                        playButton.setDisable(true);
+                    } else playButton.setDisable(false);
+                    /****check playable***/
                     if (!b.get()) {
                         pathTransition.play();
                         setSelectedCard(cardList.get(a.get()));
@@ -178,6 +185,11 @@ public class GameBoard {
                 AtomicBoolean b = new AtomicBoolean();
                 a.addAndGet(i);
                 cardList.get(i).setOnMouseClicked(e -> {
+                    /****check playable***/
+                    if (selectedCard.isCardPlayable(previousCard)) {
+                        playButton.setDisable(true);
+                    } else playButton.setDisable(false);
+                    /***check playable***/
                     if (!b.get()) {
                         pathTransition.play();
                         setSelectedCard(cardList.get(a.get()));
@@ -263,7 +275,9 @@ public class GameBoard {
         }
 
         public void playCard (Card selectedCard){
-            playedCards.add(inGamePlayers.get(positionOfCurrentPlayer).playCard(selectedCard));
+//            if (!selectedCard.equals(null)) {
+//                playedCards.add(inGamePlayers.get(positionOfCurrentPlayer).playCard(selectedCard));
+//            } 
             switch (selectedCard.getValue()) {
                 case SKIP:
                     updateTurn();
