@@ -54,4 +54,8 @@ public class Player {
     public Card getLastCard() {
         return cardList.get(getCardListSize()-1);
     }
+
+    public void setCardList(ArrayList<Card> cardList) {
+        this.cardList = cardList;
+    }
 }
