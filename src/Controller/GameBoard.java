@@ -26,8 +26,6 @@ public class GameBoard {
     private int positionOfCurrentPlayer = 0;
     private Card selectedCard = null;
 
-
-
     public void withdrawCard(ActionEvent actionEvent) {
         drawCard();
         updateTurn();
@@ -172,4 +170,15 @@ public class GameBoard {
         previousCard = card;
     }
 
+    /**
+     * process received message by extracting the attributes of message
+     */
+    public static void processMessage(Message message) {
+        // UI of the other 3 players
+        if (message.getAction().equals("play")) {
+            System.out.println("play card " + message.getPreviousCard());
+        } else {
+            System.out.println("draw card");
+        }
+    }
 }

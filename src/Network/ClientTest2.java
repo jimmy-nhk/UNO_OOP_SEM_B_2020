@@ -1,6 +1,7 @@
 package Network;
 
 import Controller.ClientController;
+import Model.Deck;
 import Model.Message;
 
 import java.io.IOException;

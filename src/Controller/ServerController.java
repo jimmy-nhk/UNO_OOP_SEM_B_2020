@@ -35,11 +35,10 @@ public class ServerController {
                 // wait for a connection
                 Socket socket = serverSocket.accept();
 
-                // start new thread to do steps belows:
-                // somehow:
+                // start new thread to do steps below:
                 // 1. read message from socket
-                // 2. process the messge
-                // 3. write reponse messget to socket
+                // 2. process the message
+                // 3. write response message to socket
                 //
                 ClientHandler clientHandler = new ClientHandler(this, socket);
                 clientHandlers.add(clientHandler);
@@ -77,25 +76,4 @@ public class ServerController {
             }
         }
     }
-
-    /**
-     * check if game is ready to play
-     */
-//    public boolean isGameReady() {
-//        // game is only ready when there are 4 players
-//        if (this.server.countClientHandlers() != 4) return false;
-//        // game is ready when all players are ready
-//        for (ClientHandler player : this.server.getClientHandlers()) {
-//            if (!player.isReady()) return false;
-//        }
-//        return true;
-//    }
-//
-//    public void startGame() {
-//
-//    }
-//
-//    public void prepareNewGame() {
-//
-//    }
 }

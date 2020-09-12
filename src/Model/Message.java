@@ -7,12 +7,11 @@ public class Message implements Serializable {
     private String sender;
     private String playerName;
     private Deck deck;
-    private String action = "play"; // play card is the default action, there are play, draw, start, win
+    private String action = "play"; // play card is the default action, there are play, draw
     private int numOfCard;
     private Card previousCard;
 
     public Message() {
-
     }
 
     /**

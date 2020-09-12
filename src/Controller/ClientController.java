@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Card;
-import Model.Deck;
 import Model.Message;
-import Network.ClientHandler;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,19 +11,14 @@ public class ClientController implements Runnable {
     // send message to server
     // receive message from server
 
-    // 2. connect to server
-    // 3. send hello message.
-    //      hello message have to client's information which need by server to talk
-    //      example: player's id
-
     // Fields
     private Socket socket;
-    private final String serverIp;
+    private final String serverIP;
     private final int serverPort;
 
     // Constructor
-    public ClientController(String serverIp, int serverPort) {
-        this.serverIp = serverIp;
+    public ClientController(String serverIP, int serverPort) {
+        this.serverIP = serverIP;
         this.serverPort = serverPort;
     }
 
@@ -39,7 +31,7 @@ public class ClientController implements Runnable {
     }
 
     public void startClient() throws IOException, ClassNotFoundException {
-        socket = new Socket(serverIp, serverPort);
+        socket = new Socket(serverIP, serverPort);
 
         // create new thread to read message from server
         new Thread(() -> {
@@ -59,8 +51,8 @@ public class ClientController implements Runnable {
         ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
         Message message = (Message) ois.readObject();
         // call game controller to process this message
-        // GameBoard.process(message);
-        System.out.printf("got message %s\n", message.toString());
+        GameBoard.processMessage(message);
+        System.out.printf("received message: %s\n", message.toString());
     }
 
     @Override
