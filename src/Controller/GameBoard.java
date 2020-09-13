@@ -25,6 +25,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static Model.Values.*;
 
 public class GameBoard {
+    private MainMenu mainMenu;
+    private AnchorPane gameBoard;
+
     public Pane playerFour;
     public Pane playerTwo;
     public Pane playerOne;
@@ -56,10 +59,27 @@ public class GameBoard {
         updateTurn();
     }
 
-    public void goBackHome(ActionEvent actionEvent) {}
+    public void goBackHome(ActionEvent actionEvent) {
+//        network
+        showMainMenu();
+    }
+    
+    public void showMainMenu() {
+        mainMenu.getMainMenu().setVisible(true);
+        gameBoard.setVisible(false);
+    }
 
-    public Properties showColorScene (Properties color){
-        return color;
+    public void displaySignInMessage(ActionEvent actionEvent) {
+        if (isWinner(inGamePlayers.get(0))) {
+            Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
+            signInBox.setContentText("WINNER!!!!");
+            signInBox.setResult(ButtonType.OK);
+            Optional<ButtonType> result = signInBox.showAndWait();
+            if(!result.isPresent()) {
+                showMainMenu();
+            } else if(result.get() == ButtonType.OK)
+                showMainMenu();
+        }
     }
 
     public void reformat(ArrayList<Card> cardList) {
