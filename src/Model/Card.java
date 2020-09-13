@@ -23,7 +23,7 @@ public class Card extends ImageView{
         this.value = value;
         this.frontImage = url;
         this.ifSelected = false;
-
+        setImage();
     }
 
     // Set property in this case is set the width and height of the image
@@ -63,6 +63,8 @@ public class Card extends ImageView{
         if (this.getValue().equals(previousCard.getValue()) || this.getProperty().equals(previousCard.getProperty())) {
             return true;
         } else if (this.getProperty().equals(Properties.WILD)) {
+            return true;
+        } else if (previousCard == null){
             return true;
         } else
             return false;
