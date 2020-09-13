@@ -17,6 +17,10 @@ public class Card extends ImageView{
     private String frontImage;
     private boolean ifSelected ;
 
+
+
+    public Card(){}
+
     public Card (String url, Values value, Properties property)  {
         super(""+url);
         this.property = property;

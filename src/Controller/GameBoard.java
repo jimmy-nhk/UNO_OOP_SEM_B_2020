@@ -507,7 +507,7 @@ public class GameBoard implements Initializable {
 
     public void drawAction(ActionEvent actionEvent) {
 
-//        if (positionOfCurrentPlayer == mainPlayer){
+        if (positionOfCurrentPlayer == mainPlayer){
             if (selectedCard == null) {
                 Card lastCard ;
                 if (inGamePlayers.get(mainPlayer).getCardListSize() == 1 ) {
@@ -535,7 +535,7 @@ public class GameBoard implements Initializable {
                 }
 
             }
-//        }
+        }
     }
 
     /** Display win and lose message to all players **/
@@ -649,7 +649,6 @@ public class GameBoard implements Initializable {
                     selectedCard = null;
                     inGamePlayers.get(mainPlayer).getCardList().get(location).setOnMouseClicked(null);
                     inGamePlayers.get(mainPlayer).getCardList().remove(location);
-                    System.out.println(inGamePlayers.get(mainPlayer).getCardList());
                     for (int j = 0; j < inGamePlayers.get(mainPlayer).getCardListSize(); j++) {
                         inGamePlayers.get(mainPlayer).getCardList().get(j).setDisable(false);
                     }

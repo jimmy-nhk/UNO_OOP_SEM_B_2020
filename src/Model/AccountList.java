@@ -7,7 +7,9 @@ import java.util.Collections;
 public class AccountList {
     private static ArrayList<Account> accountList = new ArrayList<>();
     private static ArrayList<Player> players = new ArrayList<>();
+
     // Constructor
+
     public AccountList(){
         loadFromFile(); // Whenever create the class AccountList, load the accounts to the accountList
     }
