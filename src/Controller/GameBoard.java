@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static Model.Values.*;
 
-public class GameBoardController {
+public class GameBoard {
     public Pane playerFour;
     public Pane playerTwo;
     public Pane playerOne;
@@ -34,7 +34,7 @@ public class GameBoardController {
     public Button playButton;
     public Button homeButton;
 
-    private ArrayList<Player> inGamePlayers = AccountList.players;
+    private ArrayList<Player> inGamePlayers = AccountList.getplayers();
     private ArrayList<Card> playedCards = new ArrayList<>();
     private Deck deck = new Deck();
     private int directionOfPlay = 1;
