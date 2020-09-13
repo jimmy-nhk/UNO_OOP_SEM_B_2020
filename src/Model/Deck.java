@@ -32,13 +32,13 @@ public class Deck {
             if (!p.equals(Properties.WILD)){
 
                 // add the zero card first
-                cards.add(new Card("ZERO-" + p +"-card-png-3806009.png", Values.ZERO ,p ) );
+                cards.add(new Card("resources/Card/ZERO-" + p +"-card.png", Values.ZERO ,p ) );
 
                 // there are two each of digit 1 through 9
                 // and two each of action cards: skip , draw too , reverse
                 for (int i = 1 ; i <= 12; i++){
-                    cards.add(new Card(Card.values[i] + "-" + p +"-card.png", Card.values[i]  , p ) );
-                    cards.add(new Card(Card.values[i] + "-" + p +"-card.png", Card.values[i]  , p ) );
+                    cards.add(new Card("resources/Card/"+Card.values[i] + "-" + p +"-card.png", Card.values[i]  , p ) );
+                    cards.add(new Card("resources/Card/"+Card.values[i] + "-" + p +"-card.png", Card.values[i]  , p ) );
                 }
 
 
@@ -46,10 +46,10 @@ public class Deck {
 
                  // Add the wild cards
                 for ( int i = 13 ; i <= 14 ; i ++){
-                    cards.add(new Card( Card.values[i] + "-WILD-card.png", Card.values[i]  , p ));
-                    cards.add(new Card( Card.values[i] + "-WILD-card.png", Card.values[i]  , p ));
-                    cards.add(new Card( Card.values[i] + "-WILD-card.png", Card.values[i]  , p ));
-                    cards.add(new Card( Card.values[i] + "-WILD-card.png", Card.values[i]  , p ));
+                    cards.add(new Card( "resources/Card/"+Card.values[i] + "-WILD-card.png", Card.values[i]  , p ));
+                    cards.add(new Card( "resources/Card/"+Card.values[i] + "-WILD-card.png", Card.values[i]  , p ));
+                    cards.add(new Card( "resources/Card/"+Card.values[i] + "-WILD-card.png", Card.values[i]  , p ));
+                    cards.add(new Card( "resources/Card/"+Card.values[i] + "-WILD-card.png", Card.values[i]  , p ));
                 }
             }
         }
