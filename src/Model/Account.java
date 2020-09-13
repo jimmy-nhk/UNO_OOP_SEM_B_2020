@@ -55,6 +55,12 @@ public class Account implements Comparable<Account>, Serializable {
     public void setLoss(int loss) {
         this.loss = loss;
     }
+    
+        @Override
+    public String toString() {
+        return getName() + "    " + getWin() + "    " +getLoss();
+    }
+    
     //  used in Leaderboard
     public double calculateWinRate(int win, int loss) {
         return ((double) win) / (double) (win + loss);
