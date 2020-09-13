@@ -790,7 +790,6 @@ public class GameBoard implements Initializable {
             inGamePlayers.get(positionOfCurrentPlayer + 1).drawCard(deck.drawTopCard());
         }
         updateTurn();
-        //  right here...
         chooseColor();
     }
 
@@ -833,6 +832,42 @@ public class GameBoard implements Initializable {
         playedCards.add(card);
         previousCard = card;
     }
+        /***
+    public void goBackHome(ActionEvent actionEvent) {
+//        network
+        showMainMenu();
+    }
+
+    private MainMenu mainMenu;
+    private AnchorPane gameBoard;
+
+    public void showMainMenu() {
+        mainMenu.getMainMenu().setVisible(true);
+        gameBoard.setVisible(false);
+    }
+
+     public void displayWinnerMessage(ActionEvent actionEvent) {
+     if (isWinner(inGamePlayers.get(0))) {
+     Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
+     signInBox.setContentText("WINNER!!!!");
+     signInBox.setResult(ButtonType.OK);
+     Optional<ButtonType> result = signInBox.showAndWait();
+     if(!result.isPresent()) {
+     showMainMenu();
+     } else if(result.get() == ButtonType.OK)
+     showMainMenu();
+     } else {
+     Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
+     signInBox.setContentText("DEFEATED!!!!");
+     signInBox.setResult(ButtonType.OK);
+     Optional<ButtonType> result = signInBox.showAndWait();
+     if(!result.isPresent()) {
+     showMainMenu();
+     } else if(result.get() == ButtonType.OK)
+     showMainMenu();
+     }
+     }
+***/
 
 
 }
