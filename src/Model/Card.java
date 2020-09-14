@@ -84,4 +84,14 @@ public class Card extends ImageView{
     public void setFrontImage() {
         super.setImage(new Image(frontImage+""));
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Card)) return false;
+        Card card = (Card) o;
+        return property == card.property &&
+                value == card.value;
+    }
+
 }
