@@ -655,16 +655,8 @@ public class GameBoard implements Initializable {
                 deck.drawTopCard();
                 arrangeCardsForMainPlayer(mainPlayer);
                 setAnimationForSelectedCard();
-
-                if (isWinner(inGamePlayers.get(mainPlayer))) {
-                    displayResult();
-                } else {
-                    updateTurn();
-                    System.out.println("Direction: " + directionOfPlay);
-                    System.out.println("Turn: " + positionOfCurrentPlayer);
-
-                }
-
+                updateTurn(); // Update turn for next player
+                
             }
         }
     }
@@ -723,7 +715,8 @@ public class GameBoard implements Initializable {
                 // If found, it will go into the board
                 if (networkCard.equals(inGamePlayers.get(playerTh).getCardList().get(i))) {
                     playCard(networkCard);
-                    previousCard = networkCard; // Set the previous card for the next player
+                    isWinner(inGamePlayers.get(playerTh));
+                    resetDeck();
                     createAnimationGoToBoardForAllCard(i, playerTh);
                     updateTurn(); // Update next turn
 
@@ -733,11 +726,9 @@ public class GameBoard implements Initializable {
 
             // If cardListSize is bigger , then it must have drawn cards
         } else if (cardListSize > inGamePlayers.get(playerTh).getCardListSize()) {
-            int cardsDrawn = cardListSize - inGamePlayers.get(playerTh).getCardListSize();
-
-            for (int i = 0; i < cardsDrawn; i++) {
-                animationDrawCardForAllPlayer(i,playerTh); // Draw a card from a deck
-            }
+            
+                animationDrawCardForAllPlayer(cardListSize,playerTh); // Draw a card from a deck
+       
 
             // Arrange the card list again if it is drawn
             if (playerTh == getLeftPlayer()) {
@@ -863,6 +854,14 @@ public class GameBoard implements Initializable {
                     }
                     arrangeCardsForMainPlayer(mainPlayer);
                     setAnimationForSelectedCard();
+                    
+                    if (isWinner(inGamePlayers.get(mainPlayer))) {
+                    displayResult();
+                } else {
+                    updateTurn();
+                    System.out.println("Direction: " + directionOfPlay);
+                    System.out.println("Turn: " + positionOfCurrentPlayer);
+                }
                     updateTurn(); // Update turn for next player
                     System.out.println("Direction: " + directionOfPlay);
                     System.out.println("Turns: " + positionOfCurrentPlayer);
@@ -893,24 +892,6 @@ public class GameBoard implements Initializable {
         }
         setPreviousCard(selectedCard);
     }
-
-
-    /**
-     * Methods deal with model
-     **/
-
-    public void withdrawCard(ActionEvent actionEvent) {
-        drawCard();
-        updateTurn();
-    }
-
-    public void playCard(ActionEvent actionEvent) {
-        playCard(selectedCard);
-        isWinner(inGamePlayers.get(positionOfCurrentPlayer));
-        resetDeck();
-        updateTurn();
-    }
-
 
     public Card getSelectedCard() {
         return selectedCard;
@@ -1018,6 +999,7 @@ public class GameBoard implements Initializable {
 
     public void drawCard() {
         inGamePlayers.get(positionOfCurrentPlayer).drawCard(deck.drawTopCard());
+        resetDeck()
     }
 
 
