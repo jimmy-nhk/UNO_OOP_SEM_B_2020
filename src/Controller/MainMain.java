@@ -23,6 +23,8 @@ public class MainMain implements Initializable {
 
     @FXML public VBox leaderboard;
     @FXML public VBox settingBoard;
+    @FXML private Pane chooseModeScene;
+    @FXML private Pane setNameScene;
 
     @FXML
     private TextField txtName;
@@ -125,6 +127,28 @@ public class MainMain implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+
+    public void goToOnlineScene(ActionEvent actionEvent) {
+        chooseModeScene.setVisible(false);
+        logInScene.setVisible(true);
+    }
+
+    public void goToSetNameScene(ActionEvent actionEvent) {
+        chooseModeScene.setVisible(false);
+        setNameScene.setVisible(true);
+    }
+
+    public void goToMainMenu(ActionEvent actionEvent) {
+        setNameScene.setVisible(false);
+        mainMenu.setVisible(true);
+    }
+
+    public void backToModeScene(ActionEvent actionEvent) {
+        logInScene.setVisible(false);
+        setNameScene.setVisible(false);
+        chooseModeScene.setVisible(true);
     }
 
 
