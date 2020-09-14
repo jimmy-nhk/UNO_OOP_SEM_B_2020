@@ -9,7 +9,5 @@
    <children>
       <Label layoutX="139.0" layoutY="157.0" prefHeight="28.0" prefWidth="109.0" text="Player name:" />
       <TextField layoutX="268.0" layoutY="158.0" />
-      <Button layoutX="336.0" layoutY="308.0" mnemonicParsing="false" onAction="#goToMainMenu" prefHeight="27.0" prefWidth="100.0" text="Next" />
-      <Button layoutX="160.0" layoutY="308.0" mnemonicParsing="false" onAction="#backToModeScene" prefHeight="27.0" prefWidth="100.0" text="Back" />
    </children>
 </Pane>
