@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GameBoard implements Initializable {
 
@@ -31,13 +30,16 @@ public class GameBoard implements Initializable {
     /**
      * GUI cards for main player
      **/
+    double step;
     /**
      * This method only applies to main player which sets the selected animation
      **/
-    @FXML private Button btPlay;
-    @FXML private Button btDraw;
-    @FXML private Pane pane;
-
+    @FXML
+    private Button btPlay;
+    @FXML
+    private Button btDraw;
+    @FXML
+    private Pane pane;
     private int mainPlayer;
     private ArrayList<Player> inGamePlayers;
     private ArrayList<Card> playedCards;
@@ -46,7 +48,6 @@ public class GameBoard implements Initializable {
     private Card previousCard;
     private int positionOfCurrentPlayer;
     private Card selectedCard;
-    double step;
 
 
     public GameBoard() {
@@ -149,8 +150,8 @@ public class GameBoard implements Initializable {
     public void distributeCardsForRightPlayer(int i) {
 
         Card currentCard = deck.getCards().get(deck.getSize() - 1);
-        step = 150 / (i + 1);
-        TranslateTransition translate = new TranslateTransition(Duration.millis(1000 ));
+        double step = 150 / (i + 1);
+        TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
         rotateTransition.setCycleCount(3);
         rotateTransition.setToAngle(360);
@@ -176,6 +177,7 @@ public class GameBoard implements Initializable {
             currentCard.setRotate(0);
             inGamePlayers.get((mainPlayer + 1) % inGamePlayers.size()).getCardList().add(currentCard);
             arrangeCardsForRightPlayer((mainPlayer + 1) % inGamePlayers.size());
+            createAnimationGoToBoardForAllPlayer(getRightPlayer());
             rotateTransition.stop();
         });
 
@@ -189,7 +191,7 @@ public class GameBoard implements Initializable {
     public void distributeCardsForLeftPlayer(int i) {
 
         Card currentCard = deck.getCards().get(deck.getSize() - 1);
-        step = 150 / (i + 1);
+        double step = 150 / (i + 1);
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
         rotateTransition.setCycleCount(3);
@@ -216,7 +218,7 @@ public class GameBoard implements Initializable {
             currentCard.setRotate(0);
             inGamePlayers.get((mainPlayer + 3) % inGamePlayers.size()).getCardList().add(currentCard);
             arrangeCardsForLeftPlayer((mainPlayer + 3) % inGamePlayers.size());
-            createAnimationGoToBoardForLeftPlayer((mainPlayer + 3) % inGamePlayers.size());
+            createAnimationGoToBoardForAllPlayer((mainPlayer + 3) % inGamePlayers.size());
             rotateTransition.stop();
         });
 
@@ -230,7 +232,7 @@ public class GameBoard implements Initializable {
     public void distributeCardsForUpperPlayer(int i) {
 
         Card currentCard = deck.getCards().get(deck.getSize() - 1);
-        step = 400 / (i + 1);
+        double step = 400 / (i + 1);
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
         rotateTransition.setCycleCount(3);
@@ -257,6 +259,7 @@ public class GameBoard implements Initializable {
             currentCard.setRotate(0);
             inGamePlayers.get((mainPlayer + 2) % inGamePlayers.size()).getCardList().add(currentCard);
             arrangeCardsForUpperPlayer((mainPlayer + 2) % inGamePlayers.size());
+            createAnimationGoToBoardForAllPlayer(getUpperPlayer());
             rotateTransition.stop();
         });
 
@@ -284,19 +287,69 @@ public class GameBoard implements Initializable {
     /**
      * Create animation for cards going into the game board
      **/
-    public void createAnimationGoToBoardForLeftPlayer(int playerTh) {
+//    public void createAnimationGoToBoardForLeftPlayer(int playerTh) {
+//        for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
+//            createAnimationGoToBoardForAllCard(i,playerTh);
+//            arrangeCardsForLeftPlayer(getLeftPlayer());
+//
+//        }
+//    }
+//
+//    public void createAnimationGoToBoardForRightPlayer(int playerTh){
+//        for (int i = 0 ; i <inGamePlayers.get(playerTh).getCardListSize(); i ++ ){
+//            createAnimationGoToBoardForAllCard(i,playerTh);
+//            arrangeCardsForRightPlayer(getRightPlayer());
+//        }
+//
+//    }
+//
+//    public void createAnimationGoToBoardForUpperPlayer(int playerTh){
+//        for (int i = 0 ; i <inGamePlayers.get(playerTh).getCardListSize(); i ++ ){
+//            createAnimationGoToBoardForAllCard(i,playerTh);
+//            arrangeCardsForUpperPlayer(getUpperPlayer());
+//        }
+//    }
+    public void createAnimationGoToBoardForAllPlayer(int playerTh) {
         for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
-            createAnimationGoToBoardForEachCard(i, (mainPlayer + 3) % inGamePlayers.size());
+            createAnimationGoToBoardForAllCardTest(i, playerTh);
 
-            arrangeCardsForLeftPlayer((mainPlayer + 3) % inGamePlayers.size());
-
+            if (playerTh == getUpperPlayer()) {
+                arrangeCardsForUpperPlayer(playerTh);
+            } else if (playerTh == getLeftPlayer()) {
+                arrangeCardsForLeftPlayer(playerTh);
+            } else
+                arrangeCardsForRightPlayer(playerTh);
         }
+    }
+
+    public int getLeftPlayer() {
+        int i = (mainPlayer + 3) % inGamePlayers.size();
+        if (i < 0) {
+            i += inGamePlayers.size();
+        }
+        return i;
+    }
+
+    public int getRightPlayer() {
+        int i = (mainPlayer + 1) % inGamePlayers.size();
+        if (i < 0) {
+            i += inGamePlayers.size();
+        }
+        return i;
+    }
+
+    public int getUpperPlayer() {
+        int i = (mainPlayer + 2) % inGamePlayers.size();
+        if (i < 0) {
+            i += inGamePlayers.size();
+        }
+        return i;
     }
 
     /**
      * Create animation for cards going into the game board
      **/
-    public void createAnimationGoToBoardForEachCard(int i, int playerTh) {
+    public void createAnimationGoToBoardForAllCardTest(int i, int playerTh) {
         Random random = new Random();
 
         inGamePlayers.get(playerTh).getCardList().get(i).setOnMouseClicked(event -> {
@@ -307,8 +360,17 @@ public class GameBoard implements Initializable {
 
             inGamePlayers.get(playerTh).getCardList().get(i).toFront();
 
-            translateTransition.setToX(500 + random.nextInt(50));
-            translateTransition.setToY(250 + random.nextInt(100));
+            if (playerTh == getRightPlayer()) {
+                translateTransition.setToX(700 + random.nextInt(50));
+                translateTransition.setToY(250 + random.nextInt(100));
+            } else if (playerTh == getUpperPlayer()) {
+                translateTransition.setToX(680 + random.nextInt(50));
+                translateTransition.setToY(200 + random.nextInt(50));
+            } else {
+                translateTransition.setToX(600 + random.nextInt(50));
+                translateTransition.setToY(250 + random.nextInt(100));
+            }
+
 
             Reflection reflection = new Reflection();
             reflection.setFraction(0);
@@ -331,12 +393,59 @@ public class GameBoard implements Initializable {
                 inGamePlayers.get(playerTh).getCardList().get(i).setOnMouseClicked(null);
                 inGamePlayers.get(playerTh).getCardList().get(i).setFitHeight(150);
                 inGamePlayers.get(playerTh).getCardList().get(i).setFitWidth(120);
-                inGamePlayers.get((mainPlayer + 3) % inGamePlayers.size()).getCardList().remove(inGamePlayers.get(positionOfCurrentPlayer).getCardList().get(i));
-                playedCards.add(inGamePlayers.get(positionOfCurrentPlayer).getCardList().get(i));
+                inGamePlayers.get(playerTh).getCardList().remove(inGamePlayers.get(playerTh).getCardList().get(i));
+                playedCards.add(inGamePlayers.get(playerTh).getCardList().get(i));
             });
 
         });
+    }
 
+    public void createAnimationGoToBoardForAllCard(int i, int playerTh) {
+        Random random = new Random();
+
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(700), inGamePlayers.get(playerTh).getCardList().get(i));
+
+        RotateTransition rotator = new RotateTransition(Duration.millis(500), inGamePlayers.get(playerTh).getCardList().get(i));
+        inGamePlayers.get(playerTh).getCardList().get(i).setFrontImage();
+
+        inGamePlayers.get(playerTh).getCardList().get(i).toFront();
+
+        if (playerTh == getRightPlayer()) {
+            translateTransition.setToX(700 + random.nextInt(50));
+            translateTransition.setToY(250 + random.nextInt(100));
+        } else if (playerTh == getUpperPlayer()) {
+            translateTransition.setToX(680 + random.nextInt(50));
+            translateTransition.setToY(200 + random.nextInt(50));
+        } else {
+            translateTransition.setToX(600 + random.nextInt(50));
+            translateTransition.setToY(250 + random.nextInt(100));
+        }
+
+
+        Reflection reflection = new Reflection();
+        reflection.setFraction(0);
+        inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
+
+
+        rotator.setAxis(Rotate.Y_AXIS);
+        rotator.setFromAngle(0);
+        rotator.setToAngle(360);
+
+
+        rotator.setInterpolator(Interpolator.LINEAR);
+        rotator.setCycleCount(1);
+
+        rotator.play();
+        translateTransition.play();
+        previousCard = inGamePlayers.get(playerTh).getCardList().get(i);
+
+        translateTransition.setOnFinished(event -> {
+            inGamePlayers.get(playerTh).getCardList().get(i).setOnMouseClicked(null);
+            inGamePlayers.get(playerTh).getCardList().get(i).setFitHeight(150);
+            inGamePlayers.get(playerTh).getCardList().get(i).setFitWidth(120);
+            inGamePlayers.get(playerTh).getCardList().remove(inGamePlayers.get(playerTh).getCardList().get(i));
+            playedCards.add(inGamePlayers.get(playerTh).getCardList().get(i));
+        });
     }
 
     /**
@@ -347,35 +456,33 @@ public class GameBoard implements Initializable {
         reflection.setFraction(0.4);
 
 
-        if (inGamePlayers.get(playerTh).getCardListSize() < 3) {
-            try {
-                setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(0));
-                inGamePlayers.get(playerTh).getCardList().get(0).setTranslateX(160);
-                inGamePlayers.get(playerTh).getCardList().get(0).setTranslateY(400);
-                inGamePlayers.get(playerTh).getCardList().get(0).setRotate(-15);
-                inGamePlayers.get(playerTh).getCardList().get(0).toBack();
-                inGamePlayers.get(playerTh).getCardList().get(0).setEffect(reflection);
-                setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(1));
-                inGamePlayers.get(playerTh).getCardList().get(1).setTranslateX(160 + 50);
-                inGamePlayers.get(playerTh).getCardList().get(1).setTranslateY(400 - 50);
-                inGamePlayers.get(playerTh).getCardList().get(1).setRotate(-15);
-                inGamePlayers.get(playerTh).getCardList().get(1).toBack();
-                inGamePlayers.get(playerTh).getCardList().get(1).setEffect(reflection);
-            } catch (Exception e) {
-            }
-        } else {
-            double step = 150 / inGamePlayers.get(playerTh).getCardListSize();
-            for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
+        try {
+            if (inGamePlayers.get(playerTh).getCardListSize() < 5) {
 
-                setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
-                inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(160 + i * step);
-                inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * step);
-                inGamePlayers.get(playerTh).getCardList().get(i).setRotate(-15);
-                inGamePlayers.get(playerTh).getCardList().get(i).toBack();
-                inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
+                for (int i = 0 ; i < inGamePlayers.get(playerTh).getCardListSize(); i ++) {
+                    setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(160 + i * 50);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * 50);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setRotate(-15);
+                    inGamePlayers.get(playerTh).getCardList().get(i).toBack();
+                    inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
+                }
+            } else {
+                double step = 150 / inGamePlayers.get(playerTh).getCardListSize();
+                for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
 
+                    setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(160 + i * step);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * step);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setRotate(-15);
+                    inGamePlayers.get(playerTh).getCardList().get(i).toBack();
+                    inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
+
+                }
             }
+        } catch (Exception e) {
         }
+
     }
 
     /**
@@ -386,8 +493,19 @@ public class GameBoard implements Initializable {
         reflection.setFraction(0.4);
 
         try {
-            double step = 150 / inGamePlayers.get(playerTh).getCardListSize();
-            for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
+            if (inGamePlayers.get(playerTh).getCardListSize() < 5) {
+
+                for (int i = 0 ; i < inGamePlayers.get(playerTh).getCardListSize(); i ++) {
+                    setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(1250 - i * 50);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * 50);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setRotate(15);
+                    inGamePlayers.get(playerTh).getCardList().get(i).toBack();
+                    inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
+                }
+            } else {
+                double step = 150 / inGamePlayers.get(playerTh).getCardListSize();
+                for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
 
                 setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
                 inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(1250 - i * step);
@@ -396,12 +514,14 @@ public class GameBoard implements Initializable {
                 inGamePlayers.get(playerTh).getCardList().get(i).toBack();
                 inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
             }
-        } catch (Exception e) {
+        } } catch (Exception e) {
         }
 
     }
 
-    /** Gui for cards of main player **/
+    /**
+     * Gui for cards of main player
+     **/
     public void arrangeCardsForMainPlayer(int playerTh) {
         //arrangeCardsForMainPlayer(true,mainPlayer,720, 120,150,400,660);
 
@@ -411,8 +531,8 @@ public class GameBoard implements Initializable {
             step = 720.0 / inGamePlayers.get(playerTh).getCardListSize();
 
             if (inGamePlayers.get(playerTh).getCardListSize() < 3) {
-                for (int i = 0 ; i < inGamePlayers.get(playerTh).getCardListSize() ; i ++) {
-                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(400 + 100 + i * (step - 100) );
+                for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(400 + 100 + i * (step - 100));
                 }
             }
             for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
@@ -420,6 +540,7 @@ public class GameBoard implements Initializable {
                 inGamePlayers.get(playerTh).getCardList().get(i).setFrontImage();
                 inGamePlayers.get(playerTh).getCardList().get(i).setFitWidth(120);
                 inGamePlayers.get(playerTh).getCardList().get(i).setFitHeight(150);
+                inGamePlayers.get(playerTh).getCardList().get(i).setSmooth(true);
                 inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(400 + i * step);
                 inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(660);
                 inGamePlayers.get(playerTh).getCardList().get(i).setRotate(0);
@@ -440,19 +561,28 @@ public class GameBoard implements Initializable {
 
         try {
             double step = 400 / inGamePlayers.get(playerTh).getCardListSize();
-            for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
-
-                inGamePlayers.get(playerTh).getCardList().get(i).setFitWidth(80);
-                inGamePlayers.get(playerTh).getCardList().get(i).setFitHeight(100);
-                inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(600 + i * step);
-                inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(50);
-                inGamePlayers.get(playerTh).getCardList().get(i).setRotate(0);
-                inGamePlayers.get(playerTh).getCardList().get(i).toFront();
-
-                if (inGamePlayers.get(playerTh).getCardListSize() < 5) {
+            if (inGamePlayers.get(playerTh).getCardListSize() < 5) {
+                for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
+                    setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
                     inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(600 + 100 + i * (step - 150));
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(50);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setRotate(0);
+                    inGamePlayers.get(playerTh).getCardList().get(i).toFront();
+                }
+            } else {
+
+                for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
+
+                    setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(600 + i * step);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(50);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setRotate(0);
+                    inGamePlayers.get(playerTh).getCardList().get(i).toFront();
+
+
                 }
             }
+
         } catch (Exception e) {
         }
 
@@ -468,8 +598,9 @@ public class GameBoard implements Initializable {
     }
 
 
-
-    /**Add all the cards to the main board**/
+    /**
+     * Add all the cards to the main board
+     **/
     public void setCardInDeck() {
         for (int i = 0; i < deck.getSize(); i++) {
 
@@ -507,10 +638,10 @@ public class GameBoard implements Initializable {
 
     public void drawAction(ActionEvent actionEvent) {
 
-        if (positionOfCurrentPlayer == mainPlayer){
+        if (positionOfCurrentPlayer == mainPlayer) {
             if (selectedCard == null) {
-                Card lastCard ;
-                if (inGamePlayers.get(mainPlayer).getCardListSize() == 1 ) {
+                Card lastCard;
+                if (inGamePlayers.get(mainPlayer).getCardListSize() == 1) {
                     lastCard = inGamePlayers.get(mainPlayer).getCardList().get(inGamePlayers.get(mainPlayer).getCardListSize() - 1);
 
                 } else {
@@ -525,12 +656,12 @@ public class GameBoard implements Initializable {
                 arrangeCardsForMainPlayer(mainPlayer);
                 setAnimationForSelectedCard();
 
-                if (isWinner(inGamePlayers.get(mainPlayer))){
+                if (isWinner(inGamePlayers.get(mainPlayer))) {
                     displayResult();
-                } else{
+                } else {
                     updateTurn();
                     System.out.println("Direction: " + directionOfPlay);
-                    System.out.println("Turn: " +positionOfCurrentPlayer);
+                    System.out.println("Turn: " + positionOfCurrentPlayer);
 
                 }
 
@@ -538,42 +669,15 @@ public class GameBoard implements Initializable {
         }
     }
 
-    /** Display win and lose message to all players **/
+    /**
+     * Display win and lose message to all players
+     **/
     private void displayResult() {
     }
 
-//    public void setAnimation (int i) {
-//        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), inGamePlayers.get(mainPlayer).getCardList().get(i));
-//
-//        AtomicBoolean check = new AtomicBoolean(false);
-//        inGamePlayers.get(mainPlayer).getCardList().get(i).setOnMouseClicked(event -> {
-//
-//            if (!check.get()) {
-//                position = i;
-//                translateTransition.setByY(-40);
-//                translateTransition.play();
-//                selectedCard = inGamePlayers.get(mainPlayer).getCardList().get(i);
-//                check.set(true);
-//                for (int j = 0; j < inGamePlayers.get(mainPlayer).getCardListSize(); j++) {
-//
-//                    if (j == position) {
-//                        continue;
-//                    } else
-//                        inGamePlayers.get(mainPlayer).getCardList().get(j).setDisable(true);
-//                }
-//            } else {
-//                position = -1;
-//                translateTransition.setByY(40);
-//                translateTransition.play();
-//                selectedCard = null;
-//                check.set(false);
-//                for (int j = 0; j < inGamePlayers.get(mainPlayer).getCardListSize(); j++) {
-//                    inGamePlayers.get(mainPlayer).getCardList().get(j).setDisable(false);
-//                }
-//            }
-//        });
-//    }
-    /** Set animation for each selected card */
+    /**
+     * Set animation for each selected card
+     */
     public void setAnimation(int i) {
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), inGamePlayers.get(mainPlayer).getCardList().get(i));
 
@@ -605,27 +709,132 @@ public class GameBoard implements Initializable {
 
     }
 
-    /** Set animation for cards in main **/
+    /**
+     * Network for remaining players
+     **/
+    public void updateAnimationFromNetwork(int playerTh, int cardListSize, Card networkCard) {
+
+        // If cardList size is smaller than the the card list size in this scene, this player in this scene has already played a card
+        if (cardListSize < inGamePlayers.get(playerTh).getCardListSize()) {
+
+            // Check the location of the played card in the card list of that player
+            for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
+
+                // If found, it will go into the board
+                if (networkCard.equals(inGamePlayers.get(playerTh).getCardList().get(i))) {
+                    playCard(networkCard);
+                    previousCard = networkCard; // Set the previous card for the next player
+                    createAnimationGoToBoardForAllCard(i, playerTh);
+                    updateTurn(); // Update next turn
+
+                    break;
+                }
+            }
+
+            // If cardListSize is bigger , then it must have drawn cards
+        } else if (cardListSize > inGamePlayers.get(playerTh).getCardListSize()) {
+            int cardsDrawn = cardListSize - inGamePlayers.get(playerTh).getCardListSize();
+
+            for (int i = 0; i < cardsDrawn; i++) {
+                animationDrawCardForAllPlayer(i,playerTh); // Draw a card from a deck
+            }
+
+            // Arrange the card list again if it is drawn
+            if (playerTh == getLeftPlayer()) {
+
+                arrangeCardsForLeftPlayer(playerTh);
+
+            } else if (playerTh == getRightPlayer()) {
+
+                arrangeCardsForRightPlayer(playerTh);
+
+            } else {
+
+                arrangeCardsForUpperPlayer(playerTh);
+            }
+
+            updateTurn();
+        }
+    }
+
+    public void animationDrawCardForAllPlayer(int i, int playerTh) {
+
+        double step = 0;
+        Card currentCard = deck.getCards().get(deck.getSize() - 1);
+        TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
+        RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
+        rotateTransition.setCycleCount(3);
+        rotateTransition.setToAngle(360);
+
+        rotateTransition.setInterpolator(Interpolator.LINEAR);
+        currentCard.setRotate(-80);
+        rotateTransition.setFromAngle(0);
+        rotateTransition.setNode(currentCard);
+        rotateTransition.play();
+
+        translate.setNode(currentCard);
+
+        if (playerTh == getLeftPlayer()) {
+
+            step = 150 / (i + 1);
+            translate.setToX(1250 - i * step);
+            translate.setToY(400 - i * step);
+
+        } else if (playerTh == getRightPlayer()) {
+
+            step = 150 / (i + 1);
+            translate.setToX(160 + i * step);
+            translate.setToY(400 - i * step);
+
+        } else {
+            // For upper player to draw card
+            step = 400 / (i + 1);
+            translate.setToX(600 + i * step);
+            translate.setToY(50);
+        }
+
+
+        // Set the actual width and height of the card
+        translate.setOnFinished(event -> {
+            currentCard.setFitHeight(100);
+            currentCard.setFitWidth(80);
+            currentCard.toFront();
+            currentCard.setRotate(0);
+            inGamePlayers.get(playerTh).getCardList().add(currentCard);
+//            arrangeCardsForUpperPlayer(playerTh);
+            createAnimationGoToBoardForAllPlayer(getUpperPlayer());
+            rotateTransition.stop();
+        });
+
+        translate.play();
+        deck.drawTopCard();
+    }
+
+    /**
+     * Set animation for cards in main
+     **/
     public void setAnimationForSelectedCard() {
 
-        for (int i = 0 ; i < inGamePlayers.get(mainPlayer).getCardListSize() ; i ++) {
-                setAnimation(i);
+        for (int i = 0; i < inGamePlayers.get(mainPlayer).getCardListSize(); i++) {
+            setAnimation(i);
         }
 
     }
 
-    /** Event handler for the play button **/
+    /**
+     * Event handler for the play button
+     **/
     public void playAction(ActionEvent actionEvent) {
 
         // This button is only used by main player
         if (positionOfCurrentPlayer == mainPlayer) {
             Random random = new Random();
 
-            int location = 0 ;
+            int location = 0;
 
-            if (selectedCard != null ) {
+            if (selectedCard != null) {
 
-                for (int i = 0 ; i < inGamePlayers.get(mainPlayer).getCardListSize(); i++ ){
+                for (int i = 0; i < inGamePlayers.get(mainPlayer).getCardListSize(); i++) {
                     if (inGamePlayers.get(mainPlayer).getCardList().get(i).getIfSelected()) {
                         location = i;
                         break;
@@ -635,7 +844,7 @@ public class GameBoard implements Initializable {
                 if (inGamePlayers.get(mainPlayer).getCardList().get(location).isCardPlayable(previousCard)) {
                     // Set animation going into the board for main player's cards
                     TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), inGamePlayers.get(mainPlayer).getCardList().get(location));
-                    translateTransition.setToX(600 + random.nextInt(100));
+                    translateTransition.setToX(630 + random.nextInt(50));
                     translateTransition.setToY(350 + random.nextInt(50));
                     translateTransition.play();
 
@@ -655,7 +864,7 @@ public class GameBoard implements Initializable {
                     arrangeCardsForMainPlayer(mainPlayer);
                     setAnimationForSelectedCard();
                     updateTurn(); // Update turn for next player
-                    System.out.println("Direction: "+directionOfPlay);
+                    System.out.println("Direction: " + directionOfPlay);
                     System.out.println("Turns: " + positionOfCurrentPlayer);
                 }
 
@@ -756,7 +965,7 @@ public class GameBoard implements Initializable {
         ButtonType yellowButton = new ButtonType("YELLOW");
 
         colorBox.getButtonTypes().clear();
-        colorBox.getButtonTypes().addAll(redButton,blueButton,greenButton,yellowButton);
+        colorBox.getButtonTypes().addAll(redButton, blueButton, greenButton, yellowButton);
 
         // option != null.
         Optional<ButtonType> option = colorBox.showAndWait();
@@ -801,7 +1010,7 @@ public class GameBoard implements Initializable {
         }
 
         // Return all the cards back to not being selected
-        for (int i = 0 ; i < deck.getSize(); i++) {
+        for (int i = 0; i < deck.getSize(); i++) {
             deck.getCards().get(i).setIfSelected(false);
         }
     }
@@ -810,7 +1019,6 @@ public class GameBoard implements Initializable {
     public void drawCard() {
         inGamePlayers.get(positionOfCurrentPlayer).drawCard(deck.drawTopCard());
     }
-
 
 
     //     set winner + update win & loss
@@ -832,19 +1040,19 @@ public class GameBoard implements Initializable {
         playedCards.add(card);
         previousCard = card;
     }
-        /***
-    public void goBackHome(ActionEvent actionEvent) {
-//        network
-        showMainMenu();
-    }
+    /***
+     public void goBackHome(ActionEvent actionEvent) {
+     //        network
+     showMainMenu();
+     }
 
-    private MainMenu mainMenu;
-    private AnchorPane gameBoard;
+     private MainMenu mainMenu;
+     private AnchorPane gameBoard;
 
-    public void showMainMenu() {
-        mainMenu.getMainMenu().setVisible(true);
-        gameBoard.setVisible(false);
-    }
+     public void showMainMenu() {
+     mainMenu.getMainMenu().setVisible(true);
+     gameBoard.setVisible(false);
+     }
 
      public void displayWinnerMessage(ActionEvent actionEvent) {
      if (isWinner(inGamePlayers.get(0))) {
@@ -867,7 +1075,7 @@ public class GameBoard implements Initializable {
      showMainMenu();
      }
      }
-***/
+     ***/
 
 
 }
