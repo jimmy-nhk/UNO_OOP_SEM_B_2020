@@ -17,8 +17,8 @@
     <Pane fx:id="logInScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
         <children>
             <TextField fx:id="txtName" layoutX="264.0" layoutY="59.0" onAction="#getName" prefHeight="25.0" prefWidth="204.0" />
-            <Label layoutX="132.0" layoutY="63.0" text="Enter Your Name :" />
-            <Label layoutX="132.0" layoutY="118.0" text="Password :" />
+            <Label fx:id="name" layoutX="132.0" layoutY="63.0" text="Enter Your Name :" />
+            <Label fx:id="password" layoutX="132.0" layoutY="118.0" text="Password :" />
             <Button fx:id="btSignIn" layoutX="132.0" layoutY="175.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#displaySignInMessage" prefHeight="25.0" prefWidth="150.0" text="Sign In" />
             <Button fx:id="btSignUp" layoutX="318.0" layoutY="175.0" mnemonicParsing="false" onAction="#displaySignUpMessage" prefHeight="25.0" prefWidth="150.0" text="Sign Up" />
             <PasswordField fx:id="passwordField" layoutX="264.0" layoutY="113.0" onAction="#getPassword" prefHeight="27.0" prefWidth="204.0" />
@@ -27,7 +27,7 @@
 
     <VBox fx:id="mainMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
         <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="599.0" text="UNO">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="599.0">
                 <font>
                     <Font size="26.0" />
                 </font>
@@ -64,12 +64,12 @@
                             </Button>
                         </children>
                     </VBox>
-               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="62.0" layoutY="75.0" prefHeight="41.0" prefWidth="137.0" text="Welcome">
+               <Label fx:id="wordWelcome" alignment="CENTER" contentDisplay="CENTER" layoutX="62.0" layoutY="75.0" prefHeight="41.0" prefWidth="137.0" text="Welcome">
                   <font>
                      <Font size="29.0" />
                   </font>
                </Label>
-               <Label alignment="CENTER" layoutX="180.0" layoutY="152.0" prefHeight="53.0" prefWidth="106.0" text="Label" />
+               <Label fx:id="wordLabel" alignment="CENTER" layoutX="180.0" layoutY="152.0" prefHeight="53.0" prefWidth="106.0" text="Label" />
                 </children>
             </Pane>
         </children>

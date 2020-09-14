@@ -1,0 +1,25 @@
+#instruction{
+    -fx-background-image: url("/resources/images/firstTheme.jpg");
+    -fx-background-size: 700px 400px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+#backButton3{
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+}
+
+#textArea {
+    -fx-background-color: pink;
+}
+
+.button {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+}

@@ -4,12 +4,10 @@ import Model.AccountList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
@@ -20,7 +18,7 @@ public class MainMain implements Initializable {
     @FXML public Pane logInScene;
     @FXML public VBox mainMenu;
     @FXML public VBox instruction;
-
+    @FXML public StackPane pane;
     @FXML public VBox leaderboard;
     @FXML public VBox settingBoard;
 
@@ -82,10 +80,9 @@ public class MainMain implements Initializable {
         password = passwordField.getText();
     }
 
-    public void playGame(ActionEvent actionEvent) {
-        /** Will go to the gameBoard or the selection scene **/
-
-
+    public void playGame(ActionEvent actionEvent){
+        mainMenu.setVisible(false);
+        pane.setVisible(true);
     }
 
     public void showLeaderBoard(ActionEvent actionEvent) {

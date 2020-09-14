@@ -1,11 +1,21 @@
 package Controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class MainMenu {
+    public Pane mainMenuPane;
+    public Label UNO;
+    public Button quitButton;
+    @FXML
+    private Label titl;
     @FXML
     private VBox mainMenu;
     private Instruction instruction;
@@ -47,6 +57,7 @@ public class MainMenu {
     }
 
     public void quit(ActionEvent actionEvent) {
+        Platform.exit();
     }
 
     public VBox getMainMenu() {

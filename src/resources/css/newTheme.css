@@ -1,0 +1,12 @@
+#instruction{
+    -fx-background-image: url("/resources/images/backgroundMenu.jpg");
+
+}
+
+#root {
+    -fx-background-image: url("/resources/images/backgroundMenu.jpg");
+}
+
+#instruction {
+    -fx-background-image: url("/resources/images/backgroundMenu.jpg");
+}

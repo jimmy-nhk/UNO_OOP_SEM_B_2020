@@ -4,16 +4,17 @@ import Model.AccountList;
 import Model.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
 
 public class LogInController {
 
 
+//    public Button btSignUp;
+//    public Button btSignIn;
+//    public Label firstLabel;
+//    public Label secondLabel;
     @FXML
     private TextField txtName;
     @FXML
@@ -27,6 +28,7 @@ public class LogInController {
     private String name ;
     private String password;
     private AccountList accountList;
+
 
 //    LogInController(){
 //        name = null;
