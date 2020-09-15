@@ -108,7 +108,7 @@ public class GameBoard implements Initializable {
     public void distributeCardsForMainPlayer(int i) {
 
         Card currentCard = deck.getCards().get(deck.getSize() - 1);
-        step = 720.0 / (i + 1);
+        step = ( 720.0 - 120 ) / (i );
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
         rotateTransition.setCycleCount(3);
@@ -899,19 +899,6 @@ public class GameBoard implements Initializable {
      * Methods deal with model
      **/
 
-    public void withdrawCard(ActionEvent actionEvent) {
-        drawCard();
-        updateTurn();
-    }
-
-    public void playCard(ActionEvent actionEvent) {
-        playCard(selectedCard);
-        isWinner(inGamePlayers.get(positionOfCurrentPlayer));
-        resetDeck();
-        updateTurn();
-    }
-
-
     public Card getSelectedCard() {
         return selectedCard;
     }
@@ -926,13 +913,6 @@ public class GameBoard implements Initializable {
      * And to put 1 card in the deck onto the table
      * And choose 1 random player to start
      **/
-    public void startGame() {
-        for (int i = 0; i < inGamePlayers.size(); i++) {
-            for (int j = 0; j < 7; j++) {
-                inGamePlayers.get(i).drawCard(deck.drawTopCard());
-            }
-        }
-    }
 
     // Reverse tbe direction
     public void reverse() {
