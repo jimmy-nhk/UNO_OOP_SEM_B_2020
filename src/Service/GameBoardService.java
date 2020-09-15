@@ -6,6 +6,7 @@ import javafx.scene.control.ButtonType;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 public class GameBoardService {
     private boolean isGameFinished;
@@ -21,8 +22,23 @@ public class GameBoardService {
     private Card previousCard;
     private Card selectedCard;
 
-    public void processMessage(Message message) {
 
+    public GameBoardService() {
+        inGamePlayers = new ArrayList<>();
+        Player player = new Player();
+        Player player1 = new Player();
+        Player player2 = new Player();
+        Player player3 = new Player();
+        inGamePlayers.add(player);
+        inGamePlayers.add(player1);
+        inGamePlayers.add(player2);
+        inGamePlayers.add(player3);
+        playedCards = new ArrayList<>();
+        deck = new Deck();
+        directionOfPlay = 1;
+        previousCard = null;
+        selectedCard = null;
+        positionOfCurrentPlayer = 1;
     }
 
     public Card getSelectedCard() {
@@ -31,6 +47,14 @@ public class GameBoardService {
 
     public void setSelectedCard(Card selectedCard) {
         this.selectedCard = selectedCard;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
     }
 
     public void playCard(Card selectedCard) {
@@ -54,11 +78,6 @@ public class GameBoardService {
         setPreviousCard(selectedCard);
     }
 
-
-
-    private void setPreviousCard(Card selectedCard) {
-        this.previousCard = selectedCard;
-    }
 
     // Reverse tbe direction
     public void reverse() {
@@ -110,6 +129,33 @@ public class GameBoardService {
 
     }
 
+
+    public void drawCard() {
+        inGamePlayers.get(positionOfCurrentPlayer).drawCard(deck.drawTopCard());
+        resetDeck();
+    }
+
+
+    //     set winner + update win & loss
+    public boolean isWinner(Player player) {
+        if (player.getCardList().isEmpty()) {
+            for (int i = 0; i < 4; i++) {
+                if (inGamePlayers.get(i).equals(player)) {
+                    player.getAccount().setWin(player.getAccount().getWin() + 1);
+                } else {
+                    player.getAccount().setLoss(player.getAccount().getLoss() + 1);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public void setPreviousCard(Card card) {
+        playedCards.add(card);
+        previousCard = card;
+    }
+
     //  +2
     public void plusTwo() {
         for (int i = 0; i < 2; i++) {
@@ -128,5 +174,76 @@ public class GameBoardService {
         chooseColor();
     }
 
+    // Player's card return to deck number 2
+    public void resetDeck() {
+        if (deck.getSize() < 4) {
+            deck.getCards().addAll(playedCards); // Change the first deck as second deck if first deck is empty
+            deck.shuffleDeck(); // shuffle the deck again
+        }
 
+        // Return all the cards back to not being selected
+        for (int i = 0; i < deck.getSize(); i++) {
+            deck.getCards().get(i).setIfSelected(false);
+        }
+    }
+
+    public boolean isGameFinished() {
+        return isGameFinished;
+    }
+
+    public void setGameFinished(boolean gameFinished) {
+        isGameFinished = gameFinished;
+    }
+
+    public int getDirectionOfGame() {
+        return directionOfGame;
+    }
+
+    public void setDirectionOfGame(int directionOfGame) {
+        this.directionOfGame = directionOfGame;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    public int getPositionOfCurrentPlayer() {
+        return positionOfCurrentPlayer;
+    }
+
+    public void setPositionOfCurrentPlayer(int positionOfCurrentPlayer) {
+        this.positionOfCurrentPlayer = positionOfCurrentPlayer;
+    }
+
+    public ArrayList<Player> getInGamePlayers() {
+        return inGamePlayers;
+    }
+
+    public void setInGamePlayers(ArrayList<Player> inGamePlayers) {
+        this.inGamePlayers = inGamePlayers;
+    }
+
+    public ArrayList<Card> getPlayedCards() {
+        return playedCards;
+    }
+
+    public void setPlayedCards(ArrayList<Card> playedCards) {
+        this.playedCards = playedCards;
+    }
+
+    public int getDirectionOfPlay() {
+        return directionOfPlay;
+    }
+
+    public void setDirectionOfPlay(int directionOfPlay) {
+        this.directionOfPlay = directionOfPlay;
+    }
+
+    public Card getPreviousCard() {
+        return previousCard;
+    }
 }
