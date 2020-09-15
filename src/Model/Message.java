@@ -1,28 +1,50 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Message implements Serializable {
     //Data fields: includes sender, data, option.
-    private String sender;
+    private int sender;
     private String typeOfAction;
     private Object information;
-
-    public Message() {
-
+    private int numOfCard;
+    private Card card;
+    private Deck deck;
+//initialize
+    public Message(String typeOfAction,Deck deck) {
+        this.deck = deck;
+        this.typeOfAction = typeOfAction;
     }
-
-    public Message(String sender, String typeOfAction, Object information) {
+//    draw
+    public Message(int sender, String typeOfAction) {
         this.sender = sender;
         this.typeOfAction = typeOfAction;
-        this.information = information;
+    }
+//  play
+    public Message(int sender, String typeOfAction,  Card card) {
+        this.sender = sender;
+        this.typeOfAction = typeOfAction;
+        this.card = card;
     }
 
-    public String getSender() {
+    public Card getCard() {
+        return card;
+    }
+
+    public int getNumOfCard() {
+        return numOfCard;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public int getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(int sender) {
         this.sender = sender;
     }
 
