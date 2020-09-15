@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane fx:id="pane" prefHeight="1000.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GameBoard">
+<Pane fx:id="pane" prefHeight="1000.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GameBoardController">
    <children>
       <Button layoutX="55.0" layoutY="52.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="101.0" text="&lt; Home" />
       <Button fx:id="btPlay" layoutX="450.0" layoutY="560.0" mnemonicParsing="false" onAction="#playAction" prefHeight="52.0" prefWidth="101.0" text="Play">

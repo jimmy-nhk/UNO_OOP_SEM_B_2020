@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Card;
-import Model.Deck;
-import Model.Player;
-import Model.Properties;
+import Model.*;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
@@ -24,7 +21,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class GameBoard implements Initializable {
+public class GameBoardController implements Initializable {
 
 
     /**
@@ -40,54 +37,6 @@ public class GameBoard implements Initializable {
     private Button btDraw;
     @FXML
     private Pane pane;
-    private int mainPlayer;
-    private ArrayList<Player> inGamePlayers;
-    private ArrayList<Card> playedCards;
-    private Deck deck;
-    private int directionOfPlay;
-    private Card previousCard;
-    private int positionOfCurrentPlayer;
-    private Card selectedCard;
-
-
-    public GameBoard() {
-        mainPlayer = 1;
-        inGamePlayers = new ArrayList<>();
-        Player player = new Player();
-        Player player1 = new Player();
-        Player player2 = new Player();
-        Player player3 = new Player();
-        inGamePlayers.add(player);
-        inGamePlayers.add(player1);
-        inGamePlayers.add(player2);
-        inGamePlayers.add(player3);
-        playedCards = new ArrayList<>();
-        deck = new Deck();
-        directionOfPlay = 1;
-        previousCard = null;
-        selectedCard = null;
-        positionOfCurrentPlayer = 1;
-    }
-
-    public GameBoard(int mainPlayer) {
-        this.mainPlayer = mainPlayer;
-        inGamePlayers = new ArrayList<>();
-        Player player = new Player();
-        Player player1 = new Player();
-        Player player2 = new Player();
-        Player player3 = new Player();
-        inGamePlayers.add(player);
-        inGamePlayers.add(player1);
-        inGamePlayers.add(player2);
-        inGamePlayers.add(player3);
-        playedCards = new ArrayList<>();
-        deck = new Deck();
-        directionOfPlay = 1;
-        previousCard = null;
-        selectedCard = null;
-        Random random = new Random();
-        positionOfCurrentPlayer = random.nextInt(3);
-    }
 
     /**
      * Create animation for cards in the board
@@ -98,8 +47,6 @@ public class GameBoard implements Initializable {
 
         setCardInDeck(); // Set up deck for drawing
         createAnimationDistribute7Cards();
-
-
     }
 
     /**
@@ -108,7 +55,7 @@ public class GameBoard implements Initializable {
     public void distributeCardsForMainPlayer(int i) {
 
         Card currentCard = deck.getCards().get(deck.getSize() - 1);
-        step = ( 720.0 - 120 ) / (i );
+        step = ( 720.0 - 120 ) / i;
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
         rotateTransition.setCycleCount(3);
@@ -872,150 +819,18 @@ public class GameBoard implements Initializable {
         }
     }
 
-    public void playCard(Card selectedCard) {
-        switch (selectedCard.getValue()) {
-            case SKIP:
-                updateTurn();
-                break;
-            case REVERSE:
-                reverse();
-                break;
-            case PLUS_ZERO:
-                chooseColor();
-                break;
-            case PLUS_TWO:
-                plusTwo();
-                break;
-            case PLUS_FOUR:
-                plusFour();
-                break;
-        }
-        setPreviousCard(selectedCard);
-    }
 
-
-    public Card getSelectedCard() {
-        return selectedCard;
-    }
-
-    public void setSelectedCard(Card selectedCard) {
-        this.selectedCard = selectedCard;
-    }
-
-    /** Start the game with distribution cards to players **/
-    /**
-     * First, to distribute 7 cards for each player
-     * And to put 1 card in the deck onto the table
-     * And choose 1 random player to start
-     **/
-
-    // Reverse tbe direction
-    public void reverse() {
-        directionOfPlay *= -1;
-    }
-
-    // If the card is played, then update the turn
-    public void updateTurn() {
-
-        // If the direction is in the right, the next player will plus 1 , otherwise - 1.
-        positionOfCurrentPlayer = (positionOfCurrentPlayer + directionOfPlay) % inGamePlayers.size();
-
-        if (positionOfCurrentPlayer < 0) {
-            positionOfCurrentPlayer += inGamePlayers.size();
-        }
-    }
-
-    //choose color
-    //need for choose-color scene
-    public void chooseColor() {
-        Properties color = null;
-
-        Alert colorBox = new Alert(Alert.AlertType.CONFIRMATION);
-        colorBox.setTitle("COLOR SELECTION");
-        colorBox.setHeaderText("You have chosen the Wild card !!!");
-        colorBox.setContentText("Please choose the color for the next turn: ");
-        ButtonType redButton = new ButtonType("RED");
-        ButtonType blueButton = new ButtonType("BLUE");
-        ButtonType greenButton = new ButtonType("GREEN");
-        ButtonType yellowButton = new ButtonType("YELLOW");
-
-        colorBox.getButtonTypes().clear();
-        colorBox.getButtonTypes().addAll(redButton, blueButton, greenButton, yellowButton);
-
-        // option != null.
-        Optional<ButtonType> option = colorBox.showAndWait();
-
-        if (option.get() == yellowButton) {
-            color = Properties.YELLOW;
-        } else if (option.get() == redButton) {
-            color = Properties.RED;
-        } else if (option.get() == blueButton) {
-            color = Properties.BLUE;
-        } else if (option.get() == greenButton) {
-            color = Properties.GREEN;
-        }
-
-        previousCard.setProperty(color);
-
-    }
-
-    //  +2
-    public void plusTwo() {
-        for (int i = 0; i < 2; i++) {
-            inGamePlayers.get(positionOfCurrentPlayer + 1).drawCard(deck.drawTopCard());
-        }
-        updateTurn();
-    }
-
-    //   +4
-    //   need for choose-color scene
-    public void plusFour() {
-        for (int i = 0; i < 4; i++) {
-            inGamePlayers.get(positionOfCurrentPlayer + 1).drawCard(deck.drawTopCard());
-        }
-        updateTurn();
-        chooseColor();
-    }
-
-    // Player's card return to deck number 2
-    public void resetDeck() {
-        if (deck.getSize() < 4) {
-            deck.getCards().addAll(playedCards); // Change the first deck as second deck if first deck is empty
-            deck.shuffleDeck(); // shuffle the deck again
-        }
-
-        // Return all the cards back to not being selected
-        for (int i = 0; i < deck.getSize(); i++) {
-            deck.getCards().get(i).setIfSelected(false);
+    public void processMessage(Message message) {
+        switch (message.getAction()) {
+            case "initialize":
+                initializePlayer(message.getCardList());
+                System.out.println("initialize player");
+            case "play":
+                System.out.println("play card");
         }
     }
 
 
-    public void drawCard() {
-        inGamePlayers.get(positionOfCurrentPlayer).drawCard(deck.drawTopCard());
-        resetDeck()
-    }
-
-
-    //     set winner + update win & loss
-    public boolean isWinner(Player player) {
-        if (player.getCardList().isEmpty()) {
-            for (int i = 0; i < 4; i++) {
-                if (inGamePlayers.get(i).equals(player)) {
-                    player.getAccount().setWin(player.getAccount().getWin() + 1);
-                } else {
-                    player.getAccount().setLoss(player.getAccount().getLoss() + 1);
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public void setPreviousCard(Card card) {
-        playedCards.add(card);
-        previousCard = card;
-    }
     /***
      public void goBackHome(ActionEvent actionEvent) {
      //        network

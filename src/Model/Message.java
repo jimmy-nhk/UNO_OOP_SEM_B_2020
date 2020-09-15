@@ -1,23 +1,41 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Message implements Serializable {
     //Data fields: includes sender, data, option.
     private String sender;
-    private String typeOfAction;
-    private Object information;
+    private String playerName;
+    private String action;
+    private int numOfCard;
+    private ArrayList<Card> cardList;
+    private Card previousCard;
 
     public Message() {
-
     }
 
-    public Message(String sender, String typeOfAction, Object information) {
+    /**
+     * initial message at beginning of game, server send to players
+     */
+    public Message(ArrayList<Card> cardList) {
+        this.action = "initialize";
+        this.cardList = cardList;
+    }
+
+    /**
+     * play and draw message
+     */
+    public Message(String sender, int numOfCard, Card previousCard) {
         this.sender = sender;
-        this.typeOfAction = typeOfAction;
-        this.information = information;
+        this.action = "play";
+        this.numOfCard = numOfCard;
+        this.previousCard = previousCard;
     }
 
+    /**
+     * mutators and accessors
+     */
     public String getSender() {
         return sender;
     }
@@ -26,19 +44,39 @@ public class Message implements Serializable {
         this.sender = sender;
     }
 
-    public String getTypeOfAction() {
-        return typeOfAction;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void setTypeOfAction(String typeOfAction) {
-        this.typeOfAction = typeOfAction;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
-    public Object getInformation() {
-        return information;
+    public String getAction() {
+        return action;
     }
 
-    public void setInformation(Object information) {
-        this.information = information;
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public int getNumOfCard() {
+        return numOfCard;
+    }
+
+    public void setNumOfCard(int numOfCard) {
+        this.numOfCard = numOfCard;
+    }
+
+    public Card getPreviousCard() {
+        return previousCard;
+    }
+
+    public void setPreviousCard(Card previousCard) {
+        this.previousCard = previousCard;
+    }
+
+    public ArrayList<Card> getCardList() {
+        return cardList;
     }
 }

@@ -21,9 +21,6 @@ public class GameBoardService {
     private Card previousCard;
     private Card selectedCard;
 
-    public void processMessage(Message message) {
-
-    }
 
     public Card getSelectedCard() {
         return selectedCard;
@@ -127,6 +124,4 @@ public class GameBoardService {
         updateTurn();
         chooseColor();
     }
-
-
 }
