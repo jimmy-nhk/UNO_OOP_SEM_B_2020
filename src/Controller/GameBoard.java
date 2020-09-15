@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Card;
-import Model.Deck;
-import Model.Player;
-import Model.Properties;
+import Model.*;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
@@ -14,10 +11,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.Reflection;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
+import javax.xml.transform.Source;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -34,9 +33,14 @@ public class GameBoard implements Initializable {
     /**
      * This method only applies to main player which sets the selected animation
      **/
-    @FXML private Button btPlay;
-    @FXML private Button btDraw;
-    @FXML private Pane pane;
+    @FXML
+    private Button btPlay;
+    @FXML
+    private Button btDraw;
+    @FXML
+    private Pane pane;
+    @FXML
+    public Button btHome;
 
     private int mainPlayer;
     private ArrayList<Player> inGamePlayers;
@@ -47,6 +51,9 @@ public class GameBoard implements Initializable {
     private int positionOfCurrentPlayer;
     private Card selectedCard;
     double step;
+    private Timer timer = new Timer();
+    private Sound sound;
+    private Sound soundButton;
 
 
     public GameBoard() {
@@ -66,6 +73,7 @@ public class GameBoard implements Initializable {
         previousCard = null;
         selectedCard = null;
         positionOfCurrentPlayer = 1;
+        sound = new Sound("src/resources/sound/background.mp3");
     }
 
     public GameBoard(int mainPlayer) {
@@ -88,6 +96,33 @@ public class GameBoard implements Initializable {
         positionOfCurrentPlayer = random.nextInt(3);
     }
 
+    public void setSoundBtnEventHandler() {
+        this.btPlay.setOnMouseClicked((MouseEvent e) -> {
+            //If the system's sound is enabled
+            if (SoundController.isSoundEnabled()) {
+                SoundController.toggleSound();                  //Set the system's sound to mute state
+            } else { //If the system's sound is being muted
+                SoundController.playButtonClickSound();         //Make "button sound" when clicked
+                SoundController.stopTickTokSound();                          //Set the system's sound to on state
+                Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+            }
+        });
+        this.btDraw.setOnMouseClicked((MouseEvent e) -> {
+            //If the system's sound is enabled
+            if (SoundController.isSoundEnabled()) {
+                SoundController.toggleSound();                  //Set the system's sound to mute state
+            } else { //If the system's sound is being muted
+                SoundController.playButtonClickSound();         //Make "button sound" when clicked
+                SoundController.stopTickTokSound();                          //Set the system's sound to on state
+                Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+            }
+        });
+        this.btHome.setOnMouseClicked((MouseEvent e) -> {
+            Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+        });
+
+    }
+
     /**
      * Create animation for cards in the board
      **/
@@ -98,6 +133,11 @@ public class GameBoard implements Initializable {
         setCardInDeck(); // Set up deck for drawing
         createAnimationDistribute7Cards();
 
+        timer.countTime();
+        pane.getChildren().add(timer);
+        timer.setLayoutX(710);
+        timer.setLayoutY(546);
+        setSoundBtnEventHandler();
 
     }
 
@@ -105,6 +145,7 @@ public class GameBoard implements Initializable {
      * Set animation for distributing cards for main player
      **/
     public void distributeCardsForMainPlayer(int i) {
+        Sound shuffleCardSound = new Sound("src/resources/sound/ShuffleCardSound.mp3");     //Make "button sound" when clicked
 
         Card currentCard = deck.getCards().get(deck.getSize() - 1);
         step = 720.0 / (i + 1);
@@ -147,10 +188,11 @@ public class GameBoard implements Initializable {
      * Set animation for distributing cards for left player
      **/
     public void distributeCardsForRightPlayer(int i) {
+        Sound shuffleCardSound = new Sound("src/resources/sound/ShuffleCardSound.mp3");     //Make "button sound" when clicked
 
         Card currentCard = deck.getCards().get(deck.getSize() - 1);
         step = 150 / (i + 1);
-        TranslateTransition translate = new TranslateTransition(Duration.millis(1000 ));
+        TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
         rotateTransition.setCycleCount(3);
         rotateTransition.setToAngle(360);
@@ -187,6 +229,7 @@ public class GameBoard implements Initializable {
      * Set animation for distributing cards for left player
      **/
     public void distributeCardsForLeftPlayer(int i) {
+        Sound shuffleCardSound = new Sound("src/resources/sound/ShuffleCardSound.mp3");     //Make "button sound" when clicked
 
         Card currentCard = deck.getCards().get(deck.getSize() - 1);
         step = 150 / (i + 1);
@@ -228,6 +271,7 @@ public class GameBoard implements Initializable {
      * Set animation for distributing cards for upper player
      **/
     public void distributeCardsForUpperPlayer(int i) {
+        Sound shuffleCardSound = new Sound("src/resources/sound/ShuffleCardSound.mp3");     //Make "button sound" when clicked
 
         Card currentCard = deck.getCards().get(deck.getSize() - 1);
         step = 400 / (i + 1);
@@ -268,17 +312,12 @@ public class GameBoard implements Initializable {
      * Animation for distribute 7 cards at the beginning
      **/
     public void createAnimationDistribute7Cards() {
-
-
         for (int i = 0; i < 7; i++) {
-
             distributeCardsForMainPlayer(i);
             distributeCardsForRightPlayer(i);
             distributeCardsForLeftPlayer(i);
             distributeCardsForUpperPlayer(i);
-
         }
-
     }
 
     /**
@@ -287,7 +326,6 @@ public class GameBoard implements Initializable {
     public void createAnimationGoToBoardForLeftPlayer(int playerTh) {
         for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
             createAnimationGoToBoardForEachCard(i, (mainPlayer + 3) % inGamePlayers.size());
-
             arrangeCardsForLeftPlayer((mainPlayer + 3) % inGamePlayers.size());
 
         }
@@ -401,7 +439,9 @@ public class GameBoard implements Initializable {
 
     }
 
-    /** Gui for cards of main player **/
+    /**
+     * Gui for cards of main player
+     **/
     public void arrangeCardsForMainPlayer(int playerTh) {
         //arrangeCardsForMainPlayer(true,mainPlayer,720, 120,150,400,660);
 
@@ -411,8 +451,8 @@ public class GameBoard implements Initializable {
             step = 720.0 / inGamePlayers.get(playerTh).getCardListSize();
 
             if (inGamePlayers.get(playerTh).getCardListSize() < 3) {
-                for (int i = 0 ; i < inGamePlayers.get(playerTh).getCardListSize() ; i ++) {
-                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(400 + 100 + i * (step - 100) );
+                for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(400 + 100 + i * (step - 100));
                 }
             }
             for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
@@ -468,8 +508,9 @@ public class GameBoard implements Initializable {
     }
 
 
-
-    /**Add all the cards to the main board**/
+    /**
+     * Add all the cards to the main board
+     **/
     public void setCardInDeck() {
         for (int i = 0; i < deck.getSize(); i++) {
 
@@ -488,6 +529,7 @@ public class GameBoard implements Initializable {
 
     public void setDrawCardAnimation(Card current, Card lastCard) {
         TranslateTransition translate = new TranslateTransition();
+
         translate.setNode(current);
         current.toFront();
         current.setFrontImage();
@@ -507,10 +549,11 @@ public class GameBoard implements Initializable {
 
     public void drawAction(ActionEvent actionEvent) {
 
-        if (positionOfCurrentPlayer == mainPlayer){
+        Sound drawCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
+        if (positionOfCurrentPlayer == mainPlayer) {
             if (selectedCard == null) {
-                Card lastCard ;
-                if (inGamePlayers.get(mainPlayer).getCardListSize() == 1 ) {
+                Card lastCard;
+                if (inGamePlayers.get(mainPlayer).getCardListSize() == 1) {
                     lastCard = inGamePlayers.get(mainPlayer).getCardList().get(inGamePlayers.get(mainPlayer).getCardListSize() - 1);
 
                 } else {
@@ -525,20 +568,22 @@ public class GameBoard implements Initializable {
                 arrangeCardsForMainPlayer(mainPlayer);
                 setAnimationForSelectedCard();
 
-                if (isWinner(inGamePlayers.get(mainPlayer))){
+                if (isWinner(inGamePlayers.get(mainPlayer))) {
                     displayResult();
-                } else{
+                } else {
                     updateTurn();
                     System.out.println("Direction: " + directionOfPlay);
-                    System.out.println("Turn: " +positionOfCurrentPlayer);
-
+                    System.out.println("Turn: " + positionOfCurrentPlayer);
                 }
-
             }
         }
+        timer.stop();
+
     }
 
-    /** Display win and lose message to all players **/
+    /**
+     * Display win and lose message to all players
+     **/
     private void displayResult() {
     }
 
@@ -573,7 +618,10 @@ public class GameBoard implements Initializable {
 //            }
 //        });
 //    }
-    /** Set animation for each selected card */
+
+    /**
+     * Set animation for each selected card
+     */
     public void setAnimation(int i) {
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), inGamePlayers.get(mainPlayer).getCardList().get(i));
 
@@ -605,27 +653,32 @@ public class GameBoard implements Initializable {
 
     }
 
-    /** Set animation for cards in main **/
+    /**
+     * Set animation for cards in main
+     **/
     public void setAnimationForSelectedCard() {
 
-        for (int i = 0 ; i < inGamePlayers.get(mainPlayer).getCardListSize() ; i ++) {
-                setAnimation(i);
+        for (int i = 0; i < inGamePlayers.get(mainPlayer).getCardListSize(); i++) {
+            setAnimation(i);
         }
 
     }
 
-    /** Event handler for the play button **/
+    /**
+     * Event handler for the play button
+     **/
     public void playAction(ActionEvent actionEvent) {
+        Sound cardDealingSound = new Sound("src/resources/sound/Card_Dealing.mp3");     //Make "button sound" when clicked
 
         // This button is only used by main player
         if (positionOfCurrentPlayer == mainPlayer) {
             Random random = new Random();
 
-            int location = 0 ;
+            int location = 0;
 
-            if (selectedCard != null ) {
+            if (selectedCard != null) {
 
-                for (int i = 0 ; i < inGamePlayers.get(mainPlayer).getCardListSize(); i++ ){
+                for (int i = 0; i < inGamePlayers.get(mainPlayer).getCardListSize(); i++) {
                     if (inGamePlayers.get(mainPlayer).getCardList().get(i).getIfSelected()) {
                         location = i;
                         break;
@@ -655,13 +708,13 @@ public class GameBoard implements Initializable {
                     arrangeCardsForMainPlayer(mainPlayer);
                     setAnimationForSelectedCard();
                     updateTurn(); // Update turn for next player
-                    System.out.println("Direction: "+directionOfPlay);
+                    System.out.println("Direction: " + directionOfPlay);
                     System.out.println("Turns: " + positionOfCurrentPlayer);
                 }
 
-
             }
         }
+        timer.stop();
     }
 
     public void playCard(Card selectedCard) {
@@ -693,6 +746,7 @@ public class GameBoard implements Initializable {
     public void withdrawCard(ActionEvent actionEvent) {
         drawCard();
         updateTurn();
+        timer.stop();
     }
 
     public void playCard(ActionEvent actionEvent) {
@@ -718,9 +772,9 @@ public class GameBoard implements Initializable {
      * And choose 1 random player to start
      **/
     public void startGame() {
-        for (int i = 0; i < inGamePlayers.size(); i++) {
+        for (Player inGamePlayer : inGamePlayers) {
             for (int j = 0; j < 7; j++) {
-                inGamePlayers.get(i).drawCard(deck.drawTopCard());
+                inGamePlayer.drawCard(deck.drawTopCard());
             }
         }
     }
@@ -756,7 +810,7 @@ public class GameBoard implements Initializable {
         ButtonType yellowButton = new ButtonType("YELLOW");
 
         colorBox.getButtonTypes().clear();
-        colorBox.getButtonTypes().addAll(redButton,blueButton,greenButton,yellowButton);
+        colorBox.getButtonTypes().addAll(redButton, blueButton, greenButton, yellowButton);
 
         // option != null.
         Optional<ButtonType> option = colorBox.showAndWait();
@@ -802,7 +856,7 @@ public class GameBoard implements Initializable {
         }
 
         // Return all the cards back to not being selected
-        for (int i = 0 ; i < deck.getSize(); i++) {
+        for (int i = 0; i < deck.getSize(); i++) {
             deck.getCards().get(i).setIfSelected(false);
         }
     }
@@ -811,7 +865,6 @@ public class GameBoard implements Initializable {
     public void drawCard() {
         inGamePlayers.get(positionOfCurrentPlayer).drawCard(deck.drawTopCard());
     }
-
 
 
     //     set winner + update win & loss
