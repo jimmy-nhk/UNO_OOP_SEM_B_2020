@@ -38,15 +38,6 @@ public class Player {
         cardList.add(card);
     }
 
-    public Card playCard(Card selectedCard) {
-        for (int i=0 ; i < cardList.size(); i ++) {
-            if (cardList.get(i).equals(selectedCard)) {
-                cardList.remove(i);
-            }
-        }
-        return selectedCard;
-    }
-
     public int getCardListSize (){
         return cardList.size();
     }
