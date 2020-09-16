@@ -75,6 +75,9 @@ public class ClientController implements Runnable {
             case "reset":
                 gameBoard.processMessageInitialize(message);
                 break;
+            case "start":
+                mainMenu.proccessMessageStart(message);
+                break;
         }
         System.out.printf("received message: %s\n", message.toString());
 }
