@@ -1,9 +1,12 @@
 package Controller;
 
+import Model.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+
+import java.io.IOException;
 
 public class MainMenu {
     @FXML
@@ -11,8 +14,18 @@ public class MainMenu {
     private Instruction instruction;
     private Leaderboard leaderboard;
     private SettingController settingController;
+    private Message message = new Message("start");
+    private int total = 0;
 
-    public void playGame(MouseEvent actionEvent) {
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public void playGame(MouseEvent actionEvent) throws IOException {
         /** Will go to the gameBoard or the selection scene **/
 
         leaderboard.getLeaderBoard().setVisible(false);
@@ -20,6 +33,8 @@ public class MainMenu {
         instruction.getInstruction().setVisible(false);
         leaderboard.getLeaderBoard().setVisible(false);
         settingController.getSettingBoard().setVisible(false);
+        GameBoard.clientController.writeMessage(message);
+        total ++;
     }
 
     public void showLeaderBoard(ActionEvent actionEvent) {
@@ -51,5 +66,12 @@ public class MainMenu {
 
     public VBox getMainMenu() {
         return mainMenu;
+    }
+//    start game message
+    public void proccessMessageStart(Message message){
+        this.message.setTotal(message.getTotal());
+        if (this.getTotal() == 4) {
+//          start scene Main Game
+        }
     }
 }
