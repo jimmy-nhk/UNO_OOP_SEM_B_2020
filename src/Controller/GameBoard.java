@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Card;
-import Model.Deck;
-import Model.Player;
-import Model.Properties;
+import Model.*;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
@@ -45,7 +42,7 @@ public class GameBoard implements Initializable {
     @FXML
     private Button btDraw;
     @FXML
-    private Pane pane;
+    private Pane gameBoard;
     private int mainPlayer;
     private ArrayList<Player> inGamePlayers;
     private ArrayList<Card> playedCards;
@@ -54,6 +51,7 @@ public class GameBoard implements Initializable {
     private Card previousCard;
     private int positionOfCurrentPlayer;
     private Card selectedCard;
+    private Timer timer = new Timer();
 
 
     public GameBoard() {
@@ -104,7 +102,11 @@ public class GameBoard implements Initializable {
 
         setCardInDeck(); // Set up deck for drawing
         createAnimationDistribute7Cards();
-
+        timer.countTime();
+//        gameBoard.getChildren().add(arrow);
+        gameBoard.getChildren().add(timer);
+        timer.setLayoutX(710);
+        timer.setLayoutY(546);
 
     }
 
@@ -617,7 +619,7 @@ public class GameBoard implements Initializable {
             deck.getCards().get(i).setFitHeight(100);
             deck.getCards().get(i).setBackImage();
 
-            pane.getChildren().add(deck.getCards().get(i));
+            gameBoard.getChildren().add(deck.getCards().get(i));
         }
 
     }
@@ -643,6 +645,7 @@ public class GameBoard implements Initializable {
      **/
 
     public void drawAction(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
 
         if (positionOfCurrentPlayer == mainPlayer) {
             if (selectedCard == null) {
@@ -822,6 +825,7 @@ public class GameBoard implements Initializable {
      * Event handler for the play button
      **/
     public void playAction(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
 
         // This button is only used by main player
         if (positionOfCurrentPlayer == mainPlayer) {
@@ -956,6 +960,8 @@ public class GameBoard implements Initializable {
 
         // option != null.
         Optional<ButtonType> option = colorBox.showAndWait();
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
 
         if (option.get() == yellowButton) {
             color = Properties.YELLOW;
