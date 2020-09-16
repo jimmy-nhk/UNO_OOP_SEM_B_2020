@@ -3,7 +3,11 @@ package Controller;
 import Model.AccountList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
@@ -11,7 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -84,9 +90,14 @@ public class MainMain implements Initializable {
         password = passwordField.getText();
     }
 
-    public void playGame(ActionEvent actionEvent) {
+    public void playGame(ActionEvent actionEvent) throws IOException {
         /** Will go to the gameBoard or the selection scene **/
+        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
+        Scene scene = new Scene(view2);
 
+        Stage newWindow = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        newWindow.setScene(scene);
+        newWindow.show();
 
     }
 
