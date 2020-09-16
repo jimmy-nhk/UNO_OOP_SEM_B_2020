@@ -11,6 +11,7 @@ public class Message implements Serializable {
     private int numOfCard;
     private Card card;
     private Deck deck;
+    private int total = 0;
 //initialize
     public Message(String typeOfAction,Deck deck) {
         this.deck = deck;
