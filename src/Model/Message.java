@@ -27,6 +27,23 @@ public class Message implements Serializable {
         this.typeOfAction = typeOfAction;
         this.card = card;
     }
+    //  start
+    public Message(String typeOfAction,int total) {
+        this.typeOfAction = typeOfAction;
+        this.total ++;
+}
+    //  leave
+    public Message(String typeOfAction) {
+        this.typeOfAction = typeOfAction;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getTotal() {
+        return total;
+    }
 
     public Card getCard() {
         return card;
