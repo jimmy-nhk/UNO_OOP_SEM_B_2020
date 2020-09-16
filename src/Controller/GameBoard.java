@@ -897,7 +897,10 @@ public class GameBoard implements Initializable {
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 9cd7d2d... Merge pull request #62 from jimmy-nhk/main-board-adjust-14/9
     /**
      * Methods deal with model
      **/
@@ -915,6 +918,9 @@ public class GameBoard implements Initializable {
     }
 
 
+<<<<<<< HEAD
+>>>>>>> parent of 9cd7d2d... Merge pull request #62 from jimmy-nhk/main-board-adjust-14/9
+=======
 >>>>>>> parent of 9cd7d2d... Merge pull request #62 from jimmy-nhk/main-board-adjust-14/9
     public Card getSelectedCard() {
         return selectedCard;
