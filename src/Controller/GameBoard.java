@@ -48,10 +48,10 @@ public class GameBoard implements Initializable {
     private Card previousCard;
     private int positionOfCurrentPlayer;
     private Card selectedCard;
-    private ArrayList<Bot> botList;
+
 
     public GameBoard() {
-        mainPlayer = 0;
+        mainPlayer = 1;
         inGamePlayers = new ArrayList<>();
         Player player = new Player();
         Player player1 = new Player();
@@ -66,7 +66,7 @@ public class GameBoard implements Initializable {
         directionOfPlay = 1;
         previousCard = null;
         selectedCard = null;
-        positionOfCurrentPlayer = 0;
+        positionOfCurrentPlayer = 1;
     }
 
     public GameBoard(int mainPlayer) {
@@ -87,7 +87,6 @@ public class GameBoard implements Initializable {
         selectedCard = null;
         Random random = new Random();
         positionOfCurrentPlayer = random.nextInt(3);
-        botList = new ArrayList<>();
     }
 
     /**
@@ -109,7 +108,7 @@ public class GameBoard implements Initializable {
     public void distributeCardsForMainPlayer(int i) {
 
         Card currentCard = deck.getCards().get(deck.getSize() - 1);
-        step = ( 720.0 - 120 ) / (i );
+        step = 720.0 / (i + 1);
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
         rotateTransition.setCycleCount(3);
@@ -656,16 +655,8 @@ public class GameBoard implements Initializable {
                 deck.drawTopCard();
                 arrangeCardsForMainPlayer(mainPlayer);
                 setAnimationForSelectedCard();
-
-                if (isWinner(inGamePlayers.get(mainPlayer))) {
-                    displayResult();
-                } else {
-                    updateTurn();
-                    System.out.println("Direction: " + directionOfPlay);
-                    System.out.println("Turn: " + positionOfCurrentPlayer);
-
-                }
-
+                updateTurn(); // Update turn for next player
+                
             }
         }
     }
@@ -724,7 +715,8 @@ public class GameBoard implements Initializable {
                 // If found, it will go into the board
                 if (networkCard.equals(inGamePlayers.get(playerTh).getCardList().get(i))) {
                     playCard(networkCard);
-                    previousCard = networkCard; // Set the previous card for the next player
+                    isWinner(inGamePlayers.get(playerTh));
+                    resetDeck();
                     createAnimationGoToBoardForAllCard(i, playerTh);
                     updateTurn(); // Update next turn
 
@@ -734,11 +726,9 @@ public class GameBoard implements Initializable {
 
             // If cardListSize is bigger , then it must have drawn cards
         } else if (cardListSize > inGamePlayers.get(playerTh).getCardListSize()) {
-            int cardsDrawn = cardListSize - inGamePlayers.get(playerTh).getCardListSize();
-
-            for (int i = 0; i < cardsDrawn; i++) {
-                animationDrawCardForAllPlayer(i,playerTh); // Draw a card from a deck
-            }
+            
+                animationDrawCardForAllPlayer(cardListSize,playerTh); // Draw a card from a deck
+       
 
             // Arrange the card list again if it is drawn
             if (playerTh == getLeftPlayer()) {
@@ -864,6 +854,14 @@ public class GameBoard implements Initializable {
                     }
                     arrangeCardsForMainPlayer(mainPlayer);
                     setAnimationForSelectedCard();
+                    
+                    if (isWinner(inGamePlayers.get(mainPlayer))) {
+                    displayResult();
+                } else {
+                    updateTurn();
+                    System.out.println("Direction: " + directionOfPlay);
+                    System.out.println("Turn: " + positionOfCurrentPlayer);
+                }
                     updateTurn(); // Update turn for next player
                     System.out.println("Direction: " + directionOfPlay);
                     System.out.println("Turns: " + positionOfCurrentPlayer);
@@ -895,39 +893,6 @@ public class GameBoard implements Initializable {
         setPreviousCard(selectedCard);
     }
 
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of 9cd7d2d... Merge pull request #62 from jimmy-nhk/main-board-adjust-14/9
-=======
->>>>>>> parent of 9cd7d2d... Merge pull request #62 from jimmy-nhk/main-board-adjust-14/9
-    /**
-     * Methods deal with model
-     **/
-
-    public void withdrawCard(ActionEvent actionEvent) {
-        drawCard();
-        updateTurn();
-    }
-
-    public void playCard(ActionEvent actionEvent) {
-        playCard(selectedCard);
-        isWinner(inGamePlayers.get(positionOfCurrentPlayer));
-        resetDeck();
-        updateTurn();
-    }
-
-
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 9cd7d2d... Merge pull request #62 from jimmy-nhk/main-board-adjust-14/9
-=======
->>>>>>> parent of 9cd7d2d... Merge pull request #62 from jimmy-nhk/main-board-adjust-14/9
-=======
->>>>>>> parent of 9cd7d2d... Merge pull request #62 from jimmy-nhk/main-board-adjust-14/9
     public Card getSelectedCard() {
         return selectedCard;
     }
@@ -942,6 +907,13 @@ public class GameBoard implements Initializable {
      * And to put 1 card in the deck onto the table
      * And choose 1 random player to start
      **/
+    public void startGame() {
+        for (int i = 0; i < inGamePlayers.size(); i++) {
+            for (int j = 0; j < 7; j++) {
+                inGamePlayers.get(i).drawCard(deck.drawTopCard());
+            }
+        }
+    }
 
     // Reverse tbe direction
     public void reverse() {
@@ -1027,6 +999,7 @@ public class GameBoard implements Initializable {
 
     public void drawCard() {
         inGamePlayers.get(positionOfCurrentPlayer).drawCard(deck.drawTopCard());
+        resetDeck()
     }
 
 
@@ -1085,14 +1058,6 @@ public class GameBoard implements Initializable {
      }
      }
      ***/
-    
-    public void botRun(Card previousCard) {
-        Card newCard = botList.get(positionOfCurrentPlayer).play(previousCard);
-        if (newCard == null) {
-            botList.get(positionOfCurrentPlayer).draw(deck.drawTopCard());
-        } else {
-            setPreviousCard(newCard);
-        }
-    }
+
 
 }
