@@ -9,15 +9,21 @@ import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.Reflection;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -999,7 +1005,7 @@ public class GameBoard implements Initializable {
 
     public void drawCard() {
         inGamePlayers.get(positionOfCurrentPlayer).drawCard(deck.drawTopCard());
-        resetDeck()
+        resetDeck();
     }
 
 
@@ -1022,42 +1028,46 @@ public class GameBoard implements Initializable {
         playedCards.add(card);
         previousCard = card;
     }
-    /***
-     public void goBackHome(ActionEvent actionEvent) {
-     //        network
-     showMainMenu();
+
+     public void goBackHome(ActionEvent actionEvent) throws IOException {
+         Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/mainMain.fxml"));
+         Scene scene = new Scene(view2);
+
+         Stage newWindow = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+         newWindow.setScene(scene);
+         newWindow.show();
      }
 
-     private MainMenu mainMenu;
-     private AnchorPane gameBoard;
+//     private MainMenu mainMenu;
+//     private AnchorPane gameBoard;
+//
+//     public void showMainMenu() {
+//     mainMenu.getMainMenu().setVisible(true);
+//     gameBoard.setVisible(false);
+//     }
+//
+//     public void displayWinnerMessage(ActionEvent actionEvent) {
+//     if (isWinner(inGamePlayers.get(0))) {
+//     Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
+//     signInBox.setContentText("WINNER!!!!");
+//     signInBox.setResult(ButtonType.OK);
+//     Optional<ButtonType> result = signInBox.showAndWait();
+//     if(!result.isPresent()) {
+//     showMainMenu();
+//     } else if(result.get() == ButtonType.OK)
+//     showMainMenu();
+//     } else {
+//     Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
+//     signInBox.setContentText("DEFEATED!!!!");
+//     signInBox.setResult(ButtonType.OK);
+//     Optional<ButtonType> result = signInBox.showAndWait();
+//     if(!result.isPresent()) {
+//     showMainMenu();
+//     } else if(result.get() == ButtonType.OK)
+//     showMainMenu();
+//     }
+//     }
 
-     public void showMainMenu() {
-     mainMenu.getMainMenu().setVisible(true);
-     gameBoard.setVisible(false);
-     }
-
-     public void displayWinnerMessage(ActionEvent actionEvent) {
-     if (isWinner(inGamePlayers.get(0))) {
-     Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
-     signInBox.setContentText("WINNER!!!!");
-     signInBox.setResult(ButtonType.OK);
-     Optional<ButtonType> result = signInBox.showAndWait();
-     if(!result.isPresent()) {
-     showMainMenu();
-     } else if(result.get() == ButtonType.OK)
-     showMainMenu();
-     } else {
-     Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
-     signInBox.setContentText("DEFEATED!!!!");
-     signInBox.setResult(ButtonType.OK);
-     Optional<ButtonType> result = signInBox.showAndWait();
-     if(!result.isPresent()) {
-     showMainMenu();
-     } else if(result.get() == ButtonType.OK)
-     showMainMenu();
-     }
-     }
-     ***/
 
 
 }

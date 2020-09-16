@@ -6,7 +6,7 @@
 
 <Pane fx:id="pane" prefHeight="1000.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GameBoard">
    <children>
-      <Button layoutX="55.0" layoutY="52.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="101.0" text="&lt; Home" />
+      <Button layoutX="55.0" layoutY="52.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="101.0" text="&lt; Home" onAction="#goBackHome" />
       <Button fx:id="btPlay" layoutX="450.0" layoutY="560.0" mnemonicParsing="false" onAction="#playAction" prefHeight="52.0" prefWidth="101.0" text="Play">
          <font>
             <Font size="26.0" />
