@@ -11,7 +11,7 @@ public class MainMenu {
     private Instruction instruction;
     private Leaderboard leaderboard;
     private SettingController settingController;
-
+    private Message message = new Message("start",1);
     public void playGame(MouseEvent actionEvent) {
         /** Will go to the gameBoard or the selection scene **/
 
@@ -20,6 +20,7 @@ public class MainMenu {
         instruction.getInstruction().setVisible(false);
         leaderboard.getLeaderBoard().setVisible(false);
         settingController.getSettingBoard().setVisible(false);
+        proccessMessageStart(message);
     }
 
     public void showLeaderBoard(ActionEvent actionEvent) {
@@ -52,4 +53,12 @@ public class MainMenu {
     public VBox getMainMenu() {
         return mainMenu;
     }
+    //    start game message
+    public void proccessMessageStart(Message message){
+        this.message.setTotal(message.getTotal());
+        if (this.message.getTotal() == 4) {
+//          start scene Main Game
+        }
+    }
+}
 }
