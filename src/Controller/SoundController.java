@@ -19,14 +19,15 @@ public class SoundController {
     //Background object for setting "sound off" image as soundEnabledBtn background image
     public static Background bgSoundOffImg = generateSoundButtonBackground(soundOffImg);
     //Sound object for playing background music
-    private static Sound backgroundMusic = new Sound(Sound.Type.BACKGROUND_MUSIC);
+    private static Sound backgroundMusic = new Sound("resources/sound/ticktockSound.mp3");
     //Button sound object, for making sound when pressing the sound enabled button
-    private static Sound buttonClickingSound = new Sound(Sound.Type.BUTTON_CLICK_SOUND);
-    private static Sound cardDealingSound = new Sound(Sound.Type.CARD_DEALING_SOUND);
-    private static Sound cardShuffleSound = new Sound(Sound.Type.CARD_SHUFFLE_SOUND);
-    private static Sound cardAppearSound = new Sound(Sound.Type.CARD_APPEAR_SOUND);
-    private static Sound gameLaunchSound = new Sound(Sound.Type.GAME_LAUNCH_SOUND);
-
+    private static Sound buttonClickingSound = new Sound("resources/sound/ticktockSound.mp3");
+    private static Sound cardDealingSound = new Sound("resources/sound/ticktockSound.mp3");
+    private static Sound cardShuffleSound = new Sound("resources/sound/ticktockSound.mp3");
+    private static Sound cardAppearSound = new Sound("resources/sound/ticktockSound.mp3");
+    private static Sound alarmSoundEffect = new Sound("resources/sound/ticktockSound.mp3");
+    private static Sound ticktockSoundEffect = new Sound("resources/sound/ticktockSound.mp3");
+    private static Sound startGameSound = new Sound("resources/sound/sound_launch.mp3");
 
     // generate sound button background
     private static Background generateSoundButtonBackground(Image img) {
@@ -55,22 +56,23 @@ public class SoundController {
     }
 
     // mute sound
-    private static void muteSound() {
+    public static void muteSound() {
         backgroundMusic.pause();
         cardDealingSound.stop();
         cardShuffleSound.stop();
         cardAppearSound.stop();
         buttonClickingSound.stop();
-        gameLaunchSound.stop();
+        alarmSoundEffect.stop();
+        ticktockSoundEffect.stop();
     }
 
     // unmute sound
-    private static void unmuteSound() {
+    public static void unmuteSound() {
         backgroundMusic.play();
     }
 
     // play an audio
-    private static void playSound(Sound sound) {
+    public static void playSound(Sound sound) {
         if (isSoundEnabled()) sound.play();
     }
 
@@ -119,8 +121,23 @@ public class SoundController {
         buttonClickingSound.stop();
     }
 
-    // play game launch sound
-    public static void playGameLaunchSound() {
-        playSound(gameLaunchSound);
+    //play alarm sound:
+    public static void playAlarmSound() {
+        playSound(alarmSoundEffect);
+    }
+
+    //stop alarm sound:
+    public static void stopAlarmSound() {
+        alarmSoundEffect.stop();
+    }
+
+    //play alarm sound:
+    public static void playTickTokSound() {
+        playSound(ticktockSoundEffect);
+    }
+
+    //stop alarm sound:
+    public static void stopTickTokSound() {
+        ticktockSoundEffect.stop();
     }
 }

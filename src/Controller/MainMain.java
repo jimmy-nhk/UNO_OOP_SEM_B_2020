@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.AccountList;
+import Model.Sound;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,6 +45,7 @@ public class MainMain implements Initializable {
 
 
     public void displaySignUpMessage(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
 
         name = txtName.getText();
         password = passwordField.getText();
@@ -53,16 +55,21 @@ public class MainMain implements Initializable {
             signUpBox.setContentText("Successfully created\nPlease sign in the previous scene");
             signUpBox.setResult(ButtonType.OK);
             signUpBox.showAndWait();
+            Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         } else {
             Alert signUpBox = new Alert(Alert.AlertType.ERROR);
             signUpBox.setContentText("This account is already created");
             signUpBox.setResult(ButtonType.OK);
             signUpBox.showAndWait();
+            Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         }
 
     }
 
     public void displaySignInMessage(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
         name = txtName.getText();
         password = passwordField.getText();
 
@@ -71,11 +78,15 @@ public class MainMain implements Initializable {
             signUpBox.setContentText("You may enter the wrong information\nOr the account does not exist");
             signUpBox.setResult(ButtonType.OK);
             signUpBox.showAndWait();
+            Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         } else {
             Alert signUpBox = new Alert(Alert.AlertType.CONFIRMATION);
             signUpBox.setContentText("Successfully sign in");
             signUpBox.setResult(ButtonType.OK);
             signUpBox.showAndWait();
+            Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
             logInScene.setVisible(false);
             mainMenu.setVisible(true);
         }
@@ -92,6 +103,8 @@ public class MainMain implements Initializable {
 
     public void playGame(ActionEvent actionEvent) throws IOException {
         /** Will go to the gameBoard or the selection scene **/
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
         Scene scene = new Scene(view2);
 
@@ -102,35 +115,49 @@ public class MainMain implements Initializable {
     }
 
     public void showLeaderBoard(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         mainMenu.setVisible(false);
         leaderboard.setVisible(true);
     }
 
     public void showInstruction(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         mainMenu.setVisible(false);
         instruction.setVisible(true);
 
     }
 
     public void showSettings(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         mainMenu.setVisible(false);
         settingBoard.setVisible(true);
     }
 
     public void quit(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
     }
 
     public void backMainMenuFromInstruction(MouseEvent mouseEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         instruction.setVisible(false);
         mainMenu.setVisible(true);
     }
 
     public void backMainMenuFromSetting(MouseEvent mouseEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         settingBoard.setVisible(false);
         mainMenu.setVisible(true);
     }
 
     public void backMainMenuFromLeaderboard(MouseEvent mouseEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         leaderboard.setVisible(false);
         mainMenu.setVisible(true);
     }
@@ -142,21 +169,29 @@ public class MainMain implements Initializable {
 
 
     public void goToOnlineScene(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         chooseModeScene.setVisible(false);
         logInScene.setVisible(true);
     }
 
     public void goToSetNameScene(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         chooseModeScene.setVisible(false);
         setNameScene.setVisible(true);
     }
 
     public void goToMainMenu(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         setNameScene.setVisible(false);
         mainMenu.setVisible(true);
     }
 
     public void backToModeScene(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         logInScene.setVisible(false);
         setNameScene.setVisible(false);
         chooseModeScene.setVisible(true);
