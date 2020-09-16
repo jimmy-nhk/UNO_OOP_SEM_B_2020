@@ -48,10 +48,10 @@ public class GameBoard implements Initializable {
     private Card previousCard;
     private int positionOfCurrentPlayer;
     private Card selectedCard;
-
+    private ArrayList<Bot> botList;
 
     public GameBoard() {
-        mainPlayer = 1;
+        mainPlayer = 0;
         inGamePlayers = new ArrayList<>();
         Player player = new Player();
         Player player1 = new Player();
@@ -66,7 +66,7 @@ public class GameBoard implements Initializable {
         directionOfPlay = 1;
         previousCard = null;
         selectedCard = null;
-        positionOfCurrentPlayer = 1;
+        positionOfCurrentPlayer = 0;
     }
 
     public GameBoard(int mainPlayer) {
@@ -87,6 +87,7 @@ public class GameBoard implements Initializable {
         selectedCard = null;
         Random random = new Random();
         positionOfCurrentPlayer = random.nextInt(3);
+        botList = new ArrayList<>();
     }
 
     /**
@@ -1052,6 +1053,14 @@ public class GameBoard implements Initializable {
      }
      }
      ***/
-
+    
+    public void botRun(Card previousCard) {
+        Card newCard = botList.get(positionOfCurrentPlayer).play(previousCard);
+        if (newCard == null) {
+            botList.get(positionOfCurrentPlayer).draw(deck.drawTopCard());
+        } else {
+            setPreviousCard(newCard);
+        }
+    }
 
 }
