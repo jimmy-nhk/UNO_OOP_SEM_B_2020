@@ -124,7 +124,6 @@ public class GameBoard implements Initializable {
     }
 
     private void setActionForVolumeOnImage() {
-        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
 
         File soundOnFile = new File("src/resources/Image/sound_on.jpg");
         File soundOffFile = new File("src/resources/Image/sound_off.jpg");
@@ -134,12 +133,24 @@ public class GameBoard implements Initializable {
         volumeOnImageView.setImage(soundOn);
         volumeOnImageView.setVisible(true);
 
+
         volumeOffImageView.setImage(soundOff);
-        volumeOnImageView.setVisible(false);
+        volumeOffImageView.setVisible(false);
 
-//        volumeOnImageView.setOnMouseClicked(e -> volumeOnImageView.setVisible(false));
-
+         volumeOnImageView.setOnMouseClicked(e -> {
+             Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+             MainMain.backGroundSound.stop();
+             volumeOnImageView.setVisible(false);
+             volumeOffImageView.setVisible(true);
+         });
+         volumeOffImageView.setOnMouseClicked(e -> {
+             Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+             volumeOnImageView.setVisible(true);
+             volumeOffImageView.setVisible(false);
+             MainMain.backGroundSound.play();
+         });
     }
+
 
     /**
      * Set animation for distributing cards for main player

@@ -32,8 +32,10 @@ public class MainMain implements Initializable {
     @FXML public Button backButton3;
     @FXML public Button theme;
     @FXML public Button quit;
+    public Button goOnlineScene;
     @FXML private Pane chooseModeScene;
     @FXML private Pane setNameScene;
+    @FXML public static Sound backGroundSound = new Sound("src/resources/sound/background.mp3");
 
     @FXML
     private TextField txtName;
@@ -72,6 +74,7 @@ public class MainMain implements Initializable {
 
     public void displaySignInMessage(ActionEvent actionEvent) {
         Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+//        backGroundSound = new Sound("src/resources/sound/background.mp3");
         name = txtName.getText();
         password = passwordField.getText();
 
@@ -106,17 +109,13 @@ public class MainMain implements Initializable {
     public void playGame(ActionEvent actionEvent) throws IOException {
         /** Will go to the gameBoard or the selection scene **/
         Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-        Sound backGroundSound = new Sound("src/resources/sound/background.mp3");
+
         Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
         Scene scene = new Scene(view2);
 
         Stage newWindow = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         newWindow.setScene(scene);
         newWindow.show();
-
-        if(volume.getText().equals("VOLUME: ON")) {
-            Sound backGroundSound1 = new Sound("src/resources/sound/background.mp3");
-        }
 
 
     }
@@ -152,9 +151,11 @@ public class MainMain implements Initializable {
         this.volume.setOnMouseClicked((MouseEvent e) -> {
             Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
             volume.setText("VOLUME: OFF");
+            backGroundSound.stop();
             this.volume.setOnMouseClicked((MouseEvent e1) -> {
                 Sound buttonSound2 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
                 volume.setText("VOLUME: ON");
+                backGroundSound.play();
                 setButtonActionForVolume();
             });
         });
@@ -164,6 +165,7 @@ public class MainMain implements Initializable {
         this.language.setOnMouseClicked((MouseEvent e) -> {
             Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
             language.setText("NGÔN NGỮ: VIỆT NAM");
+
             this.language.setOnMouseClicked((MouseEvent e1) -> {
                 Sound buttonSound2 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
                 language.setText("LANGUAGE: ENGLISH");
@@ -171,6 +173,12 @@ public class MainMain implements Initializable {
             });
         });
     }
+
+    /**************** SETUP BINDING TEXT **************/
+    private void setButtonBindingText(){
+//    jnjhjh
+    }
+
 
     private void setButtonActionForTheme() {
         this.theme.setOnMouseClicked((MouseEvent e) -> {
@@ -238,8 +246,6 @@ public class MainMain implements Initializable {
     }
 
     public void backToModeScene(ActionEvent actionEvent) {
-        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-
         logInScene.setVisible(false);
         setNameScene.setVisible(false);
         chooseModeScene.setVisible(true);
