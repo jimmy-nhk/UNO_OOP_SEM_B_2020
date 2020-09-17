@@ -22,6 +22,14 @@ public class Test extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        // adding decorations to all scenes
+        scene.getStylesheets().add("resources/css/gameboarddecor.css");
+        scene.getStylesheets().add("resources/css/instructions_decor.css");
+        scene.getStylesheets().add("resources/css/log_in.css");
+        scene.getStylesheets().add("resources/css/mainMenu.css");
+        scene.getStylesheets().add("resources/css/leaderboard.css");
+        scene.getStylesheets().add("resources/css/setting.css");
+        scene.getStylesheets().add("resources/css/mainMain.css");
     }
 
 }

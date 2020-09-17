@@ -8,7 +8,6 @@ public class Instruction {
     @FXML
     private VBox instruction;
     private MainMenu mainMenu;
-
     public void backMainMenu(ActionEvent actionEvent) {
         mainMenu.getMainMenu().setVisible(true);
         instruction.setVisible(false);
@@ -17,4 +16,5 @@ public class Instruction {
     public VBox getInstruction() {
         return instruction;
     }
+
 }
