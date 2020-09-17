@@ -1,0 +1,48 @@
+#mainMenu{
+    -fx-background-image: url("/resources/images/firstTheme.jpg");
+    -fx-background-size: 600px 400px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#startButton {
+    -fx-background-image: url('/resources/images/button.png');
+    -fx-background-size: 155px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#leaderBoard {
+    -fx-background-image: url('/resources/images/button.png');
+    -fx-background-size: 155px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#instructions {
+    -fx-background-image: url('/resources/images/button.png');
+    -fx-background-size: 155px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#settings {
+    -fx-background-image: url('/resources/images/button.png');
+    -fx-background-size: 155px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#btnQuit {
+    -fx-background-image: url('/resources/images/button.png');
+    -fx-background-size: 155px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#UNO {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    /*-fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );*/
+}
