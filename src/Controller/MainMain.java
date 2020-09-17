@@ -9,10 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -30,6 +27,11 @@ public class MainMain implements Initializable {
 
     @FXML public VBox leaderboard;
     @FXML public VBox settingBoard;
+    @FXML public Button volume;
+    @FXML public Button language;
+    @FXML public Button backButton3;
+    @FXML public Button theme;
+    @FXML public Button quit;
     @FXML private Pane chooseModeScene;
     @FXML private Pane setNameScene;
 
@@ -104,13 +106,18 @@ public class MainMain implements Initializable {
     public void playGame(ActionEvent actionEvent) throws IOException {
         /** Will go to the gameBoard or the selection scene **/
         Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-
+        Sound backGroundSound = new Sound("src/resources/sound/background.mp3");
         Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
         Scene scene = new Scene(view2);
 
         Stage newWindow = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         newWindow.setScene(scene);
         newWindow.show();
+
+        if(volume.getText().equals("VOLUME: ON")) {
+            Sound backGroundSound1 = new Sound("src/resources/sound/background.mp3");
+        }
+
 
     }
 
@@ -134,11 +141,52 @@ public class MainMain implements Initializable {
 
         mainMenu.setVisible(false);
         settingBoard.setVisible(true);
+
+        setButtonActionForVolume();
+        setButtonActionForLanguage();
+        setButtonActionForTheme();
+        this.backButton3.setOnMouseClicked(this::backMainMenuFromSetting);
+    }
+
+    private void setButtonActionForVolume() {
+        this.volume.setOnMouseClicked((MouseEvent e) -> {
+            Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+            volume.setText("VOLUME: OFF");
+            this.volume.setOnMouseClicked((MouseEvent e1) -> {
+                Sound buttonSound2 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+                volume.setText("VOLUME: ON");
+                setButtonActionForVolume();
+            });
+        });
+    }
+
+    private void setButtonActionForLanguage() {
+        this.language.setOnMouseClicked((MouseEvent e) -> {
+            Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+            language.setText("NGÔN NGỮ: VIỆT NAM");
+            this.language.setOnMouseClicked((MouseEvent e1) -> {
+                Sound buttonSound2 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+                language.setText("LANGUAGE: ENGLISH");
+                setButtonActionForLanguage();
+            });
+        });
+    }
+
+    private void setButtonActionForTheme() {
+        this.theme.setOnMouseClicked((MouseEvent e) -> {
+            Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+            theme.setText("THEME: 1");
+            this.theme.setOnMouseClicked((MouseEvent e1) -> {
+                Sound buttonSound2 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+                theme.setText("THEME: 2");
+                setButtonActionForTheme();
+            });
+        });
     }
 
     public void quit(ActionEvent actionEvent) {
         Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-
+        setButtonForQuitButton();
     }
 
     public void backMainMenuFromInstruction(MouseEvent mouseEvent) {
@@ -197,5 +245,8 @@ public class MainMain implements Initializable {
         chooseModeScene.setVisible(true);
     }
 
+    public void setButtonForQuitButton() {
+        this.quit.setOnMouseClicked(e -> System.exit(1));
+    }
 
 }

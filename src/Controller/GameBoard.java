@@ -14,13 +14,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.effect.Reflection;
+import javafx.scene.effect.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.control.Label;
 
+import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -28,7 +35,6 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 public class GameBoard implements Initializable {
-
 
     /**
      * GUI cards for main player
@@ -53,6 +59,12 @@ public class GameBoard implements Initializable {
     private Card selectedCard;
     private Timer timer = new Timer();
 
+    @FXML private ImageView volumeOnImageView;
+    @FXML private ImageView volumeOffImageView;
+
+
+    @FXML private Label firstPlayer;
+//    private TurnDirection arrow = new TurnDirection();
 
     public GameBoard() {
         mainPlayer = 1;
@@ -107,6 +119,25 @@ public class GameBoard implements Initializable {
         gameBoard.getChildren().add(timer);
         timer.setLayoutX(710);
         timer.setLayoutY(546);
+
+        setActionForVolumeOnImage();
+    }
+
+    private void setActionForVolumeOnImage() {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
+        File soundOnFile = new File("src/resources/Image/sound_on.jpg");
+        File soundOffFile = new File("src/resources/Image/sound_off.jpg");
+        Image soundOn = new Image(soundOnFile.toURI().toString());
+        Image soundOff = new Image(soundOffFile.toURI().toString());
+
+        volumeOnImageView.setImage(soundOn);
+        volumeOnImageView.setVisible(true);
+
+        volumeOffImageView.setImage(soundOff);
+        volumeOnImageView.setVisible(false);
+
+//        volumeOnImageView.setOnMouseClicked(e -> volumeOnImageView.setVisible(false));
 
     }
 
@@ -467,7 +498,7 @@ public class GameBoard implements Initializable {
         try {
             if (inGamePlayers.get(playerTh).getCardListSize() < 5) {
 
-                for (int i = 0 ; i < inGamePlayers.get(playerTh).getCardListSize(); i ++) {
+                for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
                     setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
                     inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(160 + i * 50);
                     inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * 50);
@@ -503,7 +534,7 @@ public class GameBoard implements Initializable {
         try {
             if (inGamePlayers.get(playerTh).getCardListSize() < 5) {
 
-                for (int i = 0 ; i < inGamePlayers.get(playerTh).getCardListSize(); i ++) {
+                for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
                     setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
                     inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(1250 - i * 50);
                     inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * 50);
@@ -515,14 +546,15 @@ public class GameBoard implements Initializable {
                 double step = 150 / inGamePlayers.get(playerTh).getCardListSize();
                 for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
 
-                setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
-                inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(1250 - i * step);
-                inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * step);
-                inGamePlayers.get(playerTh).getCardList().get(i).setRotate(15);
-                inGamePlayers.get(playerTh).getCardList().get(i).toBack();
-                inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
+                    setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(1250 - i * step);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * step);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setRotate(15);
+                    inGamePlayers.get(playerTh).getCardList().get(i).toBack();
+                    inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
+                }
             }
-        } } catch (Exception e) {
+        } catch (Exception e) {
         }
 
     }
@@ -665,7 +697,7 @@ public class GameBoard implements Initializable {
                 arrangeCardsForMainPlayer(mainPlayer);
                 setAnimationForSelectedCard();
                 updateTurn(); // Update turn for next player
-                
+
             }
         }
     }
@@ -735,9 +767,9 @@ public class GameBoard implements Initializable {
 
             // If cardListSize is bigger , then it must have drawn cards
         } else if (cardListSize > inGamePlayers.get(playerTh).getCardListSize()) {
-            
-                animationDrawCardForAllPlayer(cardListSize,playerTh); // Draw a card from a deck
-       
+
+            animationDrawCardForAllPlayer(cardListSize, playerTh); // Draw a card from a deck
+
 
             // Arrange the card list again if it is drawn
             if (playerTh == getLeftPlayer()) {
@@ -864,14 +896,14 @@ public class GameBoard implements Initializable {
                     }
                     arrangeCardsForMainPlayer(mainPlayer);
                     setAnimationForSelectedCard();
-                    
+
                     if (isWinner(inGamePlayers.get(mainPlayer))) {
-                    displayResult();
-                } else {
-                    updateTurn();
-                    System.out.println("Direction: " + directionOfPlay);
-                    System.out.println("Turn: " + positionOfCurrentPlayer);
-                }
+                        displayResult();
+                    } else {
+                        updateTurn();
+                        System.out.println("Direction: " + directionOfPlay);
+                        System.out.println("Turn: " + positionOfCurrentPlayer);
+                    }
                     updateTurn(); // Update turn for next player
                     System.out.println("Direction: " + directionOfPlay);
                     System.out.println("Turns: " + positionOfCurrentPlayer);
@@ -928,6 +960,11 @@ public class GameBoard implements Initializable {
     // Reverse tbe direction
     public void reverse() {
         directionOfPlay *= -1;
+    }
+
+    // Get the direction
+    public int getDirectionOfPlay() {
+        return this.directionOfPlay;
     }
 
     // If the card is played, then update the turn
@@ -1035,14 +1072,14 @@ public class GameBoard implements Initializable {
         previousCard = card;
     }
 
-     public void goBackHome(ActionEvent actionEvent) throws IOException {
-         Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/mainMain.fxml"));
-         Scene scene = new Scene(view2);
+    public void goBackHome(ActionEvent actionEvent) throws IOException {
+        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/mainMain.fxml"));
+        Scene scene = new Scene(view2);
 
-         Stage newWindow = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-         newWindow.setScene(scene);
-         newWindow.show();
-     }
+        Stage newWindow = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        newWindow.setScene(scene);
+        newWindow.show();
+    }
 
 //     private MainMenu mainMenu;
 //     private AnchorPane gameBoard;
@@ -1074,6 +1111,46 @@ public class GameBoard implements Initializable {
 //     }
 //     }
 
+    public void setEffect(){
+        Blend blend = new Blend();
+        blend.setMode(BlendMode.MULTIPLY);
 
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.rgb(254,235,66,0.3));
+        ds.setOffsetX(5);
+        ds.setOffsetY(5);
+        ds.setRadius(5);
+        ds.setSpread(0.2);
 
+        blend.setBottomInput(ds);
+
+        DropShadow ds1 = new DropShadow();
+        ds1.setColor(Color.web("#f13a00"));
+        ds1.setRadius(20);
+        ds1.setSpread(0.2);
+
+        Blend blend2 = new Blend();
+        blend2.setMode(BlendMode.MULTIPLY);
+
+        InnerShadow is = new InnerShadow();
+        is.setColor(Color.web("#feeb42"));
+        is.setRadius(9);
+        is.setChoke(0.8);
+        blend2.setBottomInput(is);
+
+        InnerShadow is1 = new InnerShadow();
+        is1.setColor(Color.web("#f13a00"));
+        is1.setRadius(5);
+        is1.setChoke(0.4);
+        blend2.setTopInput(is1);
+
+        Blend blend1 = new Blend();
+        blend1.setMode(BlendMode.MULTIPLY);
+        blend1.setBottomInput(ds1);
+        blend1.setTopInput(blend2);
+
+        blend.setTopInput(blend1);
+
+        firstPlayer.setEffect(blend);
+    }
 }

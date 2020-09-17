@@ -7,63 +7,77 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import java.text.MessageFormat;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.concurrent.Callable;
 
 public class LanguageController {
-    //data field:
-    public enum Language {ENGLISH, VIETNAMESE}
 
+    public enum Language {ENGLISH, VIETNAMESE}
+    /** the current selected Locale. */
     private static final ObjectProperty<Locale> locale;
 
     static {
-        locale = new SimpleObjectProperty<>(getLanguage(Language.ENGLISH));
+        locale = new SimpleObjectProperty<>(getDefaultLocale());
         locale.addListener((observable, oldValue, newValue) -> Locale.setDefault(newValue));
     }
 
-    //get the value of current locale:
+    /**
+     * get the supported Locales.
+     *
+     * @return List of Locale objects.
+     */
+    public static List<Locale> getSupportedLocales() {
+        return new ArrayList<>(Arrays.asList(Locale.ENGLISH, Locale.GERMAN));
+    }
+
+    /**
+     * get the default locale. This is the systems default if contained in the supported locales, english otherwise.
+     *
+     * @return
+     */
+    public static Locale getDefaultLocale() {
+        Locale sysDefault = Locale.getDefault();
+        return getSupportedLocales().contains(sysDefault) ? sysDefault : Locale.ENGLISH;
+    }
+
     public static Locale getLocale() {
         return locale.get();
     }
 
-    //get properties of current locale:
+    public static void setLocale(Locale locale) {
+        localeProperty().set(locale);
+        Locale.setDefault(locale);
+    }
+
     public static ObjectProperty<Locale> localeProperty() {
         return locale;
     }
-
-//    public static void setLocale(Locale locale) {
-//        localeProperty().set(locale);
-//        Locale.setDefault(locale);
-//    }
-
-
-    public static void setLocale(Locale locale) {
-        LanguageController.locale.set(locale);
+    //get messages keys from bundle:
+    public static String get(final String key, final Object... args) {
+        ResourceBundle bundle = ResourceBundle.getBundle("lang", getLocale());
+        return MessageFormat.format(bundle.getString(key), args);
     }
 
-    //get resources and get format from the file .properties:
-    public static String getResource(String keyword, Object args) {
-        ResourceBundle rb = ResourceBundle.getBundle("lang", getLocale());
-        return MessageFormat.format(rb.getString(keyword), args);
+    public static StringBinding createStringBinding(final String key, Object... args) {
+        return Bindings.createStringBinding(() -> get(key, args), locale);
     }
 
-    //Bind the string:
-    public static StringBinding stringBinding(String key, Object... args) {
-        return Bindings.createStringBinding(() -> getResource(key, args), locale);
+    public static StringBinding createStringBinding(Callable<String> func) {
+        return Bindings.createStringBinding(func, locale);
     }
 
-    //Label texts and texts in button need to be set in case switching lang:
-    //set label texts:
-    public static void setUpLabelText(Label label, String key) {
-        label.textProperty().bind(stringBinding(key));
+    // setup label text
+    public static void setUpLabelText(Label label, final String key, final Object... args) {
+        label.textProperty().bind(createStringBinding(key));
     }
-    //set button texts:
-    public static void setButtonText(Button button, String key) {
-        button.textProperty().bind(stringBinding(key));
+
+    // setup button text
+    public static void setUpButtonText(Button button, final String key, final Object... args) {
+        button.textProperty().bind(createStringBinding(key));
     }
 
     // Get the Locale object of a language
-    public static Locale getLanguage(Language language) {
+    public static Locale getLanguageLocale(Language language) {
         switch (language) {
             case ENGLISH: {
                 return new Locale("en", "US");
@@ -76,8 +90,8 @@ public class LanguageController {
         }
     }
 
-    //Change the language:
-    public static void changeLanguage(Locale locale) {
+    // switch language
+    public static void switchLanguage(Locale locale) {
         setLocale(locale);
     }
 
