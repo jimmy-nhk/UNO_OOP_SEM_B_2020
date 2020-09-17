@@ -36,6 +36,7 @@ import java.util.ResourceBundle;
 
 public class GameBoard implements Initializable {
 
+
     /**
      * GUI cards for main player
      **/
@@ -44,9 +45,10 @@ public class GameBoard implements Initializable {
      * This method only applies to main player which sets the selected animation
      **/
     @FXML
-    private Button btPlay;
+    public static Button btPlay;
     @FXML
-    private Button btDraw;
+    public static Button btDraw;
+    public static Button homeButton;
     @FXML
     private Pane gameBoard;
     private int mainPlayer;
@@ -67,6 +69,7 @@ public class GameBoard implements Initializable {
 //    private TurnDirection arrow = new TurnDirection();
 
     public GameBoard() {
+        Sound launchGameSound = new Sound("src/resources/sound/sound_launch.mp3");
         mainPlayer = 1;
         inGamePlayers = new ArrayList<>();
         Player player = new Player();
@@ -150,8 +153,6 @@ public class GameBoard implements Initializable {
              MainMain.backGroundSound.play();
          });
     }
-
-
     /**
      * Set animation for distributing cards for main player
      **/
@@ -274,6 +275,12 @@ public class GameBoard implements Initializable {
 
         translate.play();
         deck.drawTopCard();
+    }
+
+    public static void setButtonBindingText(){
+        LanguageController.setUpButtonText(homeButton, "menu.start");
+        LanguageController.setUpButtonText(btDraw, "menu.leaderBoard");
+        LanguageController.setUpButtonText(btPlay, "menu.instruction");
     }
 
     /**
@@ -689,6 +696,7 @@ public class GameBoard implements Initializable {
 
     public void drawAction(ActionEvent actionEvent) {
         Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+//        Sound drawCardSound = new Sound("src/resources/sound/sound_appear.mp3");
 
         if (positionOfCurrentPlayer == mainPlayer) {
             if (selectedCard == null) {
@@ -869,7 +877,6 @@ public class GameBoard implements Initializable {
      **/
     public void playAction(ActionEvent actionEvent) {
         Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-
         // This button is only used by main player
         if (positionOfCurrentPlayer == mainPlayer) {
             Random random = new Random();

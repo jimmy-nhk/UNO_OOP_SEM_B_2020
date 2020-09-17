@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class MainMain implements Initializable {
@@ -33,6 +34,18 @@ public class MainMain implements Initializable {
     @FXML public Button theme;
     @FXML public Button quit;
     public Button goOnlineScene;
+    public Button backButton2;
+    public Button goOnline;
+    public Button goOffline;
+    public Button startButton;
+    public Button leaderBoard;
+    public Button instructions;
+    public Button settings;
+    public Label welcome;
+    public Label leaderBoardLabel;
+    public Button backButton1;
+    public Label instructionLabel;
+    public Label settingLabel;
     @FXML private Pane chooseModeScene;
     @FXML private Pane setNameScene;
     @FXML public static Sound backGroundSound = new Sound("src/resources/sound/background.mp3");
@@ -150,11 +163,9 @@ public class MainMain implements Initializable {
     private void setButtonActionForVolume() {
         this.volume.setOnMouseClicked((MouseEvent e) -> {
             Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-            volume.setText("VOLUME: OFF");
             backGroundSound.stop();
             this.volume.setOnMouseClicked((MouseEvent e1) -> {
                 Sound buttonSound2 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-                volume.setText("VOLUME: ON");
                 backGroundSound.play();
                 setButtonActionForVolume();
             });
@@ -163,12 +174,16 @@ public class MainMain implements Initializable {
 
     private void setButtonActionForLanguage() {
         this.language.setOnMouseClicked((MouseEvent e) -> {
+            setButtonBindingText();
+            setLabelBindingText();
             Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-            language.setText("NGÔN NGỮ: VIỆT NAM");
+            language.setText("ngôn ngữ");
+            LanguageController.switchLanguage(LanguageController.getLanguageLocale(LanguageController.Language.VIETNAMESE));
 
             this.language.setOnMouseClicked((MouseEvent e1) -> {
                 Sound buttonSound2 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-                language.setText("LANGUAGE: ENGLISH");
+                language.setText("language");
+                LanguageController.switchLanguage(LanguageController.getLanguageLocale(LanguageController.Language.ENGLISH));
                 setButtonActionForLanguage();
             });
         });
@@ -176,19 +191,35 @@ public class MainMain implements Initializable {
 
     /**************** SETUP BINDING TEXT **************/
     private void setButtonBindingText(){
-//    jnjhjh
+        LanguageController.setUpButtonText(startButton, "menu.start");
+        LanguageController.setUpButtonText(leaderBoard, "menu.leaderBoard");
+        LanguageController.setUpButtonText(instructions, "menu.instruction");
+        LanguageController.setUpButtonText(settings, "menu.setting");
+        LanguageController.setUpButtonText(quit, "menu.quit");
+        LanguageController.setUpButtonText(theme, "setting.Theme");
+        LanguageController.setUpButtonText(backButton3, "setting.Back");
+        LanguageController.setUpButtonText(backButton2, "setting.Back");
+        LanguageController.setUpButtonText(backButton1, "leaderBoard.back");
+        LanguageController.setUpButtonText(backButton2, "setting.BackButton");
+        LanguageController.setUpButtonText(volume, "setting.Volume");
+//        LanguageController.setUpButtonText(GameBoard.homeButton, "gameBoard.homeButton");
+//        LanguageController.setUpButtonText(GameBoard.btDraw, "gameBoard.drawButton");
+//        LanguageController.setUpButtonText(GameBoard.btPlay, "gameBoard.playButton");
+
     }
 
+    /**************** SETUP LABEL TEXT **************/
+    private void setLabelBindingText() {
+        LanguageController.setUpLabelText(welcome, "menu.welcome");
+        LanguageController.setUpLabelText(leaderBoardLabel, "leaderBoard.LeaderBoard");
+        LanguageController.setUpLabelText(instructionLabel, "instruction.InstructionLabel");
+        LanguageController.setUpLabelText(settingLabel, "setting.SettingLabel");
+
+    }
 
     private void setButtonActionForTheme() {
         this.theme.setOnMouseClicked((MouseEvent e) -> {
             Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-            theme.setText("THEME: 1");
-            this.theme.setOnMouseClicked((MouseEvent e1) -> {
-                Sound buttonSound2 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-                theme.setText("THEME: 2");
-                setButtonActionForTheme();
-            });
         });
     }
 

@@ -76,6 +76,12 @@ public class LanguageController {
         button.textProperty().bind(createStringBinding(key));
     }
 
+    public static Button buttonForKey(final String key, final Object... args) {
+        Button button = new Button();
+        button.textProperty().bind(createStringBinding(key, args));
+        return button;
+    }
+
     // Get the Locale object of a language
     public static Locale getLanguageLocale(Language language) {
         switch (language) {
