@@ -3,6 +3,7 @@ package Controller;
 import Model.AccountList;
 import Model.Message;
 import Model.Sound;
+import Model.Timer;
 import Service.GameBoardService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -109,15 +110,17 @@ public class MainMain implements Initializable {
         /** Will go to the gameBoard or the selection scene **/
         Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
         total ++;
+        mainMenu.setVisible(false);
+        readyScene.setVisible(true);
         if (getTotal()==4) {
 //            start scene
         }
-        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
-        Scene scene = new Scene(view2);
-
-        Stage newWindow = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        newWindow.setScene(scene);
-        newWindow.show();
+//        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
+//        Scene scene = new Scene(view2);
+//
+//        Stage newWindow = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+//        newWindow.setScene(scene);
+//        newWindow.show();
 
     }
 
@@ -133,6 +136,7 @@ public class MainMain implements Initializable {
 
         mainMenu.setVisible(false);
         instruction.setVisible(true);
+
 
     }
 
@@ -171,7 +175,9 @@ public class MainMain implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        Timer timer = new Timer();
+        timer.countTime();
+        readyScene.getChildren().add(timer);
     }
 
 

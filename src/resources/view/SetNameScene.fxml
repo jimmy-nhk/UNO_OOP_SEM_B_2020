@@ -9,5 +9,7 @@
    <children>
       <Label layoutX="139.0" layoutY="157.0" prefHeight="28.0" prefWidth="109.0" text="Player name:" />
       <TextField layoutX="268.0" layoutY="158.0" />
+      <Button layoutX="183.0" layoutY="276.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="56.0" text="Back" />
+      <Button layoutX="333.0" layoutY="276.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="56.0" text="Next" />
    </children>
 </Pane>
