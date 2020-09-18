@@ -15,7 +15,7 @@ public class Test extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/mainMain.fxml"));
 
 
         Scene scene = new Scene(root);
@@ -23,7 +23,7 @@ public class Test extends Application {
         primaryStage.show();
 
         // adding decorations to all scenes
-        scene.getStylesheets().add("resources/css/gameboarddecor.css");
+        scene.getStylesheets().add("resources/css/gameBoardDecor.css");
         scene.getStylesheets().add("resources/css/instructions_decor.css");
         scene.getStylesheets().add("resources/css/log_in.css");
         scene.getStylesheets().add("resources/css/mainMenu.css");
