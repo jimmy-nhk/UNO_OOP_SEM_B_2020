@@ -22,17 +22,27 @@ import java.util.ResourceBundle;
 
 public class MainMain implements Initializable {
 
-    @FXML public Pane logInScene;
-    @FXML public VBox mainMenu;
-    @FXML public VBox instruction;
+    @FXML
+    public Pane logInScene;
+    @FXML
+    public VBox mainMenu;
+    @FXML
+    public VBox instruction;
 
-    @FXML public VBox leaderboard;
-    @FXML public VBox settingBoard;
-    @FXML public Button volume;
-    @FXML public Button language;
-    @FXML public Button backButton3;
-    @FXML public Button theme;
-    @FXML public Button quit;
+    @FXML
+    public VBox leaderboard;
+    @FXML
+    public VBox settingBoard;
+    @FXML
+    public Button volume;
+    @FXML
+    public Button language;
+    @FXML
+    public Button backButton3;
+    @FXML
+    public Button theme;
+    @FXML
+    public Button quit;
     public Button goOnlineScene;
     public Button backButton2;
     public Button goOnline;
@@ -46,9 +56,12 @@ public class MainMain implements Initializable {
     public Button backButton1;
     public Label instructionLabel;
     public Label settingLabel;
-    @FXML private Pane chooseModeScene;
-    @FXML private Pane setNameScene;
-    @FXML public static Sound backGroundSound = new Sound("src/resources/sound/background.mp3");
+    @FXML
+    private Pane chooseModeScene;
+    @FXML
+    private Pane setNameScene;
+    @FXML
+    public static Sound backGroundSound = new Sound("src/resources/sound/background.mp3");
 
     @FXML
     private TextField txtName;
@@ -59,7 +72,7 @@ public class MainMain implements Initializable {
     private String name;
     private String password;
     private AccountList accountList;
-
+    public static Locale locale;
 
     public void displaySignUpMessage(ActionEvent actionEvent) {
         Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
@@ -126,10 +139,10 @@ public class MainMain implements Initializable {
         Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
         Scene scene = new Scene(view2);
 
-        Stage newWindow = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage newWindow = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         newWindow.setScene(scene);
+//        setLanguageForGameBoard();
         newWindow.show();
-
 
     }
 
@@ -176,21 +189,25 @@ public class MainMain implements Initializable {
         this.language.setOnMouseClicked((MouseEvent e) -> {
             setButtonBindingText();
             setLabelBindingText();
+
             Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-            language.setText("ngôn ngữ");
+            language.setText("Ngôn Ngữ");
             LanguageController.switchLanguage(LanguageController.getLanguageLocale(LanguageController.Language.VIETNAMESE));
+            locale = LanguageController.getLocale();
 
             this.language.setOnMouseClicked((MouseEvent e1) -> {
                 Sound buttonSound2 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
-                language.setText("language");
+                language.setText("Language");
                 LanguageController.switchLanguage(LanguageController.getLanguageLocale(LanguageController.Language.ENGLISH));
+                locale = LanguageController.getLocale();
+
                 setButtonActionForLanguage();
             });
         });
     }
 
     /**************** SETUP BINDING TEXT **************/
-    private void setButtonBindingText(){
+    private void setButtonBindingText() {
         LanguageController.setUpButtonText(startButton, "menu.start");
         LanguageController.setUpButtonText(leaderBoard, "menu.leaderBoard");
         LanguageController.setUpButtonText(instructions, "menu.instruction");
@@ -202,10 +219,6 @@ public class MainMain implements Initializable {
         LanguageController.setUpButtonText(backButton1, "leaderBoard.back");
         LanguageController.setUpButtonText(backButton2, "setting.BackButton");
         LanguageController.setUpButtonText(volume, "setting.Volume");
-//        LanguageController.setUpButtonText(GameBoard.homeButton, "gameBoard.homeButton");
-//        LanguageController.setUpButtonText(GameBoard.btDraw, "gameBoard.drawButton");
-//        LanguageController.setUpButtonText(GameBoard.btPlay, "gameBoard.playButton");
-
     }
 
     /**************** SETUP LABEL TEXT **************/

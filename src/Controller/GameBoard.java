@@ -1,6 +1,8 @@
 package Controller;
 
 import Model.*;
+import Model.Properties;
+import Model.Timer;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
@@ -17,6 +19,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
@@ -24,15 +27,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.control.Label;
 
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class GameBoard implements Initializable {
 
@@ -45,10 +44,10 @@ public class GameBoard implements Initializable {
      * This method only applies to main player which sets the selected animation
      **/
     @FXML
-    public static Button btPlay;
+    public Button btPlay;
     @FXML
-    public static Button btDraw;
-    public static Button homeButton;
+    public Button btDraw;
+    public Button homeButton;
     @FXML
     private Pane gameBoard;
     private int mainPlayer;
@@ -60,6 +59,8 @@ public class GameBoard implements Initializable {
     private int positionOfCurrentPlayer;
     private Card selectedCard;
     private Timer timer = new Timer();
+    public static final Locale localeInGameBoard = MainMain.locale;
+    private Alert colorBox;
 
     @FXML private ImageView volumeOnImageView;
     @FXML private ImageView volumeOffImageView;
@@ -86,6 +87,7 @@ public class GameBoard implements Initializable {
         previousCard = null;
         selectedCard = null;
         positionOfCurrentPlayer = 1;
+
     }
 
     public GameBoard(int mainPlayer) {
@@ -124,6 +126,15 @@ public class GameBoard implements Initializable {
         timer.setLayoutY(546);
 
         setActionForVolumeOnImage();
+        setButtonBindingText();
+
+    }
+
+
+    private void setButtonBindingText(){
+        LanguageController.setUpButtonText(homeButton,"gameBoard.homeButton" );
+        LanguageController.setUpButtonText(btPlay, "gameBoard.playButton");
+        LanguageController.setUpButtonText(btDraw, "gameBoard.drawButton");
     }
 
     private void setActionForVolumeOnImage() {
@@ -275,12 +286,6 @@ public class GameBoard implements Initializable {
 
         translate.play();
         deck.drawTopCard();
-    }
-
-    public static void setButtonBindingText(){
-        LanguageController.setUpButtonText(homeButton, "menu.start");
-        LanguageController.setUpButtonText(btDraw, "menu.leaderBoard");
-        LanguageController.setUpButtonText(btPlay, "menu.instruction");
     }
 
     /**
@@ -877,6 +882,7 @@ public class GameBoard implements Initializable {
      **/
     public void playAction(ActionEvent actionEvent) {
         Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
         // This button is only used by main player
         if (positionOfCurrentPlayer == mainPlayer) {
             Random random = new Random();
@@ -926,10 +932,10 @@ public class GameBoard implements Initializable {
                     System.out.println("Direction: " + directionOfPlay);
                     System.out.println("Turns: " + positionOfCurrentPlayer);
                 }
-
-
             }
         }
+
+
     }
 
     public void playCard(Card selectedCard) {
@@ -995,13 +1001,21 @@ public class GameBoard implements Initializable {
             positionOfCurrentPlayer += inGamePlayers.size();
         }
     }
+    //        gameBoard.alertBoxTitle = COLOR SELECTION
+//        gameBoard.alertBoxHeaderText = You have chosen the Wild card ! ! !
+//        gameBoard.alertBoxContent = Please choose the color for the next turn:
+//        gameBoard.alertBoxRedButton = RED
+//        gameBoard.alertBoxBlueButton = BLUE
+//        gameBoard.alertBoxGreenButton = GREEN
+//        gameBoard.alertBoxYellowButton = YELLOW
+
 
     //choose color
     //need for choose-color scene
     public void chooseColor() {
         Properties color = null;
 
-        Alert colorBox = new Alert(Alert.AlertType.CONFIRMATION);
+        colorBox = new Alert(Alert.AlertType.CONFIRMATION);
         colorBox.setTitle("COLOR SELECTION");
         colorBox.setHeaderText("You have chosen the Wild card !!!");
         colorBox.setContentText("Please choose the color for the next turn: ");
@@ -1097,6 +1111,7 @@ public class GameBoard implements Initializable {
         Stage newWindow = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         newWindow.setScene(scene);
         newWindow.show();
+
     }
 
 //     private MainMenu mainMenu;
