@@ -1,29 +1,37 @@
 package Controller;
 
 import Model.*;
-import Service.GameBoardService;
+import Model.Properties;
+import Model.Timer;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.effect.Reflection;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.effect.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.control.Label;
 
+import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class GameBoard implements Initializable {
 
@@ -36,20 +44,71 @@ public class GameBoard implements Initializable {
      * This method only applies to main player which sets the selected animation
      **/
     @FXML
-    private Button btPlay;
+    public Button btPlay;
     @FXML
-    private Button btDraw;
+    public Button btDraw;
+    public Button homeButton;
     @FXML
-    private Pane pane;
+    private Pane gameBoard;
+    private int mainPlayer;
+    private ArrayList<Player> inGamePlayers;
+    private ArrayList<Card> playedCards;
+    private Deck deck;
+    private int directionOfPlay;
+    private Card previousCard;
+    private int positionOfCurrentPlayer;
+    private Card selectedCard;
+    private Timer timer = new Timer();
+    public static final Locale localeInGameBoard = MainMain.locale;
+    private Alert colorBox;
 
-    private MainMenu mainMenu;
-    private AnchorPane gameBoard;
-    private GameBoardService gameBoardService = GameBoardService.getInstance();
-    private Deck deck = gameBoardService.getDeck();
-    private int mainPlayer = gameBoardService.getMainPlayerIndex();
-    private ArrayList<Player> inGamePlayers = gameBoardService.getInGamePlayers();
+    @FXML private ImageView volumeOnImageView;
+    @FXML private ImageView volumeOffImageView;
 
-    public static ClientController clientController = new ClientController("127.0.0.1", 8080);
+
+    @FXML private Label firstPlayer;
+//    private TurnDirection arrow = new TurnDirection();
+
+    public GameBoard() {
+        Sound launchGameSound = new Sound("src/resources/sound/sound_launch.mp3");
+        mainPlayer = 1;
+        inGamePlayers = new ArrayList<>();
+        Player player = new Player();
+        Player player1 = new Player();
+        Player player2 = new Player();
+        Player player3 = new Player();
+        inGamePlayers.add(player);
+        inGamePlayers.add(player1);
+        inGamePlayers.add(player2);
+        inGamePlayers.add(player3);
+        playedCards = new ArrayList<>();
+        deck = new Deck();
+        directionOfPlay = 1;
+        previousCard = null;
+        selectedCard = null;
+        positionOfCurrentPlayer = 1;
+
+    }
+
+    public GameBoard(int mainPlayer) {
+        this.mainPlayer = mainPlayer;
+        inGamePlayers = new ArrayList<>();
+        Player player = new Player();
+        Player player1 = new Player();
+        Player player2 = new Player();
+        Player player3 = new Player();
+        inGamePlayers.add(player);
+        inGamePlayers.add(player1);
+        inGamePlayers.add(player2);
+        inGamePlayers.add(player3);
+        playedCards = new ArrayList<>();
+        deck = new Deck();
+        directionOfPlay = 1;
+        previousCard = null;
+        selectedCard = null;
+        Random random = new Random();
+        positionOfCurrentPlayer = random.nextInt(3);
+    }
 
     /**
      * Create animation for cards in the board
@@ -57,20 +116,59 @@ public class GameBoard implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        gameBoardService = new GameBoardService();
-        try {
-            clientController.writeMessage(new Message("initialize", gameBoardService.getDeck()));
-            setCardInDeck(); // Set up deck for drawing
-            createAnimationDistribute7Cards();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        setCardInDeck(); // Set up deck for drawing
+        createAnimationDistribute7Cards();
+        timer.countTime();
+//        gameBoard.getChildren().add(arrow);
+        gameBoard.getChildren().add(timer);
+        timer.setLayoutX(710);
+        timer.setLayoutY(546);
+
+        setActionForVolumeOnImage();
+        setButtonBindingText();
+
     }
 
+
+    private void setButtonBindingText(){
+        LanguageController.setUpButtonText(homeButton,"gameBoard.homeButton" );
+        LanguageController.setUpButtonText(btPlay, "gameBoard.playButton");
+        LanguageController.setUpButtonText(btDraw, "gameBoard.drawButton");
+    }
+
+    private void setActionForVolumeOnImage() {
+
+        File soundOnFile = new File("src/resources/Image/sound_on.jpg");
+        File soundOffFile = new File("src/resources/Image/sound_off.jpg");
+        Image soundOn = new Image(soundOnFile.toURI().toString());
+        Image soundOff = new Image(soundOffFile.toURI().toString());
+
+        volumeOnImageView.setImage(soundOn);
+        volumeOnImageView.setVisible(true);
+
+
+        volumeOffImageView.setImage(soundOff);
+        volumeOffImageView.setVisible(false);
+
+         volumeOnImageView.setOnMouseClicked(e -> {
+             Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+             MainMain.backGroundSound.stop();
+             volumeOnImageView.setVisible(false);
+             volumeOffImageView.setVisible(true);
+         });
+         volumeOffImageView.setOnMouseClicked(e -> {
+             Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+             volumeOnImageView.setVisible(true);
+             volumeOffImageView.setVisible(false);
+             MainMain.backGroundSound.play();
+         });
+    }
     /**
      * Set animation for distributing cards for main player
      **/
     public void distributeCardsForMainPlayer(int i) {
+
         Card currentCard = deck.getCards().get(deck.getSize() - 1);
         step = 720.0 / (i + 1);
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
@@ -113,7 +211,7 @@ public class GameBoard implements Initializable {
      **/
     public void distributeCardsForRightPlayer(int i) {
 
-        Card currentCard = deck.drawTopCard();
+        Card currentCard = deck.getCards().get(deck.getSize() - 1);
         double step = 150 / (i + 1);
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
@@ -137,14 +235,16 @@ public class GameBoard implements Initializable {
         translate.setOnFinished(event -> {
             currentCard.setFitHeight(100);
             currentCard.setFitWidth(80);
-            currentCard.toBack();
+            currentCard.toFront();
             currentCard.setRotate(0);
             inGamePlayers.get((mainPlayer + 1) % inGamePlayers.size()).getCardList().add(currentCard);
             arrangeCardsForRightPlayer((mainPlayer + 1) % inGamePlayers.size());
+            createAnimationGoToBoardForAllPlayer(getRightPlayer());
             rotateTransition.stop();
         });
 
         translate.play();
+        deck.drawTopCard();
     }
 
     /**
@@ -152,7 +252,7 @@ public class GameBoard implements Initializable {
      **/
     public void distributeCardsForLeftPlayer(int i) {
 
-        Card currentCard = deck.drawTopCard();
+        Card currentCard = deck.getCards().get(deck.getSize() - 1);
         double step = 150 / (i + 1);
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
@@ -176,22 +276,24 @@ public class GameBoard implements Initializable {
         translate.setOnFinished(event -> {
             currentCard.setFitHeight(100);
             currentCard.setFitWidth(80);
-            currentCard.toBack();
+            currentCard.toFront();
             currentCard.setRotate(0);
             inGamePlayers.get((mainPlayer + 3) % inGamePlayers.size()).getCardList().add(currentCard);
             arrangeCardsForLeftPlayer((mainPlayer + 3) % inGamePlayers.size());
+            createAnimationGoToBoardForAllPlayer((mainPlayer + 3) % inGamePlayers.size());
             rotateTransition.stop();
         });
 
         translate.play();
+        deck.drawTopCard();
     }
-
 
     /**
      * Set animation for distributing cards for upper player
      **/
     public void distributeCardsForUpperPlayer(int i) {
-        Card currentCard = deck.drawTopCard();
+
+        Card currentCard = deck.getCards().get(deck.getSize() - 1);
         double step = 400 / (i + 1);
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
@@ -215,14 +317,16 @@ public class GameBoard implements Initializable {
         translate.setOnFinished(event -> {
             currentCard.setFitHeight(100);
             currentCard.setFitWidth(80);
-            currentCard.toBack();
+            currentCard.toFront();
             currentCard.setRotate(0);
             inGamePlayers.get((mainPlayer + 2) % inGamePlayers.size()).getCardList().add(currentCard);
             arrangeCardsForUpperPlayer((mainPlayer + 2) % inGamePlayers.size());
+            createAnimationGoToBoardForAllPlayer(getUpperPlayer());
             rotateTransition.stop();
         });
 
         translate.play();
+        deck.drawTopCard();
     }
 
     /**
@@ -269,7 +373,7 @@ public class GameBoard implements Initializable {
 //    }
     public void createAnimationGoToBoardForAllPlayer(int playerTh) {
         for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
-            createAnimationGoToBoardForAllCard(i, playerTh);
+            createAnimationGoToBoardForAllCardTest(i, playerTh);
 
             if (playerTh == getUpperPlayer()) {
                 arrangeCardsForUpperPlayer(playerTh);
@@ -307,6 +411,56 @@ public class GameBoard implements Initializable {
     /**
      * Create animation for cards going into the game board
      **/
+    public void createAnimationGoToBoardForAllCardTest(int i, int playerTh) {
+        Random random = new Random();
+
+        inGamePlayers.get(playerTh).getCardList().get(i).setOnMouseClicked(event -> {
+            TranslateTransition translateTransition = new TranslateTransition(Duration.millis(700), inGamePlayers.get(playerTh).getCardList().get(i));
+
+            RotateTransition rotator = new RotateTransition(Duration.millis(500), inGamePlayers.get(playerTh).getCardList().get(i));
+            inGamePlayers.get(playerTh).getCardList().get(i).setFrontImage();
+
+            inGamePlayers.get(playerTh).getCardList().get(i).toFront();
+
+            if (playerTh == getRightPlayer()) {
+                translateTransition.setToX(700 + random.nextInt(50));
+                translateTransition.setToY(250 + random.nextInt(100));
+            } else if (playerTh == getUpperPlayer()) {
+                translateTransition.setToX(680 + random.nextInt(50));
+                translateTransition.setToY(200 + random.nextInt(50));
+            } else {
+                translateTransition.setToX(600 + random.nextInt(50));
+                translateTransition.setToY(250 + random.nextInt(100));
+            }
+
+
+            Reflection reflection = new Reflection();
+            reflection.setFraction(0);
+            inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
+
+
+            rotator.setAxis(Rotate.Y_AXIS);
+            rotator.setFromAngle(0);
+            rotator.setToAngle(360);
+
+
+            rotator.setInterpolator(Interpolator.LINEAR);
+            rotator.setCycleCount(1);
+
+            rotator.play();
+            translateTransition.play();
+            previousCard = inGamePlayers.get(playerTh).getCardList().get(i);
+
+            translateTransition.setOnFinished(event1 -> {
+                inGamePlayers.get(playerTh).getCardList().get(i).setOnMouseClicked(null);
+                inGamePlayers.get(playerTh).getCardList().get(i).setFitHeight(150);
+                inGamePlayers.get(playerTh).getCardList().get(i).setFitWidth(120);
+                inGamePlayers.get(playerTh).getCardList().remove(inGamePlayers.get(playerTh).getCardList().get(i));
+                playedCards.add(inGamePlayers.get(playerTh).getCardList().get(i));
+            });
+
+        });
+    }
 
     public void createAnimationGoToBoardForAllCard(int i, int playerTh) {
         Random random = new Random();
@@ -329,25 +483,30 @@ public class GameBoard implements Initializable {
             translateTransition.setToY(250 + random.nextInt(100));
         }
 
+
+        Reflection reflection = new Reflection();
+        reflection.setFraction(0);
+        inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
+
+
         rotator.setAxis(Rotate.Y_AXIS);
         rotator.setFromAngle(0);
         rotator.setToAngle(360);
+
 
         rotator.setInterpolator(Interpolator.LINEAR);
         rotator.setCycleCount(1);
 
         rotator.play();
         translateTransition.play();
-        gameBoardService.setPreviousCard(inGamePlayers.get(playerTh).getCardList().get(i));
+        previousCard = inGamePlayers.get(playerTh).getCardList().get(i);
 
         translateTransition.setOnFinished(event -> {
-//            inGamePlayers.get(playerTh).getCardList().get(i).setOnMouseClicked(null);
+            inGamePlayers.get(playerTh).getCardList().get(i).setOnMouseClicked(null);
             inGamePlayers.get(playerTh).getCardList().get(i).setFitHeight(150);
             inGamePlayers.get(playerTh).getCardList().get(i).setFitWidth(120);
             inGamePlayers.get(playerTh).getCardList().remove(inGamePlayers.get(playerTh).getCardList().get(i));
-            ArrayList<Card> temp = gameBoardService.getPlayedCards();
-            temp.add(inGamePlayers.get(playerTh).getCardList().get(i));
-            gameBoardService.setPlayedCards(temp);
+            playedCards.add(inGamePlayers.get(playerTh).getCardList().get(i));
         });
     }
 
@@ -355,6 +514,8 @@ public class GameBoard implements Initializable {
      * GUI CARDS for left player
      **/
     public void arrangeCardsForLeftPlayer(int playerTh) {
+        Reflection reflection = new Reflection();
+        reflection.setFraction(0.4);
 
 
         try {
@@ -362,21 +523,22 @@ public class GameBoard implements Initializable {
 
                 for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
                     setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
-                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(286 - i * 50);
-                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(274 + i * 50);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(160 + i * 50);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * 50);
                     inGamePlayers.get(playerTh).getCardList().get(i).setRotate(-15);
-                    inGamePlayers.get(playerTh).getCardList().get(i).toFront();
-
+                    inGamePlayers.get(playerTh).getCardList().get(i).toBack();
+                    inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
                 }
             } else {
                 double step = 150 / inGamePlayers.get(playerTh).getCardListSize();
                 for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
 
                     setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
-                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(286 - i * step);
-                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(274 + i * step);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(160 + i * step);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * step);
                     inGamePlayers.get(playerTh).getCardList().get(i).setRotate(-15);
-                    inGamePlayers.get(playerTh).getCardList().get(i).toFront();
+                    inGamePlayers.get(playerTh).getCardList().get(i).toBack();
+                    inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
 
                 }
             }
@@ -389,27 +551,30 @@ public class GameBoard implements Initializable {
      * GUI CARDS for right player
      **/
     public void arrangeCardsForRightPlayer(int playerTh) {
-
+        Reflection reflection = new Reflection();
+        reflection.setFraction(0.4);
 
         try {
             if (inGamePlayers.get(playerTh).getCardListSize() < 5) {
 
                 for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
                     setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
-                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(1124 + i * 50);
-                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(274 + i * 50);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(1250 - i * 50);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * 50);
                     inGamePlayers.get(playerTh).getCardList().get(i).setRotate(15);
-                    inGamePlayers.get(playerTh).getCardList().get(i).toFront();
+                    inGamePlayers.get(playerTh).getCardList().get(i).toBack();
+                    inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
                 }
             } else {
                 double step = 150 / inGamePlayers.get(playerTh).getCardListSize();
                 for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
 
                     setNotMainCards(inGamePlayers.get(playerTh).getCardList().get(i));
-                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(1124 + i * step);
-                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(274 + i * step);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(1250 - i * step);
+                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(400 - i * step);
                     inGamePlayers.get(playerTh).getCardList().get(i).setRotate(15);
-                    inGamePlayers.get(playerTh).getCardList().get(i).toFront();
+                    inGamePlayers.get(playerTh).getCardList().get(i).toBack();
+                    inGamePlayers.get(playerTh).getCardList().get(i).setEffect(reflection);
                 }
             }
         } catch (Exception e) {
@@ -420,7 +585,6 @@ public class GameBoard implements Initializable {
     /**
      * Gui for cards of main player
      **/
-
     public void arrangeCardsForMainPlayer(int playerTh) {
         //arrangeCardsForMainPlayer(true,mainPlayer,720, 120,150,400,660);
 
@@ -432,13 +596,6 @@ public class GameBoard implements Initializable {
             if (inGamePlayers.get(playerTh).getCardListSize() < 3) {
                 for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
                     inGamePlayers.get(playerTh).getCardList().get(i).setTranslateX(400 + 100 + i * (step - 100));
-                    inGamePlayers.get(playerTh).getCardList().get(i).setTranslateY(660);
-                    inGamePlayers.get(playerTh).getCardList().get(i).setFrontImage();
-                    inGamePlayers.get(playerTh).getCardList().get(i).setFitWidth(120);
-                    inGamePlayers.get(playerTh).getCardList().get(i).setFitHeight(150);
-                    inGamePlayers.get(playerTh).getCardList().get(i).setSmooth(true);
-                    inGamePlayers.get(playerTh).getCardList().get(i).setRotate(0);
-                    inGamePlayers.get(playerTh).getCardList().get(i).toFront();
                 }
             }
             for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
@@ -517,7 +674,7 @@ public class GameBoard implements Initializable {
             deck.getCards().get(i).setFitHeight(100);
             deck.getCards().get(i).setBackImage();
 
-            pane.getChildren().add(deck.getCards().get(i));
+            gameBoard.getChildren().add(deck.getCards().get(i));
         }
 
     }
@@ -536,6 +693,37 @@ public class GameBoard implements Initializable {
         current.setFitWidth(lastCard.getFitWidth());
         current.setRotate(lastCard.getRotate()); // Rotate back to the right side
         translate.play();
+    }
+
+    /**
+     * Event handler for buttons
+     **/
+
+    public void drawAction(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+//        Sound drawCardSound = new Sound("src/resources/sound/sound_appear.mp3");
+
+        if (positionOfCurrentPlayer == mainPlayer) {
+            if (selectedCard == null) {
+                Card lastCard;
+                if (inGamePlayers.get(mainPlayer).getCardListSize() == 1) {
+                    lastCard = inGamePlayers.get(mainPlayer).getCardList().get(inGamePlayers.get(mainPlayer).getCardListSize() - 1);
+
+                } else {
+                    lastCard = inGamePlayers.get(mainPlayer).getCardList().get(inGamePlayers.get(mainPlayer).getCardListSize() - 2);
+
+                }
+                Card currentCard = deck.getCards().get(deck.getSize() - 1);
+                currentCard.setFrontImage();
+                inGamePlayers.get(mainPlayer).getCardList().add(currentCard);
+                setDrawCardAnimation(currentCard, lastCard);
+                deck.drawTopCard();
+                arrangeCardsForMainPlayer(mainPlayer);
+                setAnimationForSelectedCard();
+                updateTurn(); // Update turn for next player
+
+            }
+        }
     }
 
     /**
@@ -560,7 +748,7 @@ public class GameBoard implements Initializable {
                 for (int j = 0; j < inGamePlayers.get(mainPlayer).getCardListSize(); j++) {
 
                     if (inGamePlayers.get(mainPlayer).getCardList().get(j).getIfSelected()) {
-                        gameBoardService.setSelectedCard(inGamePlayers.get(mainPlayer).getCardList().get(j));
+                        selectedCard = inGamePlayers.get(mainPlayer).getCardList().get(j);
                         continue;
                     } else
                         inGamePlayers.get(mainPlayer).getCardList().get(j).setDisable(true);
@@ -569,7 +757,7 @@ public class GameBoard implements Initializable {
                 translateTransition.setByY(40);
                 translateTransition.play();
                 inGamePlayers.get(mainPlayer).getCardList().get(i).setIfSelected(false);
-                gameBoardService.setSelectedCard(null);
+                selectedCard = null;
                 for (int j = 0; j < inGamePlayers.get(mainPlayer).getCardListSize(); j++) {
                     inGamePlayers.get(mainPlayer).getCardList().get(j).setDisable(false);
                 }
@@ -581,49 +769,50 @@ public class GameBoard implements Initializable {
     /**
      * Network for remaining players
      **/
-//    public void updateAnimationFromNetwork(int playerTh, int cardListSize, Card networkCard) {
-//
-//        // If cardList size is smaller than the the card list size in this scene, this player in this scene has already played a card
-//        if (cardListSize < inGamePlayers.get(playerTh).getCardListSize()) {
-//
-//            // Check the location of the played card in the card list of that player
-//            for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
-//
-//                // If found, it will go into the board
-//                if (networkCard.equals(inGamePlayers.get(playerTh).getCardList().get(i))) {
-//                    playCard(networkCard);
-//                    gameBoardService.isWinner(inGamePlayers.get(playerTh));
-//                    gameBoardService.resetDeck();
-//                    createAnimationGoToBoardForAllCard(i, playerTh);
-//                    gameBoardService.updateTurn(); // Update next turn
-//
-//                    break;
-//                }
-//            }
-//
-//            // If cardListSize is bigger , then it must have drawn cards
-//        } else if (cardListSize > inGamePlayers.get(playerTh).getCardListSize()) {
-//
-//            animationDrawCardForAllPlayer(cardListSize, playerTh); // Draw a card from a deck
-//
-//
-//            // Arrange the card list again if it is drawn
-//            if (playerTh == getLeftPlayer()) {
-//
-//                arrangeCardsForLeftPlayer(playerTh);
-//
-//            } else if (playerTh == getRightPlayer()) {
-//
-//                arrangeCardsForRightPlayer(playerTh);
-//
-//            } else {
-//
-//                arrangeCardsForUpperPlayer(playerTh);
-//            }
-//
-//            updateTurn();
-//        }
-//    }
+    public void updateAnimationFromNetwork(int playerTh, int cardListSize, Card networkCard) {
+
+        // If cardList size is smaller than the the card list size in this scene, this player in this scene has already played a card
+        if (cardListSize < inGamePlayers.get(playerTh).getCardListSize()) {
+
+            // Check the location of the played card in the card list of that player
+            for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
+
+                // If found, it will go into the board
+                if (networkCard.equals(inGamePlayers.get(playerTh).getCardList().get(i))) {
+                    playCard(networkCard);
+                    isWinner(inGamePlayers.get(playerTh));
+                    resetDeck();
+                    createAnimationGoToBoardForAllCard(i, playerTh);
+                    updateTurn(); // Update next turn
+
+                    break;
+                }
+            }
+
+            // If cardListSize is bigger , then it must have drawn cards
+        } else if (cardListSize > inGamePlayers.get(playerTh).getCardListSize()) {
+
+            animationDrawCardForAllPlayer(cardListSize, playerTh); // Draw a card from a deck
+
+
+            // Arrange the card list again if it is drawn
+            if (playerTh == getLeftPlayer()) {
+
+                arrangeCardsForLeftPlayer(playerTh);
+
+            } else if (playerTh == getRightPlayer()) {
+
+                arrangeCardsForRightPlayer(playerTh);
+
+            } else {
+
+                arrangeCardsForUpperPlayer(playerTh);
+            }
+
+            updateTurn();
+        }
+    }
+
     public void animationDrawCardForAllPlayer(int i, int playerTh) {
 
         double step = 0;
@@ -689,252 +878,312 @@ public class GameBoard implements Initializable {
     }
 
     /**
-     * draw button
-     **/
-    public void drawAction(ActionEvent actionEvent) throws IOException {
-
-        if (gameBoardService.getPositionOfCurrentPlayer() == mainPlayer) {
-            if (gameBoardService.getSelectedCard() == null) {
-                Card lastCard;
-                if (gameBoardService.getInGamePlayers().get(mainPlayer).getCardListSize() == 1) {
-                    lastCard = gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(gameBoardService.getInGamePlayers().get(mainPlayer).getCardListSize() - 1);
-
-                } else {
-                    lastCard = gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(gameBoardService.getInGamePlayers().get(mainPlayer).getCardListSize() - 2);
-
-                }
-                Card currentCard = gameBoardService.getDeck().getCards().get(deck.getSize() - 1);
-                currentCard.setFrontImage();
-                gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().add(currentCard);
-                setDrawCardAnimation(currentCard, lastCard);
-                gameBoardService.getDeck().drawTopCard();
-                arrangeCardsForMainPlayer(mainPlayer);
-                setAnimationForSelectedCard();
-                gameBoardService.updateTurn(); // Update turn for next player
-                gameBoardService.resetDeck();
-                Message message = new Message("reset", gameBoardService.getDeck());
-                clientController.writeMessage(message);
-            }
-        }
-        Message message = new Message(clientController.getReplica(), "draw", 1);
-        clientController.writeMessage(message);
-    }
-
-    /**
      * Event handler for the play button
      **/
-    public void playAction(ActionEvent actionEvent) throws IOException {
+    public void playAction(ActionEvent actionEvent) {
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
 
         // This button is only used by main player
-        if (gameBoardService.getPositionOfCurrentPlayer() == mainPlayer) {
+        if (positionOfCurrentPlayer == mainPlayer) {
             Random random = new Random();
 
             int location = 0;
 
-            if (gameBoardService.getSelectedCard() != null) {
+            if (selectedCard != null) {
 
-                for (int i = 0; i < gameBoardService.getInGamePlayers().get(mainPlayer).getCardListSize(); i++) {
-                    if (gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(i).getIfSelected()) {
+                for (int i = 0; i < inGamePlayers.get(mainPlayer).getCardListSize(); i++) {
+                    if (inGamePlayers.get(mainPlayer).getCardList().get(i).getIfSelected()) {
                         location = i;
                         break;
                     }
                 }
 
-                if (gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(location).isCardPlayable(gameBoardService.getPreviousCard())) {
+                if (inGamePlayers.get(mainPlayer).getCardList().get(location).isCardPlayable(previousCard)) {
                     // Set animation going into the board for main player's cards
-                    TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(location));
+                    TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), inGamePlayers.get(mainPlayer).getCardList().get(location));
                     translateTransition.setToX(630 + random.nextInt(50));
                     translateTransition.setToY(350 + random.nextInt(50));
                     translateTransition.play();
 
-                    gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(location).toFront();
-                    ArrayList<Card> playedCards = gameBoardService.getPlayedCards();
-                    playedCards.add(gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(location));
-                    gameBoardService.setPlayedCards(playedCards);
+                    inGamePlayers.get(mainPlayer).getCardList().get(location).toFront();
+                    playedCards.add(inGamePlayers.get(mainPlayer).getCardList().get(location));
 
                     // Set the previous card for the player
-                    gameBoardService.setPreviousCard(gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(location));
+                    previousCard = (inGamePlayers.get(mainPlayer).getCardList().get(location));
 
-                    gameBoardService.playCard(gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(location));
-                    if (gameBoardService.getPreviousCard().getValue() == Values.PLUS_TWO) {
-                        Message message = new Message(clientController.getReplica() + gameBoardService.getDirectionOfPlay(), "draw", 2);
-                        clientController.writeMessage(message);
-                    } else if (gameBoardService.getPreviousCard().getValue() == Values.PLUS_FOUR) {
-                        Message message = new Message(clientController.getReplica() + gameBoardService.getDirectionOfPlay(), "draw", 4);
-                        clientController.writeMessage(message);
-                    } else if (gameBoardService.getPreviousCard().getValue() == Values.REVERSE) {
-
-                    }
-                    gameBoardService.setSelectedCard(null);
-                    gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(location).setOnMouseClicked(null);
-                    gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().remove(location);
-                    for (int j = 0; j < gameBoardService.getInGamePlayers().get(mainPlayer).getCardListSize(); j++) {
-                        gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(j).setDisable(false);
+                    playCard(inGamePlayers.get(mainPlayer).getCardList().get(location));
+                    selectedCard = null;
+                    inGamePlayers.get(mainPlayer).getCardList().get(location).setOnMouseClicked(null);
+                    inGamePlayers.get(mainPlayer).getCardList().remove(location);
+                    for (int j = 0; j < inGamePlayers.get(mainPlayer).getCardListSize(); j++) {
+                        inGamePlayers.get(mainPlayer).getCardList().get(j).setDisable(false);
                     }
                     arrangeCardsForMainPlayer(mainPlayer);
                     setAnimationForSelectedCard();
 
-                    if (gameBoardService.isWinner(gameBoardService.getInGamePlayers().get(mainPlayer))) {
+                    if (isWinner(inGamePlayers.get(mainPlayer))) {
                         displayResult();
                     } else {
-                        gameBoardService.updateTurn();
-                        System.out.println("Direction: " + gameBoardService.getDirectionOfPlay());
-                        System.out.println("Turn: " + gameBoardService.getPositionOfCurrentPlayer());
+                        updateTurn();
+                        System.out.println("Direction: " + directionOfPlay);
+                        System.out.println("Turn: " + positionOfCurrentPlayer);
                     }
-                    gameBoardService.updateTurn(); // Update turn for next player
-                    System.out.println("Direction: " + gameBoardService.getDirectionOfPlay());
-                    System.out.println("Turns: " + gameBoardService.getPositionOfCurrentPlayer());
-                }
-
-
-            }
-        }
-
-
-        Message message = new Message(clientController.getReplica(), "play", gameBoardService.getPreviousCard());
-        clientController.writeMessage(message);
-
-        //        bot
-        for (int i=0; i < 3; i++) {
-//            Card card = gameBoardService.getBots().get(i).draw(gameBoardService.getBots().get(i).play());
-//            if ( card == null) {
-//                gameBoardService.drawCard();
-//            } else {
-//                gameBoardService.playCard(card);
-//            }
-//            gameBoardService.isBotWinner(gameBoardService.getBots().get(i));
-        }
-    }
-
-
-    public void animationDrawCards(int count, int playerTh) {
-        for (int i = 0; i < count;i ++){
-//            animationDrawCardForAllPlayer();
-        }
-    }
-    /**
-     * Network for update after 1 turn
-     **/
-    public void processMessage(Message message) {
-        switch (message.getTypeOfAction()) {
-            case "assign":
-                processMessageAssign(message);
-                break;
-            case "initialize":
-                processMessageInitialize(message);
-                break;
-            case "play":
-                processMessageEachTurn(message);
-                break;
-            case "draw":
-                processMessageEachTurn(message);
-                break;
-            case "reset":
-                processMessageInitialize(message);
-                break;
-//            case "start":
-//                mainMenu.setTotal(mainMenu.getTotal() + 1);
-//                mainMenu.proccessMessageStart(message);
-//                break;
-
-//            case "login":
-//                logInController.proccessMessageLogIn(message);
-//                break;
-        }}
-
-
-    public void processMessageAssign(Message message) {
-//        this.inGamePlayers.add(new Player(message.getPlayerIndex(), message.getName()));
-            }
-
-    public void processMessageEachTurn(Message message) {
-        // If cardList size is smaller than the the card list size in this scene, this player in this scene has already played a card
-        if (message.getNumOfCard() < gameBoardService.getInGamePlayers().get(message.getSender()).getCardListSize()) {
-
-            // Check the location of the played card in the card list of that player
-            for (int i = 0; i < gameBoardService.getInGamePlayers().get(message.getSender()).getCardListSize(); i++) {
-
-                // If found, it will go into the board
-                if (message.getCard().equals(gameBoardService.getInGamePlayers().get(message.getSender()).getCardList().get(i))) {
-                    gameBoardService.playCard(message.getCard());
-
-                    gameBoardService.isWinner(gameBoardService.getInGamePlayers().get(message.getSender()));
-                    gameBoardService.resetDeck();
-                    createAnimationGoToBoardForAllCard(i, message.getSender());
-                    gameBoardService.updateTurn(); // Update next turn
-                    break;
+                    updateTurn(); // Update turn for next player
+                    System.out.println("Direction: " + directionOfPlay);
+                    System.out.println("Turns: " + positionOfCurrentPlayer);
                 }
             }
+        }
 
-            // If cardListSize is bigger , then it must have drawn cards
-        } else if (message.getNumOfCard() > gameBoardService.getInGamePlayers().get(message.getSender()).getCardListSize()) {
-            for (int i = 0; i < message.getNumOfCard(); i++) {
-                animationDrawCardForAllPlayer(message.getNumOfCard(), message.getSender()); // Draw a card from a gameBoardService.getDeck()
+
+    }
+
+    public void playCard(Card selectedCard) {
+        switch (selectedCard.getValue()) {
+            case SKIP:
+                updateTurn();
+                break;
+            case REVERSE:
+                reverse();
+                break;
+            case PLUS_ZERO:
+                chooseColor();
+                break;
+            case PLUS_TWO:
+                plusTwo();
+                break;
+            case PLUS_FOUR:
+                plusFour();
+                break;
+        }
+        setPreviousCard(selectedCard);
+    }
+
+    public Card getSelectedCard() {
+        return selectedCard;
+    }
+
+    public void setSelectedCard(Card selectedCard) {
+        this.selectedCard = selectedCard;
+    }
+
+    /** Start the game with distribution cards to players **/
+    /**
+     * First, to distribute 7 cards for each player
+     * And to put 1 card in the deck onto the table
+     * And choose 1 random player to start
+     **/
+    public void startGame() {
+        for (int i = 0; i < inGamePlayers.size(); i++) {
+            for (int j = 0; j < 7; j++) {
+                inGamePlayers.get(i).drawCard(deck.drawTopCard());
             }
-
-            // Arrange the card list again if it is drawn
-            if (message.getSender() == getLeftPlayer()) {
-
-                arrangeCardsForLeftPlayer(message.getSender());
-
-            } else if (message.getSender() == getRightPlayer()) {
-
-                arrangeCardsForRightPlayer(message.getSender());
-
-            } else {
-
-                arrangeCardsForUpperPlayer(message.getSender());
-            }
-            gameBoardService.updateTurn();
         }
     }
 
-    /**
-     * Network for update initialize
-     **/
-    public void processMessageInitialize(Message message) {
-        gameBoardService.setDeck(message.getDeck());
+    // Reverse tbe direction
+    public void reverse() {
+        directionOfPlay *= -1;
     }
 
-    /**
-     * Network for update initialize
-     **/
-    public void processMessageLeave(Message message) {
-        showMainMenu();
+    // Get the direction
+    public int getDirectionOfPlay() {
+        return this.directionOfPlay;
+    }
+
+    // If the card is played, then update the turn
+    public void updateTurn() {
+
+        // If the direction is in the right, the next player will plus 1 , otherwise - 1.
+        positionOfCurrentPlayer = (positionOfCurrentPlayer + directionOfPlay) % inGamePlayers.size();
+
+        if (positionOfCurrentPlayer < 0) {
+            positionOfCurrentPlayer += inGamePlayers.size();
+        }
+    }
+    //        gameBoard.alertBoxTitle = COLOR SELECTION
+//        gameBoard.alertBoxHeaderText = You have chosen the Wild card ! ! !
+//        gameBoard.alertBoxContent = Please choose the color for the next turn:
+//        gameBoard.alertBoxRedButton = RED
+//        gameBoard.alertBoxBlueButton = BLUE
+//        gameBoard.alertBoxGreenButton = GREEN
+//        gameBoard.alertBoxYellowButton = YELLOW
+
+
+    //choose color
+    //need for choose-color scene
+    public void chooseColor() {
+        Properties color = null;
+
+        colorBox = new Alert(Alert.AlertType.CONFIRMATION);
+        colorBox.setTitle("COLOR SELECTION");
+        colorBox.setHeaderText("You have chosen the Wild card !!!");
+        colorBox.setContentText("Please choose the color for the next turn: ");
+        ButtonType redButton = new ButtonType("RED");
+        ButtonType blueButton = new ButtonType("BLUE");
+        ButtonType greenButton = new ButtonType("GREEN");
+        ButtonType yellowButton = new ButtonType("YELLOW");
+
+        colorBox.getButtonTypes().clear();
+        colorBox.getButtonTypes().addAll(redButton, blueButton, greenButton, yellowButton);
+
+        // option != null.
+        Optional<ButtonType> option = colorBox.showAndWait();
+        Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+
+
+        if (option.get() == yellowButton) {
+            color = Properties.YELLOW;
+        } else if (option.get() == redButton) {
+            color = Properties.RED;
+        } else if (option.get() == blueButton) {
+            color = Properties.BLUE;
+        } else if (option.get() == greenButton) {
+            color = Properties.GREEN;
+        }
+
+        previousCard.setProperty(color);
+
+    }
+
+    //  +2
+    public void plusTwo() {
+        for (int i = 0; i < 2; i++) {
+            inGamePlayers.get(positionOfCurrentPlayer + 1).drawCard(deck.drawTopCard());
+        }
+        updateTurn();
+    }
+
+    //   +4
+    //   need for choose-color scene
+    public void plusFour() {
+        for (int i = 0; i < 4; i++) {
+            inGamePlayers.get(positionOfCurrentPlayer + 1).drawCard(deck.drawTopCard());
+        }
+        updateTurn();
+        chooseColor();
+    }
+
+    // Player's card return to deck number 2
+    public void resetDeck() {
+        if (deck.getSize() < 4) {
+            deck.getCards().addAll(playedCards); // Change the first deck as second deck if first deck is empty
+            deck.shuffleDeck(); // shuffle the deck again
+        }
+
+        // Return all the cards back to not being selected
+        for (int i = 0; i < deck.getSize(); i++) {
+            deck.getCards().get(i).setIfSelected(false);
+        }
+    }
+
+
+    public void drawCard() {
+        inGamePlayers.get(positionOfCurrentPlayer).drawCard(deck.drawTopCard());
+        resetDeck();
+    }
+
+
+    //     set winner + update win & loss
+    public boolean isWinner(Player player) {
+        if (player.getCardList().isEmpty()) {
+            for (int i = 0; i < 4; i++) {
+                if (inGamePlayers.get(i).equals(player)) {
+                    player.getAccount().setWin(player.getAccount().getWin() + 1);
+                } else {
+                    player.getAccount().setLoss(player.getAccount().getLoss() + 1);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public void setPreviousCard(Card card) {
+        playedCards.add(card);
+        previousCard = card;
     }
 
     public void goBackHome(ActionEvent actionEvent) throws IOException {
-        Message message = new Message("leave");
-        clientController.writeMessage(message);
-        showMainMenu();
+        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/mainMain.fxml"));
+        Scene scene = new Scene(view2);
+
+        Stage newWindow = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        newWindow.setScene(scene);
+        newWindow.show();
+
     }
 
+//     private MainMenu mainMenu;
+//     private AnchorPane gameBoard;
+//
+//     public void showMainMenu() {
+//     mainMenu.getMainMenu().setVisible(true);
+//     gameBoard.setVisible(false);
+//     }
+//
+//     public void displayWinnerMessage(ActionEvent actionEvent) {
+//     if (isWinner(inGamePlayers.get(0))) {
+//     Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
+//     signInBox.setContentText("WINNER!!!!");
+//     signInBox.setResult(ButtonType.OK);
+//     Optional<ButtonType> result = signInBox.showAndWait();
+//     if(!result.isPresent()) {
+//     showMainMenu();
+//     } else if(result.get() == ButtonType.OK)
+//     showMainMenu();
+//     } else {
+//     Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
+//     signInBox.setContentText("DEFEATED!!!!");
+//     signInBox.setResult(ButtonType.OK);
+//     Optional<ButtonType> result = signInBox.showAndWait();
+//     if(!result.isPresent()) {
+//     showMainMenu();
+//     } else if(result.get() == ButtonType.OK)
+//     showMainMenu();
+//     }
+//     }
 
-    public void showMainMenu() {
-        mainMenu.getMainMenu().setVisible(true);
-        gameBoard.setVisible(false);
-    }
+    public void setEffect(){
+        Blend blend = new Blend();
+        blend.setMode(BlendMode.MULTIPLY);
 
-    public void displayWinnerMessage(ActionEvent actionEvent) {
-        if (gameBoardService.isWinner(inGamePlayers.get(0))) {
-            Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
-            signInBox.setContentText("WINNER!!!!");
-            signInBox.setResult(ButtonType.OK);
-            Optional<ButtonType> result = signInBox.showAndWait();
-            if (!result.isPresent()) {
-                showMainMenu();
-            } else if (result.get() == ButtonType.OK)
-                showMainMenu();
-        } else {
-            Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
-            signInBox.setContentText("DEFEATED!!!!");
-            signInBox.setResult(ButtonType.OK);
-            Optional<ButtonType> result = signInBox.showAndWait();
-            if (!result.isPresent()) {
-                showMainMenu();
-            } else if (result.get() == ButtonType.OK)
-                showMainMenu();
-        }
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.rgb(254,235,66,0.3));
+        ds.setOffsetX(5);
+        ds.setOffsetY(5);
+        ds.setRadius(5);
+        ds.setSpread(0.2);
+
+        blend.setBottomInput(ds);
+
+        DropShadow ds1 = new DropShadow();
+        ds1.setColor(Color.web("#f13a00"));
+        ds1.setRadius(20);
+        ds1.setSpread(0.2);
+
+        Blend blend2 = new Blend();
+        blend2.setMode(BlendMode.MULTIPLY);
+
+        InnerShadow is = new InnerShadow();
+        is.setColor(Color.web("#feeb42"));
+        is.setRadius(9);
+        is.setChoke(0.8);
+        blend2.setBottomInput(is);
+
+        InnerShadow is1 = new InnerShadow();
+        is1.setColor(Color.web("#f13a00"));
+        is1.setRadius(5);
+        is1.setChoke(0.4);
+        blend2.setTopInput(is1);
+
+        Blend blend1 = new Blend();
+        blend1.setMode(BlendMode.MULTIPLY);
+        blend1.setBottomInput(ds1);
+        blend1.setTopInput(blend2);
+
+        blend.setTopInput(blend1);
+
+        firstPlayer.setEffect(blend);
     }
 }
-
