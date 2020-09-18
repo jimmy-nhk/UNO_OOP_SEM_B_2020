@@ -7,27 +7,28 @@ import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.effect.Reflection;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class GameBoard implements Initializable {
 
 
+    public static ClientController clientController = new ClientController("127.0.0.1", 8080);
     /**
      * GUI cards for main player
      **/
@@ -41,15 +42,12 @@ public class GameBoard implements Initializable {
     private Button btDraw;
     @FXML
     private Pane pane;
-
     private MainMenu mainMenu;
     private AnchorPane gameBoard;
     private GameBoardService gameBoardService = GameBoardService.getInstance();
     private Deck deck = gameBoardService.getDeck();
     private int mainPlayer = gameBoardService.getMainPlayerIndex();
     private ArrayList<Player> inGamePlayers = gameBoardService.getInGamePlayers();
-
-    public static ClientController clientController = new ClientController("127.0.0.1", 8080);
 
     /**
      * Create animation for cards in the board
@@ -58,13 +56,64 @@ public class GameBoard implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         gameBoardService = new GameBoardService();
+
         try {
             clientController.writeMessage(new Message("initialize", gameBoardService.getDeck()));
             setCardInDeck(); // Set up deck for drawing
-            createAnimationDistribute7Cards();
+
+            createAnimationDistribute7Cards(); // Distribute cards for all players
+            startGame(); // Begin the game by open a card.
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /** Set up the first card for first player to play card */
+    public void startGame (){
+
+        // Take the card from the deck of the gameBoard service
+        gameBoardService.setPreviousCard(gameBoardService.getDeck().drawTopCard());
+        System.out.println(gameBoardService.getPreviousCard());
+
+        // Set the previous card by taking the deck
+        Card startCard = deck.drawTopCard();
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(500), startCard );
+        translateTransition.setToX(680);
+        translateTransition.setByY(230);
+
+        translateTransition.setDelay(Duration.millis(8000));
+
+        translateTransition.setOnFinished(actionEvent -> {
+            // Create another arraylist to store the played card.
+            ArrayList<Card> playedCard = gameBoardService.getPlayedCards();
+            startCard.setFitWidth(120);
+            startCard.setFitHeight(150);
+            startCard.setRotate(0);
+            startCard.setFrontImage();
+            playedCard.add(startCard);
+            gameBoardService.setPlayedCards(playedCard);
+
+        });
+        translateTransition.play();
+    }
+
+    /**
+     * Add all the cards to the main board
+     **/
+    public void setCardInDeck() {
+        for (int i = 0; i < deck.getSize(); i++) {
+
+            deck.getCards().get(i).setRotate(-80);
+            deck.getCards().get(i).setTranslateX(250 + i * 0.5);
+            deck.getCards().get(i).setTranslateY(80 - i * 0.5);
+            deck.getCards().get(i).setFitWidth(80);
+            deck.getCards().get(i).setFitHeight(100);
+            deck.getCards().get(i).setBackImage();
+
+            pane.getChildren().add(deck.getCards().get(i));
+        }
+
     }
 
     /**
@@ -75,7 +124,7 @@ public class GameBoard implements Initializable {
         step = 720.0 / (i + 1);
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
-        rotateTransition.setCycleCount(3);
+        rotateTransition.setCycleCount(7);
         rotateTransition.setToAngle(360);
 
         rotateTransition.setInterpolator(Interpolator.LINEAR);
@@ -117,7 +166,7 @@ public class GameBoard implements Initializable {
         double step = 150 / (i + 1);
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
-        rotateTransition.setCycleCount(3);
+        rotateTransition.setCycleCount(7);
         rotateTransition.setToAngle(360);
 
         rotateTransition.setInterpolator(Interpolator.LINEAR);
@@ -156,7 +205,7 @@ public class GameBoard implements Initializable {
         double step = 150 / (i + 1);
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
-        rotateTransition.setCycleCount(3);
+        rotateTransition.setCycleCount(7);
         rotateTransition.setToAngle(360);
 
         rotateTransition.setInterpolator(Interpolator.LINEAR);
@@ -195,7 +244,7 @@ public class GameBoard implements Initializable {
         double step = 400 / (i + 1);
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000));
         RotateTransition rotateTransition = new RotateTransition(Duration.millis(1000));
-        rotateTransition.setCycleCount(3);
+        rotateTransition.setCycleCount(7);
         rotateTransition.setToAngle(360);
 
         rotateTransition.setInterpolator(Interpolator.LINEAR);
@@ -242,31 +291,11 @@ public class GameBoard implements Initializable {
 
     }
 
+
     /**
      * Create animation for cards going into the game board
      **/
-//    public void createAnimationGoToBoardForLeftPlayer(int playerTh) {
-//        for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
-//            createAnimationGoToBoardForAllCard(i,playerTh);
-//            arrangeCardsForLeftPlayer(getLeftPlayer());
-//
-//        }
-//    }
-//
-//    public void createAnimationGoToBoardForRightPlayer(int playerTh){
-//        for (int i = 0 ; i <inGamePlayers.get(playerTh).getCardListSize(); i ++ ){
-//            createAnimationGoToBoardForAllCard(i,playerTh);
-//            arrangeCardsForRightPlayer(getRightPlayer());
-//        }
-//
-//    }
-//
-//    public void createAnimationGoToBoardForUpperPlayer(int playerTh){
-//        for (int i = 0 ; i <inGamePlayers.get(playerTh).getCardListSize(); i ++ ){
-//            createAnimationGoToBoardForAllCard(i,playerTh);
-//            arrangeCardsForUpperPlayer(getUpperPlayer());
-//        }
-//    }
+
     public void createAnimationGoToBoardForAllPlayer(int playerTh) {
         for (int i = 0; i < inGamePlayers.get(playerTh).getCardListSize(); i++) {
             createAnimationGoToBoardForAllCard(i, playerTh);
@@ -504,23 +533,7 @@ public class GameBoard implements Initializable {
     }
 
 
-    /**
-     * Add all the cards to the main board
-     **/
-    public void setCardInDeck() {
-        for (int i = 0; i < deck.getSize(); i++) {
 
-            deck.getCards().get(i).setRotate(-80);
-            deck.getCards().get(i).setTranslateX(250 + i * 0.5);
-            deck.getCards().get(i).setTranslateY(80 - i * 0.5);
-            deck.getCards().get(i).setFitWidth(80);
-            deck.getCards().get(i).setFitHeight(100);
-            deck.getCards().get(i).setBackImage();
-
-            pane.getChildren().add(deck.getCards().get(i));
-        }
-
-    }
 
 
     public void setDrawCardAnimation(Card current, Card lastCard) {
@@ -541,8 +554,7 @@ public class GameBoard implements Initializable {
     /**
      * Display win and lose message to all players
      **/
-    private void displayResult() {
-    }
+
 
     /**
      * Set animation for each selected card
@@ -669,13 +681,28 @@ public class GameBoard implements Initializable {
             currentCard.setRotate(0);
             inGamePlayers.get(playerTh).getCardList().add(currentCard);
 //            arrangeCardsForUpperPlayer(playerTh);
-            createAnimationGoToBoardForAllPlayer(getUpperPlayer());
             rotateTransition.stop();
         });
 
         translate.play();
         deck.drawTopCard();
     }
+
+    /**This method for the animation drawing cards in the GUI */
+    public void animationForDrawingTwoOrFourCards ( int playerTH , int numberOfCards){
+        for (int i = 0 ; i < numberOfCards; i ++){
+            if (playerTH == getLeftPlayer()){
+                distributeCardsForLeftPlayer(i);
+            } else if (playerTH == getRightPlayer()){
+                distributeCardsForRightPlayer(i);
+            } else if (playerTH == getUpperPlayer()){
+                distributeCardsForUpperPlayer(i);
+            } else
+                distributeCardsForMainPlayer(i);
+        }
+    }
+
+
 
     /**
      * Set animation for cards in main
@@ -703,12 +730,17 @@ public class GameBoard implements Initializable {
                     lastCard = gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(gameBoardService.getInGamePlayers().get(mainPlayer).getCardListSize() - 2);
 
                 }
-                Card currentCard = gameBoardService.getDeck().getCards().get(deck.getSize() - 1);
+
+                Card currentCard = gameBoardService.getDeck().drawTopCard();
                 currentCard.setFrontImage();
+
                 gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().add(currentCard);
+
+                // This is where the animation appears
                 setDrawCardAnimation(currentCard, lastCard);
-                gameBoardService.getDeck().drawTopCard();
+
                 arrangeCardsForMainPlayer(mainPlayer);
+
                 setAnimationForSelectedCard();
                 gameBoardService.updateTurn(); // Update turn for next player
                 gameBoardService.resetDeck();
@@ -756,6 +788,8 @@ public class GameBoard implements Initializable {
                     gameBoardService.setPreviousCard(gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(location));
 
                     gameBoardService.playCard(gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(location));
+
+                    /** This is where the value of the card checked **/
                     if (gameBoardService.getPreviousCard().getValue() == Values.PLUS_TWO) {
                         Message message = new Message(clientController.getReplica() + gameBoardService.getDirectionOfPlay(), "draw", 2);
                         clientController.writeMessage(message);
@@ -765,23 +799,30 @@ public class GameBoard implements Initializable {
                     } else if (gameBoardService.getPreviousCard().getValue() == Values.REVERSE) {
 
                     }
+
+
                     gameBoardService.setSelectedCard(null);
                     gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(location).setOnMouseClicked(null);
                     gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().remove(location);
+
                     for (int j = 0; j < gameBoardService.getInGamePlayers().get(mainPlayer).getCardListSize(); j++) {
                         gameBoardService.getInGamePlayers().get(mainPlayer).getCardList().get(j).setDisable(false);
                     }
+
                     arrangeCardsForMainPlayer(mainPlayer);
                     setAnimationForSelectedCard();
 
                     if (gameBoardService.isWinner(gameBoardService.getInGamePlayers().get(mainPlayer))) {
-                        displayResult();
+                        displayWinnerMessage();
+
                     } else {
+
                         gameBoardService.updateTurn();
                         System.out.println("Direction: " + gameBoardService.getDirectionOfPlay());
                         System.out.println("Turn: " + gameBoardService.getPositionOfCurrentPlayer());
                     }
-                    gameBoardService.updateTurn(); // Update turn for next player
+
+//                    gameBoardService.updateTurn(); // Update turn for next player
                     System.out.println("Direction: " + gameBoardService.getDirectionOfPlay());
                     System.out.println("Turns: " + gameBoardService.getPositionOfCurrentPlayer());
                 }
@@ -795,7 +836,7 @@ public class GameBoard implements Initializable {
         clientController.writeMessage(message);
 
         //        bot
-        for (int i=0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
 //            Card card = gameBoardService.getBots().get(i).draw(gameBoardService.getBots().get(i).play());
 //            if ( card == null) {
 //                gameBoardService.drawCard();
@@ -808,10 +849,11 @@ public class GameBoard implements Initializable {
 
 
     public void animationDrawCards(int count, int playerTh) {
-        for (int i = 0; i < count;i ++){
+        for (int i = 0; i < count; i++) {
 //            animationDrawCardForAllPlayer();
         }
     }
+
     /**
      * Network for update after 1 turn
      **/
@@ -840,12 +882,13 @@ public class GameBoard implements Initializable {
 //            case "login":
 //                logInController.proccessMessageLogIn(message);
 //                break;
-        }}
+        }
+    }
 
 
     public void processMessageAssign(Message message) {
 //        this.inGamePlayers.add(new Player(message.getPlayerIndex(), message.getName()));
-            }
+    }
 
     public void processMessageEachTurn(Message message) {
         // If cardList size is smaller than the the card list size in this scene, this player in this scene has already played a card
@@ -900,41 +943,47 @@ public class GameBoard implements Initializable {
      * Network for update initialize
      **/
     public void processMessageLeave(Message message) {
-        showMainMenu();
+//        showMainMenu();
     }
 
     public void goBackHome(ActionEvent actionEvent) throws IOException {
         Message message = new Message("leave");
         clientController.writeMessage(message);
-        showMainMenu();
+
+        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
+        Scene scene = new Scene(view2);
+
+        Stage newWindow = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        newWindow.setScene(scene);
+        newWindow.show();
     }
 
+    // Display the result
 
-    public void showMainMenu() {
-        mainMenu.getMainMenu().setVisible(true);
-        gameBoard.setVisible(false);
-    }
-
-    public void displayWinnerMessage(ActionEvent actionEvent) {
+    public void displayWinnerMessage() throws IOException {
+    /** ingamePlayers.get(0) is not appropriate */
         if (gameBoardService.isWinner(inGamePlayers.get(0))) {
             Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
             signInBox.setContentText("WINNER!!!!");
             signInBox.setResult(ButtonType.OK);
-            Optional<ButtonType> result = signInBox.showAndWait();
-            if (!result.isPresent()) {
-                showMainMenu();
-            } else if (result.get() == ButtonType.OK)
-                showMainMenu();
+            signInBox.showAndWait();
+
+
         } else {
             Alert signInBox = new Alert(Alert.AlertType.INFORMATION);
             signInBox.setContentText("DEFEATED!!!!");
             signInBox.setResult(ButtonType.OK);
-            Optional<ButtonType> result = signInBox.showAndWait();
-            if (!result.isPresent()) {
-                showMainMenu();
-            } else if (result.get() == ButtonType.OK)
-                showMainMenu();
+            signInBox.showAndWait();
+
         }
+
+        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
+        Scene scene = new Scene(view2);
+
+        EventObject actionEvent = null;
+        Stage newWindow = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        newWindow.setScene(scene);
+        newWindow.show();
     }
 }
 
