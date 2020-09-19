@@ -12,10 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -24,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class MainMain implements Initializable {
@@ -34,6 +32,21 @@ public class MainMain implements Initializable {
 
     @FXML public VBox leaderboard;
     @FXML public VBox settingBoard;
+    public Button startButton;
+    public Button leaderBoard;
+    public Button instructions;
+    public Button settings;
+    public Button quit;
+    public Label welcome;
+    public Label leaderBoardLabel;
+    public Button backButton1;
+    public Label InstructionLabel;
+    public Button backButton2;
+    public Label SettingLabel;
+    public Button buttonVolume;
+    public Button buttonLanguage;
+    public Button buttonTheme;
+    public Button backButton3;
     @FXML private Pane chooseModeScene;
     @FXML private Pane setNameScene;
     @FXML private AnchorPane readyScene;
@@ -47,6 +60,10 @@ public class MainMain implements Initializable {
     private String password;
     private AccountList accountList;
     private Message message = new Message("start");
+    public static Locale locale;
+    public static Sound backGroundSound = new Sound("src/resources/sound/background.mp3");
+
+
 
     public void displaySignUpMessage(ActionEvent actionEvent) {
         Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
@@ -145,10 +162,79 @@ public class MainMain implements Initializable {
 
         mainMenu.setVisible(false);
         settingBoard.setVisible(true);
+
+        setButtonActionForVolume();
+        setButtonActionForLanguage();
+        setButtonActionForTheme();
+        this.backButton3.setOnMouseClicked(this::backMainMenuFromSetting);
+
+    }
+
+    private void setButtonActionForVolume() {
+        this.buttonVolume.setOnMouseClicked((MouseEvent e) -> {
+            Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+            backGroundSound.stop();
+            this.buttonVolume.setOnMouseClicked((MouseEvent e1) -> {
+                Sound buttonSound2 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+                backGroundSound.play();
+                setButtonActionForVolume();
+            });
+        });
+    }
+
+    private void setButtonActionForLanguage() {
+        this.buttonLanguage.setOnMouseClicked((MouseEvent e) -> {
+            setButtonBindingText();
+            setLabelBindingText();
+
+            Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+            buttonLanguage.setText("Ngôn Ngữ");
+            LanguageController.switchLanguage(LanguageController.getLanguageLocale(LanguageController.Language.VIETNAMESE));
+            locale = LanguageController.getLocale();
+
+            this.buttonLanguage.setOnMouseClicked((MouseEvent e1) -> {
+                Sound buttonSound2 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+                buttonLanguage.setText("Language");
+                LanguageController.switchLanguage(LanguageController.getLanguageLocale(LanguageController.Language.ENGLISH));
+                locale = LanguageController.getLocale();
+
+                setButtonActionForLanguage();
+            });
+        });
+    }
+    private void setButtonActionForTheme() {
+        this.buttonTheme.setOnMouseClicked((MouseEvent e) -> {
+            Sound buttonSound1 = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+        });
     }
 
     public void quit(ActionEvent actionEvent) {
         Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+        System.exit(1);
+    }
+
+
+    /**************** SETUP BINDING TEXT **************/
+    private void setButtonBindingText() {
+        LanguageController.setUpButtonText(startButton, "menu.start");
+        LanguageController.setUpButtonText(leaderBoard, "menu.leaderBoard");
+        LanguageController.setUpButtonText(instructions, "menu.instruction");
+        LanguageController.setUpButtonText(settings, "menu.setting");
+        LanguageController.setUpButtonText(quit, "menu.quit");
+        LanguageController.setUpButtonText(buttonTheme, "setting.Theme");
+        LanguageController.setUpButtonText(backButton3, "setting.Back");
+        LanguageController.setUpButtonText(backButton2, "setting.Back");
+        LanguageController.setUpButtonText(backButton1, "leaderBoard.back");
+        LanguageController.setUpButtonText(backButton2, "setting.BackButton");
+        LanguageController.setUpButtonText(buttonVolume, "setting.Volume");
+    }
+
+    /**************** SETUP LABEL TEXT **************/
+    private void setLabelBindingText() {
+        LanguageController.setUpLabelText(welcome, "menu.welcome");
+        LanguageController.setUpLabelText(leaderBoardLabel, "leaderBoard.LeaderBoard");
+        LanguageController.setUpLabelText(InstructionLabel, "instruction.InstructionLabel");
+        LanguageController.setUpLabelText(SettingLabel, "setting.SettingLabel");
 
     }
 

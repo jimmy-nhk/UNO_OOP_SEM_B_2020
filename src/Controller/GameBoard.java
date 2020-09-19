@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+import Model.Timer;
 import Service.GameBoardService;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -15,12 +16,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -29,6 +33,7 @@ public class GameBoard implements Initializable {
 
 
     public static ClientController clientController = new ClientController("127.0.0.1", 8080);
+    public Button buttonHome;
     /**
      * GUI cards for main player
      **/
@@ -48,6 +53,10 @@ public class GameBoard implements Initializable {
     private Deck deck = gameBoardService.getDeck();
     private int mainPlayer = gameBoardService.getMainPlayerIndex();
     private ArrayList<Player> inGamePlayers = gameBoardService.getInGamePlayers();
+    private Timer timer = new Timer();
+    @FXML private ImageView volumeOnImageView;
+    @FXML private ImageView volumeOffImageView;
+
 
     /**
      * Create animation for cards in the board
@@ -63,11 +72,56 @@ public class GameBoard implements Initializable {
 
             createAnimationDistribute7Cards(); // Distribute cards for all players
             startGame(); // Begin the game by open a card.
+            Sound launchGameSound = new Sound("resources/sound/sound_launch.mp3");
+            timer.countTime();
+
+            gameBoard.getChildren().add(timer);
+            timer.setLayoutX(710);
+            timer.setLayoutY(546);
+
+            setActionForVolumeOnImage();
+            setButtonBindingText();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    private void setButtonBindingText(){
+        LanguageController.setUpButtonText(buttonHome,"gameBoard.homeButton" );
+        LanguageController.setUpButtonText(btPlay, "gameBoard.playButton");
+        LanguageController.setUpButtonText(btDraw, "gameBoard.drawButton");
+    }
+
+
+    private void setActionForVolumeOnImage() {
+
+        File soundOnFile = new File("src/resources/Image/sound_on.jpg");
+        File soundOffFile = new File("src/resources/Image/sound_off.jpg");
+        Image soundOn = new Image(soundOnFile.toURI().toString());
+        Image soundOff = new Image(soundOffFile.toURI().toString());
+
+        volumeOnImageView.setImage(soundOn);
+        volumeOnImageView.setVisible(true);
+
+
+        volumeOffImageView.setImage(soundOff);
+        volumeOffImageView.setVisible(false);
+
+        volumeOnImageView.setOnMouseClicked(e -> {
+            Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+            MainMain.backGroundSound.stop();
+            volumeOnImageView.setVisible(false);
+            volumeOffImageView.setVisible(true);
+        });
+        volumeOffImageView.setOnMouseClicked(e -> {
+            Sound buttonSound = new Sound("src/resources/sound/sound_button_click.mp3");     //Make "button sound" when clicked
+            volumeOnImageView.setVisible(true);
+            volumeOffImageView.setVisible(false);
+            MainMain.backGroundSound.play();
+        });
+    }
+
 
     /** Set up the first card for first player to play card */
     public void startGame (){
@@ -950,7 +1004,7 @@ public class GameBoard implements Initializable {
         Message message = new Message("leave");
         clientController.writeMessage(message);
 
-        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
+        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("src/resources/view/GameBoard.fxml"));
         Scene scene = new Scene(view2);
 
         Stage newWindow = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -977,7 +1031,7 @@ public class GameBoard implements Initializable {
 
         }
 
-        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("resources/view/GameBoard.fxml"));
+        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("src/resources/view/GameBoard.fxml"));
         Scene scene = new Scene(view2);
 
         EventObject actionEvent = null;

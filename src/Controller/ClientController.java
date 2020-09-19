@@ -13,7 +13,7 @@ public class ClientController implements Runnable {
     // receive message from server
 
     // Fields
-    private Socket socket;
+    private Socket socket = new Socket();
     private final String serverIP;
     private final int serverPort;
     public static int total;

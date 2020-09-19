@@ -89,7 +89,7 @@
                             </Button>
                         </children>
                     </VBox>
-               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="62.0" layoutY="75.0" prefHeight="41.0" prefWidth="137.0" text="Welcome">
+               <Label fx:id="welcome" alignment="CENTER" contentDisplay="CENTER" layoutX="62.0" layoutY="75.0" prefHeight="41.0" prefWidth="137.0" text="Welcome">
                   <font>
                      <Font size="29.0" />
                   </font>
@@ -102,7 +102,7 @@
 
     <VBox fx:id="leaderboard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
         <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="599.0" text="Leaderboard">
+            <Label fx:id="leaderBoardLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="599.0" text="Leaderboard">
                 <font>
                     <Font size="26.0" />
                 </font>
@@ -120,7 +120,7 @@
 
     <VBox fx:id="instruction" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
         <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="599.0" text="Instruction">
+            <Label fx:id="InstructionLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="599.0" text="Instruction">
                 <font>
                     <Font size="26.0" />
                 </font>
@@ -138,7 +138,7 @@
 
     <VBox fx:id="settingBoard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
         <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="599.0" text="Setting">
+            <Label fx:id="SettingLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="599.0" text="Setting">
                 <font>
                     <Font size="26.0" />
                 </font>
