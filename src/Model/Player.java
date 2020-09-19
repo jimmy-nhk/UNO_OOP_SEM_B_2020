@@ -48,7 +48,8 @@ public class Player
 				game.getController().handler.saveAndLoad();
 			}
 			catch(Exception e)
-			{							
+			{
+				System.out.println(e.toString());
 			} 
 		}		
 		
@@ -68,18 +69,18 @@ public class Player
 		return card;
 	}
 	
-	public ArrayList<Card> getValidCards(Card lastCard, Color wishColor, boolean challenge)
+	public ArrayList<Card> getPossiblePlayableCards(Card lastCard, Color wishColor, boolean challenge)
 	{	
-		ArrayList<Card> validCards = new ArrayList<Card>();		
+		ArrayList<Card> validCards = new ArrayList<>();		
 		if(challenge)
 		{
 			for(Card currentCard : deck)
 			{	
-				if(lastCard.getType().equals(CardType.DRAW_TWO))
+				if(lastCard.getType().equals(Property.DRAW_TWO))
 				{
 					if(game.getController().settings.isAllowChallengePlusTwo())
 					{
-						if(currentCard.getType().equals(CardType.DRAW_TWO) || currentCard.getType().equals(CardType.DRAW_FOUR))
+						if(currentCard.getType().equals(Property.DRAW_TWO) || currentCard.getType().equals(Property.DRAW_FOUR))
 						{
 							validCards.add(currentCard);
 						}
@@ -89,7 +90,7 @@ public class Player
 				{
 					if(game.getController().settings.isAllowChallengePlusFourWithFour())
 					{
-						if(currentCard.getType().equals(CardType.DRAW_FOUR))
+						if(currentCard.getType().equals(Property.DRAW_FOUR))
 						{
 							validCards.add(currentCard);
 						}						
@@ -97,7 +98,7 @@ public class Player
 					
 					if(game.getController().settings.isAllowChallengePlusFourWithTwo())
 					{
-						if(currentCard.getType().equals(CardType.DRAW_TWO))
+						if(currentCard.getType().equals(Property.DRAW_TWO))
 						{
 							if(wishColor == Color.ALL)
 							{
@@ -118,7 +119,7 @@ public class Player
 			{	
 				for(Card currentCard : deck)
 				{								
-					if(currentCard.getColor().equals(lastCard.getColor()) || currentCard.getType().equals(lastCard.getType()) || currentCard.getType().equals(CardType.WILD) || currentCard.getType().equals(CardType.DRAW_FOUR))
+					if(currentCard.getColor().equals(lastCard.getColor()) || currentCard.getType().equals(lastCard.getType()) || currentCard.getType().equals(Property.WILD) || currentCard.getType().equals(Property.DRAW_FOUR))
 					{
 						validCards.add(currentCard);
 					}						
@@ -128,7 +129,7 @@ public class Player
 			{
 				for(Card currentCard : deck)
 				{								
-					if(!currentCard.getType().equals(CardType.WILD) && !currentCard.getType().equals(CardType.DRAW_FOUR))
+					if(!currentCard.getType().equals(Property.WILD) && !currentCard.getType().equals(Property.DRAW_FOUR))
 					{
 						validCards.add(currentCard);
 					}						
@@ -167,7 +168,7 @@ public class Player
 	public void turn(Card lastCard, Color wishColor, boolean challenge)
 	{
 		System.out.println("All cards on hand: \n" + deck);
-		ArrayList<Card> validDeck = getValidCards(lastCard, wishColor, challenge);
+		ArrayList<Card> validDeck = getPossiblePlayableCards(lastCard, wishColor, challenge);
 		System.out.println("validCards: \n" + validDeck);
 		if(validDeck.size() == 0)
 		{
@@ -192,7 +193,7 @@ public class Player
 		int counter = 0;
 		for(Card card : deck)
 		{
-			if(card.getType().equals(CardType.DRAW_FOUR))
+			if(card.getType().equals(Property.DRAW_FOUR))
 			{
 				counter++;
 			}

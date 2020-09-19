@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class AI
+public class Bot
 {
 	private String name;
 	private int id;
@@ -10,18 +10,18 @@ public class AI
 	private int wins;
 	private Game game;
 
-	public AI(String name, int id, Game game)
+	public Bot(String name, int id, Game game)
 	{
 		this.name = name;
 		this.id = id;
-		deck = new ArrayList<Card>();
+		deck = new ArrayList<>();
 		wins = 0;
 		this.game = game;
 	}
 
 	public void initialize()
 	{
-		deck = new ArrayList<Card>();
+		deck = new ArrayList<>();
 	}
 
 	public void win()
@@ -58,17 +58,17 @@ public class AI
 	}
 
 	public ArrayList<Card> getValidCards(Card lastCard, Color wishColor, boolean challenge)
-	{	
-		ArrayList<Card> validCards = new ArrayList<Card>();		
+	{
+		ArrayList<Card> validCards = new ArrayList<Card>();
 		if(challenge)
 		{
 			for(Card currentCard : deck)
-			{	
-				if(lastCard.getType().equals(CardType.DRAW_TWO))
+			{
+				if(lastCard.getType().equals(Property.DRAW_TWO))
 				{
 					if(game.getController().settings.isAllowChallengePlusTwo())
 					{
-						if(currentCard.getType().equals(CardType.DRAW_TWO) || currentCard.getType().equals(CardType.DRAW_FOUR))
+						if(currentCard.getType().equals(Property.DRAW_TWO) || currentCard.getType().equals(Property.DRAW_FOUR))
 						{
 							validCards.add(currentCard);
 						}
@@ -78,15 +78,15 @@ public class AI
 				{
 					if(game.getController().settings.isAllowChallengePlusFourWithFour())
 					{
-						if(currentCard.getType().equals(CardType.DRAW_FOUR))
+						if(currentCard.getType().equals(Property.DRAW_FOUR))
 						{
 							validCards.add(currentCard);
-						}						
+						}
 					}
-					
+
 					if(game.getController().settings.isAllowChallengePlusFourWithTwo())
 					{
-						if(currentCard.getType().equals(CardType.DRAW_TWO))
+						if(currentCard.getType().equals(Property.DRAW_TWO))
 						{
 							if(wishColor == Color.ALL)
 							{
@@ -96,7 +96,7 @@ public class AI
 							{
 								validCards.add(currentCard);
 							}
-						}					
+						}
 					}
 				}
 			}
@@ -104,23 +104,23 @@ public class AI
 		else
 		{
 			if(wishColor == null)
-			{	
+			{
 				for(Card currentCard : deck)
-				{								
-					if(currentCard.getColor().equals(lastCard.getColor()) || currentCard.getType().equals(lastCard.getType()) || currentCard.getType().equals(CardType.WILD) || currentCard.getType().equals(CardType.DRAW_FOUR))
+				{
+					if(currentCard.getColor().equals(lastCard.getColor()) || currentCard.getType().equals(lastCard.getType()) || currentCard.getType().equals(Property.WILD) || currentCard.getType().equals(Property.DRAW_FOUR))
 					{
 						validCards.add(currentCard);
-					}						
+					}
 				}
 			}
 			else if(wishColor.equals(Color.ALL))
 			{
 				for(Card currentCard : deck)
-				{								
-					if(!currentCard.getType().equals(CardType.WILD) && !currentCard.getType().equals(CardType.DRAW_FOUR))
+				{
+					if(!currentCard.getType().equals(Property.WILD) && !currentCard.getType().equals(Property.DRAW_FOUR))
 					{
 						validCards.add(currentCard);
-					}						
+					}
 				}
 			}
 			else
@@ -130,11 +130,11 @@ public class AI
 					if(currentCard.getColor().equals(wishColor))
 					{
 						validCards.add(currentCard);
-					}	
+					}
 				}
-			}		
-		}		
-	
+			}
+		}
+
 		return validCards;
 	}
 	public int getDeckSize()
@@ -162,21 +162,21 @@ public class AI
 			if(challenge)
 			{
 				System.out.println("draw " + game.getChallengeCounter() + " cards");
-				ArrayList<Card> drawedCards = game.getDeck().drawCards(game.getChallengeCounter(), game.getDeadDeck());
+				ArrayList<Card> drawCards = game.getDeck().drawCards(game.getChallengeCounter(), game.getDeadDeck());
 				if(game.isRunning())
 				{
-					game.getController().moveCardFromDeckToAI(this, drawedCards);
+					game.getController().moveCardFromDeckToAI(this, drawCards);
 				}
 				System.out.println("deck after draw: " + deck);
 			}
 			else
 			{
 				System.out.println("draw 1 card");
-				ArrayList<Card> drawedCards = new ArrayList<Card>();
-				drawedCards.add(game.getDeck().drawCard(game.getDeadDeck()));
+				ArrayList<Card> drawnCards = new ArrayList<Card>();
+				drawnCards.add(game.getDeck().drawCard(game.getDeadDeck()));
 				if(game.isRunning())
 				{
-					game.getController().moveCardFromDeckToAI(this, drawedCards);
+					game.getController().moveCardFromDeckToAI(this, drawnCards);
 				}
 				System.out.println("deck after draw: " + deck);
 			}
@@ -189,7 +189,7 @@ public class AI
 			Card playedCard = getHighestValuedCard(validDeck);
 			Color newWishColor = null;
 
-			if(playedCard.getType().equals(CardType.WILD) || playedCard.getType().equals(CardType.DRAW_FOUR))
+			if(playedCard.getType().equals(Property.WILD) || playedCard.getType().equals(Property.DRAW_FOUR))
 			{
 				newWishColor = getBestColor();				
 			}
@@ -236,14 +236,8 @@ public class AI
 			switch(currentCard.getColor())
 			{
 				case YELLOW:
-					times[0]++;
-					break;
-				case RED:
-					times[0]++;
-					break;
 				case BLUE:
-					times[0]++;
-					break;
+				case RED:
 				case GREEN:
 					times[0]++;
 					break;
@@ -255,8 +249,8 @@ public class AI
 		int maxIndex = 0;
 		for(int i = 1; i < times.length; i++)
 		{
-			int newnumber = times[i];
-			if((newnumber > times[maxIndex]))
+			int newNumber = times[i];
+			if((newNumber > times[maxIndex]))
 			{
 				maxIndex = i;
 			}

@@ -3,7 +3,7 @@ package achievements;
 import java.io.Serializable;
 
 /**
- * Repräsentiert ein Achievement
+ *
  * @author Robert
  *
  */
@@ -21,8 +21,8 @@ public class Achievement implements Serializable
 	private int currentValue;
 	
 	/**
-	 * Enum für den Status des Achievements
-	 * @author Robert
+	 * Enum for achievement status
+	 *
 	 */
 	public enum Status
 	{
@@ -30,14 +30,7 @@ public class Achievement implements Serializable
 		HIDDEN, LOCKED, UNLOCKED
 	}
 
-	/**
-	 * Konstruktor für ein normales Achievement
-	 * @param name String - Nam
-	 * @param description String - Beschreibungstext
-	 * @param iconLocked String - Pfad zum Icon solange das Achievement noch nicht freigeschaltet wurde
-	 * @param iconUnlocked String - Pfad zum Icon, wenn das Achievement freigeschaltet wurde
-	 * @param status Status - Status
-	 */	
+	/** Constructor */
 	public Achievement(String name, String description, String iconLocked, String iconUnlocked, Status status)
 	{	
 		this.name = name;

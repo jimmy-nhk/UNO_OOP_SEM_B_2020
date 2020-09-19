@@ -2,11 +2,11 @@ package Model;
 
 import java.util.ArrayList;
 
-public class DeadDeck
+public class PlayedCards
 {
 	private ArrayList<Card> cards;
 
-	public DeadDeck()
+	public PlayedCards()
 	{
 		cards = new ArrayList<Card>();
 	}

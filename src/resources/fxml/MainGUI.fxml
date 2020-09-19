@@ -80,7 +80,7 @@
             <items>
                   <MenuItem fx:id="menuItemBack" mnemonicParsing="false" onAction="#showMainMenu" text="Back to start" />
                   <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#buttonAchievements" text="Achievements" />
-              <MenuItem fx:id="menuItem3" mnemonicParsing="false" onAction="#about" text="Über" />
+              <MenuItem fx:id="menuItem3" mnemonicParsing="false" onAction="#about" text="Information" />
             </items>
           </Menu>
         </menus>
@@ -90,7 +90,7 @@
             <Image url="@../images/icon.png" />
          </image>
       </ImageView>
-      <Label fx:id="labelLogo" layoutX="252.0" layoutY="385.0" text="Welcome to UNO!">
+      <Label fx:id="labelLogo" layoutX="252.0" layoutY="385.0" text="WELCOME TO UNO!">
          <font>
             <Font name="System Bold" size="28.0" />
          </font>
