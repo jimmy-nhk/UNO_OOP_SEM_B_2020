@@ -27,9 +27,13 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import tools.Localization;
 import tools.PathUtils;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
@@ -94,7 +98,8 @@ public class Controller
 	private final javafx.scene.paint.Color COLOR_YELLOW = javafx.scene.paint.Color.web("#FFAA00");
 	private final javafx.scene.paint.Color COLOR_RED = javafx.scene.paint.Color.web("#FF5555");
 	private final javafx.scene.paint.Color COLOR_BLUE = javafx.scene.paint.Color.web("#5555FD");
-	private final javafx.scene.paint.Color COLOR_GREEN = javafx.scene.paint.Color.web("#55AA55");	
+	private final javafx.scene.paint.Color COLOR_GREEN = javafx.scene.paint.Color.web("#55AA55");
+	public static Sound backGroundSound = new Sound("src/resources/sounds/background.mp3");
 
 	public void init()
 	{
@@ -103,7 +108,7 @@ public class Controller
 		PLAYER_STARTING_POINT = new Point2D(100.0, stage.getScene().getHeight() - 50.0 - CARD_HEIGHT);
 		AI_2_STARTING_POINT = new Point2D(stage.getScene().getWidth() - CARD_HEIGHT - 30, 70.0);
 		AI_3_STARTING_POINT = new Point2D(60.0, 70.0);
-		
+
 		clearAll();
 		showNeutralUI();
 		
@@ -220,6 +225,8 @@ public class Controller
 	
 	public void showMainMenu()
 	{
+//		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		if(game != null)
 		{
 			game.stop();	
@@ -234,6 +241,8 @@ public class Controller
 	
 	public void showNeutralUI()
 	{
+//		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		imageViewLogo.setVisible(true);
 		labelLogo.setVisible(true);
 		buttonNewGame.setVisible(true);
@@ -242,6 +251,8 @@ public class Controller
 	
 	public void hideNeutralUI()
 	{
+//		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		imageViewLogo.setVisible(false);
 		labelLogo.setVisible(false);
 		buttonNewGame.setVisible(false);
@@ -273,7 +284,10 @@ public class Controller
 
 	public void showCircleWishColor(Color color)
 	{
+		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		hideImageViewWishColor();
+		Sound buttonSound1 = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
 
 		switch(color)
 		{
@@ -305,39 +319,52 @@ public class Controller
 
 	public void showImageViewWishColor()
 	{
-		hideCircleWishColor();
+		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
 
+		hideCircleWishColor();
 		imageViewWishColor.setVisible(true);
 	}
 
 	public void hideCircleWishColor()
 	{
+		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		labelWishColor.setVisible(false);
 		circleWishColor.setVisible(false);
 	}
 
 	public void hideImageViewWishColor()
 	{
+		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		imageViewWishColor.setVisible(false);
 		circleWishColor.setVisible(false);
 	}
 
 	public void hideWishColor()
 	{
+		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		hideCircleWishColor();
 		hideImageViewWishColor();
 	}
 
 	public void hideInfo()
-	{		
+	{
+		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		hboxInfo.setVisible(false);
 	}
 
 	public void showInfo(String text, int numberOfCards)
 	{
+		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		labelInfo.setText(text);
 		buttonInfo.setOnAction(new EventHandler<ActionEvent>()
 		{
+			Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 			@Override
 			public void handle(ActionEvent event)
 			{
@@ -362,23 +389,30 @@ public class Controller
 	
 	public void hideLabelChallengeCounter()
 	{
+		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		labelChallengeCounter.setVisible(false);
 	}
 	
 	public void showLabelChallengeCounter(String text)
 	{
+		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		labelChallengeCounter.setText(text);
 		labelChallengeCounter.setVisible(true);
 	}
 	
 	public void hideImageViewDirection()
 	{
+		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		imageViewDirection.setVisible(false);
 		labelDirection.setVisible(false);
 	}
 	
 	public void setImageViewDirection(Direction direction)
 	{
+
 		imageViewDirection.setVisible(true);
 		labelDirection.setVisible(true);
 		
@@ -458,6 +492,8 @@ public class Controller
 
 		imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
 		{
+			Sound buttonSound = new Sound("src/resources/sounds/Card_Dealing.mp3");     //Make "button sound" when clicked
+
 			@Override
 			public void handle(MouseEvent event)
 			{
@@ -524,6 +560,8 @@ public class Controller
 			@Override
 			public void handle(ActionEvent event)
 			{
+				Sound buttonSound = new Sound("src/resources/sounds/Card_Dealing.mp3");     //Make "button sound" when clicked
+
 				if(game.isRunning())
 				{
 					if(newWishColor != null)
@@ -601,9 +639,12 @@ public class Controller
 		translateTransition.setToY( - (view.getY() - deckPosition.getY()));
 		translateTransition.setOnFinished(new EventHandler<ActionEvent>()
 		{
+
 			@Override
 			public void handle(ActionEvent event)
 			{
+				Sound buttonSound = new Sound("src/resources/sounds/Card_Dealing.mp3");     //Make "button sound" when clicked
+
 				if(game.isRunning())
 				{
 					if(newWishColor != null)
@@ -1219,7 +1260,9 @@ public class Controller
 	
 	@FXML
 	private void buttonAchievements()
-	{ 	
+	{
+		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		Stage newStage = new Stage();	
 
 		AnchorPane root = new AnchorPane();
@@ -1263,6 +1306,8 @@ public class Controller
 	
 	public void about()
 	{
+		Sound buttonSound = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("About " + bundle.getString("app.name"));
 		alert.setHeaderText(bundle.getString("app.name"));
@@ -1270,5 +1315,7 @@ public class Controller
 		Stage dialogStage = (Stage)alert.getDialogPane().getScene().getWindow();
 		dialogStage.getIcons().add(icon);
 		alert.showAndWait();
+		Sound buttonSound1 = new Sound("src/resources/sounds/sound_button_click.mp3");     //Make "button sound" when clicked
+
 	}	
 }

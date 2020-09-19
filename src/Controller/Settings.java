@@ -3,27 +3,34 @@ package Controller;
 import tools.PathUtils;
 
 import java.io.*;
+import java.util.Locale;
 
 public class Settings implements Serializable
 {
 	private int numberOfAIs;
 	private int numberOfStartingCards;
-	private int aiSpeed;	
+	private int aiSpeed;
+	private int volume;
 	private boolean allowChallengePlusTwo;
 	private boolean allowChallengePlusFourWithTwo;
 	private boolean allowChallengePlusFourWithFour;
+	private Locale locale;
 	
 	private static final long serialVersionUID = 1L;	
 	
 		
-	public Settings(int numberOfAIs, int numberOfStartingCards, int aiSpeed, boolean allowChallengePlusTwo, boolean allowChallengePlusFourWithTwo, boolean allowChallengePlusFourWithFour)
+	public Settings(int numberOfAIs, int numberOfStartingCards, int aiSpeed, boolean allowChallengePlusTwo,
+					boolean allowChallengePlusFourWithTwo, boolean allowChallengePlusFourWithFour,
+					Locale locale, int volume)
 	{		
 		this.numberOfAIs = numberOfAIs;
 		this.numberOfStartingCards = numberOfStartingCards;
 		this.aiSpeed = aiSpeed;
 		this.allowChallengePlusTwo = allowChallengePlusTwo;
 		this.allowChallengePlusFourWithTwo = allowChallengePlusFourWithTwo;
-		this.allowChallengePlusFourWithFour = allowChallengePlusFourWithFour;	
+		this.allowChallengePlusFourWithFour = allowChallengePlusFourWithFour;
+		this.locale = locale;
+		this.volume = volume;
 	}
 	
 	public Settings()
@@ -51,7 +58,8 @@ public class Settings implements Serializable
 		aiSpeed = 2;
 		allowChallengePlusTwo = false;
 		allowChallengePlusFourWithTwo = false;
-		allowChallengePlusFourWithFour = false;		
+		allowChallengePlusFourWithFour = false;
+		locale = new Locale("en", "US" );
 	}
 	
 	public void save() throws Exception
@@ -62,7 +70,7 @@ public class Settings implements Serializable
 		out.close();
 		fileOut.close();
 	}
-	
+
 	public void load() throws Exception
 	{
 		 FileInputStream fileIn = new FileInputStream(PathUtils.getOSindependentPath() + "/OOP/UNO/settings.config");
@@ -77,12 +85,23 @@ public class Settings implements Serializable
          this.allowChallengePlusTwo = loaded.isAllowChallengePlusTwo();
          this.allowChallengePlusFourWithTwo = loaded.isAllowChallengePlusFourWithTwo();
          this.allowChallengePlusFourWithFour = loaded.isAllowChallengePlusFourWithFour();
+         this.locale = loaded.getLocale();
+         this.volume = loaded.getVolume();
 	}	
 
 	public int getNumberOfAIs()
 	{
 		return numberOfAIs;
 	}
+
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public int getVolume() {
+		return volume;
+	}
+
 
 	public int getNumberOfStartingCards()
 	{

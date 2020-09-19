@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Color;
+import Model.Sound;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -20,6 +21,8 @@ public class ColorChooserController
 	{
 		rectYellow.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
+			Sound buttonSound = new Sound("src/resources/sounds/Card_Dealing.mp3");     //Make "button sound" when clicked
+
 			@Override
 			public void handle(MouseEvent event)
 			{
@@ -30,6 +33,8 @@ public class ColorChooserController
 
 		rectRed.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
+			Sound buttonSound = new Sound("src/resources/sounds/Card_Dealing.mp3");     //Make "button sound" when clicked
+
 			@Override
 			public void handle(MouseEvent event)
 			{
@@ -40,6 +45,8 @@ public class ColorChooserController
 
 		rectBlue.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
+			Sound buttonSound = new Sound("src/resources/sounds/Card_Dealing.mp3");     //Make "button sound" when clicked
+
 			@Override
 			public void handle(MouseEvent event)
 			{
@@ -50,6 +57,8 @@ public class ColorChooserController
 
 		rectGreen.setOnMouseClicked(new EventHandler<MouseEvent>()
 		{
+			Sound buttonSound = new Sound("src/resources/sounds/Card_Dealing.mp3");     //Make "button sound" when clicked
+
 			@Override
 			public void handle(MouseEvent event)
 			{
@@ -60,6 +69,8 @@ public class ColorChooserController
 		
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>()
 		{
+			Sound buttonSound = new Sound("src/resources/sounds/Card_Dealing.mp3");     //Make "button sound" when clicked
+
 			@Override
 			public void handle(WindowEvent event)
 			{

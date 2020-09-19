@@ -52,10 +52,7 @@ public class Main extends Application
 					}					
 				}
 			});
-			
-			
-			
-			
+
 			stage.getIcons().add(new Image("images/icon.png"));
 			stage.show();		
 		}
