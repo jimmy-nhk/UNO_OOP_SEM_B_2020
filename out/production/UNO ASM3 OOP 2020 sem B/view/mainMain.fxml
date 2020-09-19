@@ -7,8 +7,6 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -148,7 +146,7 @@
                     <Line endX="456.0" layoutX="143.0" startX="-143.0" />
                     <VBox layoutX="225.0" layoutY="49.0" prefHeight="240.0" prefWidth="150.0" spacing="25.0">
                         <children>
-                            <Button fx:id="buttonVolume" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="32.0" prefWidth="126.0" text="Volume: ON">
+                            <Button fx:id="buttonVolume" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="32.0" prefWidth="126.0" text="Volume">
                                 <opaqueInsets>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                 </opaqueInsets>
@@ -156,8 +154,8 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                 </VBox.margin>
                             </Button>
-                            <Button fx:id="buttonLanguage" mnemonicParsing="false" text="Language: English" translateX="10.0" translateY="-10.0" />
-                            <Button fx:id="buttonTheme" mnemonicParsing="false" prefHeight="32.0" prefWidth="125.0" text="Theme: 1" translateX="10.0" translateY="-10.0" />
+                            <Button fx:id="buttonLanguage" mnemonicParsing="false" text="Language" translateX="10.0" translateY="-10.0" />
+                            <Button fx:id="buttonTheme" mnemonicParsing="false" prefHeight="32.0" prefWidth="125.0" text="Theme" translateX="10.0" translateY="-10.0" />
                             <Button fx:id="backButton3" mnemonicParsing="false" onMouseClicked="#backMainMenuFromSetting" prefHeight="32.0" prefWidth="128.0" text="Back" translateX="10.0" translateY="-10.0" />
                         </children></VBox>
                 </children>
