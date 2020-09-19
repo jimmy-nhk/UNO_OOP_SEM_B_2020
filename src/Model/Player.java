@@ -174,7 +174,7 @@ public class Player
 			if(challenge)
 			{					
 				game.setShowingInfo(true);
-				game.getController().showInfo("Du kannst nicht kontern. Ziehe " + game.getChallengeCounter() + " Karten.", game.getChallengeCounter());
+				game.getController().showInfo("You can not deal card. Draw " + game.getChallengeCounter() + " cards.", game.getChallengeCounter());
 			}
 			else
 			{			

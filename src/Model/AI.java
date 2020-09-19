@@ -167,18 +167,18 @@ public class AI
 				{
 					game.getController().moveCardFromDeckToAI(this, drawedCards);
 				}
-				System.out.println("deack after draw: " + deck);
+				System.out.println("deck after draw: " + deck);
 			}
 			else
 			{
-				System.out.println("draw one card");
+				System.out.println("draw 1 card");
 				ArrayList<Card> drawedCards = new ArrayList<Card>();
 				drawedCards.add(game.getDeck().drawCard(game.getDeadDeck()));
 				if(game.isRunning())
 				{
 					game.getController().moveCardFromDeckToAI(this, drawedCards);
 				}
-				System.out.println("deack after draw: " + deck);
+				System.out.println("deck after draw: " + deck);
 			}
 		}
 		else

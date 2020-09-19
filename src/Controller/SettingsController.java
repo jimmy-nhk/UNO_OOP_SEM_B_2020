@@ -28,13 +28,13 @@ public class SettingsController
 			public String toString(Double n)
 			{
 				if(n < 1.5)
-					return "Langsam";
+					return "Slow";
 				if(n < 2.5)
-					return "Mittel";
+					return "Medium";
 				if(n < 3.5)
-					return "Schnell";			
+					return "Fast";
 
-				return "Sehr Schnell";
+				return "Very fast";
 			}
 
 			@Override
@@ -42,11 +42,11 @@ public class SettingsController
 			{
 				switch(s)
 				{
-					case "Langsam":
+					case "Slow":
 						return 1d;
-					case "Mittel":
+					case "Medium":
 						return 2d;
-					case "Schnell":
+					case "Fast":
 						return 3d;					
 
 					default:
