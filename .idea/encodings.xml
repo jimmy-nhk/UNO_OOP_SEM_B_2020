@@ -1,10 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/UNO-master" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/lib" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/src" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/src/src" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/imageCss/button.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/BackgroundMain.jpg" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/EIGHT-BLUE.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/EIGHT-GREEN.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/EIGHT-RED.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/EIGHT-YELLOW.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/FIVE-BLUE.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/FIVE-GREEN.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/FIVE-RED.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/FIVE-YELLOW.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/FOUR-BLUE.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/FOUR-GREEN.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/FOUR-RED.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/FOUR-YELLOW.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/NINE-BLUE.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/NINE-GREEN.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/NINE-RED.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/NINE-YELLOW.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ONE-BLUE.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ONE-BLUE.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ONE-GREEN.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ONE-GREEN.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ONE-RED.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ONE-RED.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ONE-YELLOW.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ONE-YELLOW.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ONE-YELLOW.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/SEVEN-BLUE.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/SEVEN-GREEN.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/SEVEN-RED.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/SEVEN-YELLOW.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/SIX-BLUE.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/SIX-GREEN.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/SIX-RED.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/SIX-YELLOW.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/THREE-BLUE.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/THREE-GREEN.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/THREE-RED.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/THREE-YELLOW.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/TWO-BLUE.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/TWO-BLUE.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/TWO-GREEN.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/TWO-RED.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/TWO-YELLOW.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ZERO-BLUE.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ZERO-GREEN.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ZERO-RED.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/ZERO-YELLOW.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/button.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/button.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/resources/images/firstTheme.jpg" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

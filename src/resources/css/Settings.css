@@ -1,0 +1,13 @@
+#settingsScene {
+    -fx-background-image: url("/resources/images/firstTheme.jpg");
+    -fx-background-size: 700px 500px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.button{
+    -fx-background-image: url('/imageCss/button.png');
+    -fx-background-size: 155px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}

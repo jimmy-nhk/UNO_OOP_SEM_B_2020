@@ -75,7 +75,7 @@ public class Controller
 	public TranslateTransition translateTransition;
 
 	public Stage stage;
-	public Image icon = new Image("images/icon.png");
+	public Image icon = new Image("resources/images/icon.png");
 	private final ResourceBundle bundle = ResourceBundle.getBundle("resources/", Locale.ENGLISH);
 
 	private final double CARD_HEIGHT = 90.0;

@@ -20,7 +20,9 @@ public class Main extends Application
 			Parent root = (Parent)loader.load();
 
 			Scene scene = new Scene(root, 800, 650);
-
+			scene.getStylesheets().add(getClass().getResource("resources/css/ColorChooser.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("resources/css/MainGUI.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("resources/css/Settings.css").toExternalForm());
 			stage.setResizable(true);
 			stage.setTitle("UNO");
 			stage.setScene(scene);		
