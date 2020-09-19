@@ -16,10 +16,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.effect.Bloom;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -56,8 +58,10 @@ public class GameBoard implements Initializable {
     private Timer timer = new Timer();
     @FXML private ImageView volumeOnImageView;
     @FXML private ImageView volumeOffImageView;
-
-
+    @FXML private Text firstPlayer;
+    @FXML private Text secondPlayer;
+    @FXML private Text thirdPlayer;
+    @FXML private Text fourthPlayer;
     /**
      * Create animation for cards in the board
      **/
@@ -65,7 +69,11 @@ public class GameBoard implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         gameBoardService = new GameBoardService();
-
+        Bloom bloom = new Bloom();
+        firstPlayer.setEffect(bloom);
+        secondPlayer.setEffect(bloom);
+        thirdPlayer.setEffect(bloom);
+        fourthPlayer.setEffect(bloom);
         try {
             clientController.writeMessage(new Message("initialize", gameBoardService.getDeck()));
             setCardInDeck(); // Set up deck for drawing
