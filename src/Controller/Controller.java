@@ -118,14 +118,14 @@ public class Controller
 		}	
 		
 		handler = new AchievementHandler(stage);
-		handler.setPath(PathUtils.getOSindependentPath() + "/Deadlocker/UNO/achievements.save");
+		handler.setPath(PathUtils.getOSindependentPath() + "/OOP/UNO/achievements.save");
 		try
 		{
 			handler.loadAchievements();
 		}
 		catch(Exception e)
 		{
-			//falls die Datei nicht existiert, wird versucht die neu zu erzeugen
+			// if file does not exist, create a new file
 			createAchievements();	
 			try
 			{
@@ -474,7 +474,7 @@ public class Controller
 								Parent root = (Parent)fxmlLoader.load();
 								Stage newStage = new Stage();
 								newStage.setScene(new Scene(root, 300, 300));
-								newStage.setTitle("Wunschfarbe");
+								newStage.setTitle("Chosen color");
 								newStage.initOwner(stage);
 
 								newStage.getIcons().add(icon);
@@ -1155,7 +1155,7 @@ public class Controller
 			Parent root = (Parent)fxmlLoader.load();
 			Stage newStage = new Stage();
 			newStage.setScene(new Scene(root, 600, 400));
-			newStage.setTitle("Einstellungen");
+			newStage.setTitle("Setting");
 			newStage.initOwner(stage);
 
 			newStage.getIcons().add(icon);			
@@ -1192,7 +1192,7 @@ public class Controller
 	private void createAchievements()
 	{		
 		AchievementHandler handler = new AchievementHandler(stage);
-		handler.setPath(PathUtils.getOSindependentPath() + "/Deadlocker/UNO/achievements.save");
+		handler.setPath(PathUtils.getOSindependentPath() + "/OOP/UNO/achievements.save");
 		handler.addAchievement(new Achievement("Anf�nger", "Gewinne dein erstes Spiel", null, null, Status.LOCKED));
 		handler.addAchievement(new Achievement("Fortgeschrittener", "Gewinne insgesamt 10 Spiele", null, null, Status.LOCKED, 0, 10, 0));
 		handler.addAchievement(new Achievement("Experte", "Gewinne insgesamt 50 Spiele", null, null, Status.LOCKED, 0, 50, 0));
@@ -1264,7 +1264,7 @@ public class Controller
 	public void about()
 	{
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Via " + bundle.getString("app.name"));
+		alert.setTitle("About " + bundle.getString("app.name"));
 		alert.setHeaderText(bundle.getString("app.name"));
 		//alert.setContentText("Version:     " + bundle.getString("version.name") + "\r\nDate:      " + bundle.getString("version.date") + "\r\nAuthor:        Robert Goldmann\r\nCard images from:\nhttps://upload.wikimedia.org/wikipedia/commons/thumb/9/95/UNO_cards_deck.svg/800px-UNO_cards_deck.svg.png");
 		Stage dialogStage = (Stage)alert.getDialogPane().getScene().getWindow();

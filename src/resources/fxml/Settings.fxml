@@ -47,7 +47,7 @@
             </HBox>
             <HBox prefHeight="44.0" prefWidth="412.0">
                <children>
-                  <Label alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0" prefWidth="150.0" text="Gegner Schnelligkeit:">
+                  <Label alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0" prefWidth="150.0" text="Bot speed:">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -67,7 +67,7 @@
             </HBox>
             <HBox prefHeight="44.0" prefWidth="412.0">
                <children>
-                  <Label alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0" prefWidth="150.0" text="Regeln:">
+                  <Label alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0" prefWidth="150.0" text="Rule:">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -80,13 +80,13 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                      <children>
-                        <CheckBox fx:id="checkBoxRule1" mnemonicParsing="false" text="+2 Karten können verlängert werden" />
-                        <CheckBox fx:id="checkBoxRule2" mnemonicParsing="false" text="+4 Karten können mit +2 Karten verlängert werden">
+                        <CheckBox fx:id="checkBoxRule1" mnemonicParsing="false" text="Draw +2 card" />
+                        <CheckBox fx:id="checkBoxRule2" mnemonicParsing="false" text="Draw +4 and +2 cards">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
                         </CheckBox>
-                        <CheckBox fx:id="checkBoxRule3" mnemonicParsing="false" text="+4 Karten können mit +4 Karten verlängert werden">
+                        <CheckBox fx:id="checkBoxRule3" mnemonicParsing="false" text="Draw +4 and +4 cards">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>

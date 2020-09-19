@@ -36,23 +36,23 @@ public class Game
 		this.aiSpeed = aiSpeed;
 		deck = new Deck();
 		deadDeck = new DeadDeck();
-		player = new Player("Spieler", this);
+		player = new Player("Player", this);
 		ais = new ArrayList<AI>();
 		
 		if(numberOfAIs == 1)
 		{
-			ais.add(new AI("Computer 1", 1, this));
+			ais.add(new AI("Bot 1", 1, this));
 		}
 		else if(numberOfAIs == 2)
 		{
-			ais.add(new AI("Computer 1", 1, this));
-			ais.add(new AI("Computer 2", 2, this));
+			ais.add(new AI("Bot 1", 1, this));
+			ais.add(new AI("Bot 2", 2, this));
 		}
 		else if(numberOfAIs == 3)
 		{
-			ais.add(new AI("Computer 1", 3, this));
-			ais.add(new AI("Computer 2", 1, this));
-			ais.add(new AI("Computer 3", 2, this));
+			ais.add(new AI("Bot 1", 3, this));
+			ais.add(new AI("Bot 2", 1, this));
+			ais.add(new AI("Bot 3", 2, this));
 		}		
 
 		gameCount = 0;
@@ -145,7 +145,7 @@ public class Game
 					}
 				}		
 			
-			System.out.println("ROUND: " + counter / 4 + 1);
+			System.out.println("Round: " + counter / 4 + 1);
 			
 			if(lastCard.getType().equals(CardType.REVERSE) && !lastPlayerDraw)
 			{
@@ -170,7 +170,7 @@ public class Game
 			{		
 				if(currentPlayer == 1)
 				{			
-					controller.setLabelCurrentPlayer(player.getName() + " ist am Zug");
+					controller.setLabelCurrentPlayer(player.getName() + "'s turn");
 								
 					ArrayList<Card> validDeck = player.getValidCards(lastCard, wishColor, challenge);
 					controller.setValidPlayerDeck(player.getDeck(), validDeck);	
@@ -189,7 +189,7 @@ public class Game
 					{
 						AI currentAI = ais.get(currentPlayer - 2);
 						
-						controller.setLabelCurrentPlayer(currentAI.getName() + " ist am Zug");
+						controller.setLabelCurrentPlayer(currentAI.getName() + "'s turn");
 						
 						controller.setAIDeck(currentAI);	
 						
@@ -210,7 +210,7 @@ public class Game
 						}
 						catch(InterruptedException e)
 						{
-							//ERRORHANDLING
+							//Handle errors
 							e.printStackTrace();
 						}
 						
@@ -270,9 +270,9 @@ public class Game
 			player.win();
 			
 			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Sieg!");
+			alert.setTitle("Victory!");
 			alert.setHeaderText("");
-			alert.setContentText("Du gewinnst");
+			alert.setContentText("You won!");
 			alert.initOwner(controller.stage);
 			Stage dialogStage = (Stage)alert.getDialogPane().getScene().getWindow();
 			dialogStage.getIcons().add(controller.icon);
@@ -315,9 +315,9 @@ public class Game
 			}
 			
 			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Niederlage!");
+			alert.setTitle("Defeated!");
 			alert.setHeaderText("");
-			alert.setContentText(name + " hat gewonnen.");
+			alert.setContentText(name + " has won.");
 			alert.initOwner(controller.stage);
 			Stage dialogStage = (Stage)alert.getDialogPane().getScene().getWindow();
 			dialogStage.getIcons().add(controller.icon);
@@ -397,13 +397,13 @@ public class Game
 		{
 			challenge = true;
 			challengeCounter += 2;
-			controller.showLabelChallengeCounter("Verlierer zieht " + challengeCounter + " Karten");
+			controller.showLabelChallengeCounter("Loser draws " + challengeCounter + " cards");
 		}	
 		else if(card.getType().equals(CardType.DRAW_FOUR))
 		{
 			challenge = true;
 			challengeCounter += 4;
-			controller.showLabelChallengeCounter("Verlierer zieht " + challengeCounter + " Karten");
+			controller.showLabelChallengeCounter("Loser draws " + challengeCounter + " cards");
 		}
 		else
 		{
