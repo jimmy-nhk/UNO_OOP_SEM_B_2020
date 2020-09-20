@@ -8,7 +8,7 @@ import javafx.util.StringConverter;
 
 public class SettingsController
 {
-	@FXML private Slider sliderNumberOfAIs;
+	@FXML private Slider sliderNumberOfBots;
 	@FXML private Slider sliderNumberOfStartingCards;
 	@FXML private Slider sliderAISpeed;
 	@FXML private CheckBox checkBoxRule1;
@@ -57,9 +57,9 @@ public class SettingsController
 		
 		Settings settings = controller.settings;
 
-		sliderNumberOfAIs.setValue((double)settings.getNumberOfAIs());
+		sliderNumberOfBots.setValue((double)settings.getNumberOfBots());
 		sliderNumberOfStartingCards.setValue((double)settings.getNumberOfStartingCards());
-		sliderAISpeed.setValue((double)settings.getAiSpeed());
+		sliderAISpeed.setValue((double)settings.getBotSpeed());
 		checkBoxRule1.setSelected(settings.isAllowChallengePlusTwo());
 		checkBoxRule2.setSelected(settings.isAllowChallengePlusFourWithTwo());
 		checkBoxRule3.setSelected(settings.isAllowChallengePlusFourWithFour());		
@@ -77,7 +77,7 @@ public class SettingsController
 
 	public void save()
 	{
-		int numberOfAIs = (int)sliderNumberOfAIs.getValue();
+		int numberOfAIs = (int)sliderNumberOfBots.getValue();
 		int numberOfStartingCards = (int)sliderNumberOfStartingCards.getValue();
 		int aiSpeed = (int)sliderAISpeed.getValue();
 		

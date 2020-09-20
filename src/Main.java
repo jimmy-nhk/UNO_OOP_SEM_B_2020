@@ -48,14 +48,12 @@ public class Main extends Application
 						controller.handler.saveAndLoad();
 					}
 					catch(Exception e)
-					{						
+					{
+						System.out.println(e.toString());
 					}					
 				}
 			});
-			
-			
-			
-			
+
 			stage.getIcons().add(new Image("images/icon.png"));
 			stage.show();		
 		}

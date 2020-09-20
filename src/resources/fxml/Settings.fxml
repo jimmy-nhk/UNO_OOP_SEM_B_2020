@@ -21,7 +21,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Slider fx:id="sliderNumberOfAIs" blockIncrement="1.0" majorTickUnit="1.0" max="3.0" min="1.0" minorTickCount="0" prefHeight="44.0" prefWidth="230.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                  <Slider fx:id="sliderNumberOfBots" blockIncrement="1.0" majorTickUnit="1.0" max="3.0" min="1.0" minorTickCount="0" prefHeight="44.0" prefWidth="230.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                      <HBox.margin>
                         <Insets left="50.0" />
                      </HBox.margin>

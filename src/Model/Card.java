@@ -2,18 +2,18 @@ package Model;
 
 public class Card
 {
-	private CardType type;
+	private Property type;
 	private Color color;
 	private int value;	
 	
-	public Card(CardType type, Color color, int value)
+	public Card(Property type, Color color, int value)
 	{
 		this.type = type;
 		this.color = color;
 		this.value = value;
 	}
 
-	public CardType getType()
+	public Property getType()
 	{
 		return type;
 	}
