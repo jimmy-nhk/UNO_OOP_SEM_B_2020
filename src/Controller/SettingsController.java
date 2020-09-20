@@ -1,10 +1,16 @@
 package Controller;
 
+import Model.Sound;
+import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
+import java.util.Locale;
 
 public class SettingsController
 {
@@ -14,13 +20,22 @@ public class SettingsController
 	@FXML private CheckBox checkBoxRule1;
 	@FXML private CheckBox checkBoxRule2;
 	@FXML private CheckBox checkBoxRule3;
+	@FXML public RadioButton englishButton;
+	@FXML public RadioButton vietnameseButton;
+	@FXML public Label languageLabel;
+	@FXML public Label volumeLabel;
+	@FXML public Slider volumeSlider = new Slider();
 
 	private Stage stage;
 	private Controller controller;
+	private Locale locale = new Locale("en", "US");
 
 	public void init(Stage stage, Controller controller)
 	{
+		Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
 		this.stage = stage;
+		this.stage.setMinHeight(600);
 		this.controller = controller;
 		sliderAISpeed.setLabelFormatter(new StringConverter<Double>()
 		{
@@ -83,9 +98,19 @@ public class SettingsController
 		
 		boolean allowChallengePlusTwo = checkBoxRule1.isSelected();
 		boolean allowChallengePlusFourWithTwo = checkBoxRule2.isSelected();
-		boolean allowChallengePlusFourWithFour = checkBoxRule3.isSelected();	
+		boolean allowChallengePlusFourWithFour = checkBoxRule3.isSelected();
+
+		volumeSlider.setOnMouseClicked(e -> setActionForVolumeSlider());
+		DoubleProperty volume = volumeSlider.valueProperty();
+		int volumeAmount = volumeSlider.valueProperty().intValue();
+
+		vietnameseButton.setOnAction(e -> locale = new Locale("vi", "VN"));
+		englishButton.setOnAction(e -> locale = new Locale("en", "US"));
+
+        Controller.backgroundMusic.adjustMusicVolume(volume);
 		
-		controller.settings = new Settings(numberOfAIs, numberOfStartingCards, aiSpeed, allowChallengePlusTwo, allowChallengePlusFourWithTwo, allowChallengePlusFourWithFour);
+		controller.settings = new Settings(numberOfAIs, numberOfStartingCards, aiSpeed, allowChallengePlusTwo,
+				                           allowChallengePlusFourWithTwo, allowChallengePlusFourWithFour, locale, volumeAmount);
 		try
 		{
 			controller.settings.save();
@@ -96,5 +121,10 @@ public class SettingsController
 			e.printStackTrace();
 		}
 		stage.close();		
+	}
+
+	@FXML
+	private void setActionForVolumeSlider() {
+		volumeSlider.setValue(volumeSlider.getValue());
 	}
 }

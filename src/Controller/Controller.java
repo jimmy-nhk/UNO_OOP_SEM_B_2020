@@ -57,6 +57,7 @@ public class Controller {
     public TranslateTransition translateTransition;
     public Stage stage;
     public Image icon = new Image("images/icon.png");
+    public static final Sound backgroundMusic = new Sound("src/resources/sound/background.mp3");
 
     @FXML
     private ImageView iconLastCard;
@@ -169,6 +170,8 @@ public class Controller {
 
     // Start the game
     public void startGame() {
+        Sound startGameSound = new Sound("src/resources/sound/sound_launch.mp3");
+
         if (game != null) {
             game.stop();
         }
@@ -208,6 +211,7 @@ public class Controller {
 
     // Show main menu
     public void showMainMenu() {
+        Sound startGameSound = new Sound("src/resources/sound/sound_launch.mp3");
         if (game != null) {
             game.stop();
         }
@@ -221,6 +225,7 @@ public class Controller {
 
 
     public void showNeutralUI() {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         imageViewLogo.setVisible(true);
         labelLogo.setVisible(true);
         buttonNewGame.setVisible(true);
@@ -228,6 +233,8 @@ public class Controller {
     }
 
     public void hideNeutralUI() {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         imageViewLogo.setVisible(false);
         labelLogo.setVisible(false);
         buttonNewGame.setVisible(false);
@@ -255,7 +262,12 @@ public class Controller {
     }
 
     public void showCircleWishColor(Color color) {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         hideImageViewWishColor();
+
+        Sound buttonClickingSound1 = new Sound("src/resources/sound/sound_button_click.mp3");
+
 
         switch (color) {
             case YELLOW:
@@ -285,31 +297,44 @@ public class Controller {
     }
 
     public void showImageViewWishColor() {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         hideCircleWishColor();
+        Sound buttonClickingSound1 = new Sound("src/resources/sound/sound_button_click.mp3");
 
         imageViewWishColor.setVisible(true);
     }
 
     public void hideCircleWishColor() {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         labelWishColor.setVisible(false);
         circleWishColor.setVisible(false);
     }
 
     public void hideImageViewWishColor() {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         imageViewWishColor.setVisible(false);
         circleWishColor.setVisible(false);
     }
 
     public void hideWishColor() {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         hideCircleWishColor();
         hideImageViewWishColor();
     }
 
     public void hideInfo() {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         hboxInfo.setVisible(false);
     }
 
     public void showInfo(String text, int numberOfCards) {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         labelInfo.setText(text);
         buttonInfo.setOnAction(event -> {
             if (game.getChallengeCounter() > 10) {
@@ -328,20 +353,27 @@ public class Controller {
     }
 
     public void hideLabelChallengeCounter() {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         labelChallengeCounter.setVisible(false);
     }
 
     public void showLabelChallengeCounter(String text) {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         labelChallengeCounter.setText(text);
         labelChallengeCounter.setVisible(true);
     }
 
     public void hideImageViewDirection() {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         imageViewDirection.setVisible(false);
         labelDirection.setVisible(false);
     }
 
     public void setImageViewDirection(Direction direction) {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         imageViewDirection.setVisible(true);
         labelDirection.setVisible(true);
 
@@ -405,6 +437,9 @@ public class Controller {
         Controller main = this;
 
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+            Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
+
             @Override
             public void handle(MouseEvent event) {
                 if (game.isRunning() && game.getCurrentPlayer() == 1) {
@@ -459,6 +494,9 @@ public class Controller {
         translateTransition.setOnFinished(new EventHandler<>() {
             @Override
             public void handle(ActionEvent event) {
+                Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+                Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
+
                 if (game.isRunning()) {
                     if (newWishColor != null) {
                         showCircleWishColor(newWishColor);
@@ -949,7 +987,7 @@ public class Controller {
             newController.init(newStage, this);
 
             newStage.initModality(Modality.APPLICATION_MODAL);
-            newStage.setResizable(false);
+            newStage.setResizable(true);
             newStage.showAndWait();
 
         } catch (IOException e1) {
@@ -998,6 +1036,8 @@ public class Controller {
 
     @FXML
     private void buttonAchievements() {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         Stage newStage = new Stage();
 
         AnchorPane root = new AnchorPane();
@@ -1037,6 +1077,8 @@ public class Controller {
     }
 
     public void about() {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("About " + bundle.getString("app.name"));
         alert.setHeaderText(bundle.getString("app.name"));
@@ -1044,5 +1086,7 @@ public class Controller {
         Stage dialogStage = (Stage) alert.getDialogPane().getScene().getWindow();
         dialogStage.getIcons().add(icon);
         alert.showAndWait();
+        Sound buttonClickingSound1 = new Sound("src/resources/sound/sound_button_click.mp3");
+
     }
 }
