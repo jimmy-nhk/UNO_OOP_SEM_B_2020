@@ -1,4 +1,4 @@
-import Controller.Controller;
+import Controller.MainController;
 import achievements.Achievement.Status;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -16,7 +16,7 @@ public class Main extends Application
 	{
 		try
 		{
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("./resources/fxml/MainGUI.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/MainGUI.fxml"));
 			Parent root = (Parent)loader.load();
 
 			Scene scene = new Scene(root, 800, 650);
@@ -30,9 +30,9 @@ public class Main extends Application
 			stage.setScene(scene);		
 			stage.setResizable(false);
 			
-			Controller controller = (Controller)loader.getController();
-			controller.setStage(stage);			
-			controller.init();			
+			MainController mainController = (MainController)loader.getController();
+			mainController.setStage(stage);
+			mainController.init();
 			
 			stage.setOnCloseRequest(new EventHandler<WindowEvent>()
 			{				
@@ -41,15 +41,15 @@ public class Main extends Application
 				{
 					try
 					{
-						if(controller.handler.getAchievements().get(3).getStatus().equals(Status.LOCKED))
+						if(mainController.handler.getAchievements().get(3).getStatus().equals(Status.LOCKED))
 						{
-							controller.handler.resetAchievement(3);
+							mainController.handler.resetAchievement(3);
 						}
-						if(controller.handler.getAchievements().get(4).getStatus().equals(Status.LOCKED))
+						if(mainController.handler.getAchievements().get(4).getStatus().equals(Status.LOCKED))
 						{
-							controller.handler.resetAchievement(4);
+							mainController.handler.resetAchievement(4);
 						}	
-						controller.handler.saveAndLoad();
+						mainController.handler.saveAndLoad();
 					}
 					catch(Exception e)
 					{

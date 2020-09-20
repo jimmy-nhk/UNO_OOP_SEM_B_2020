@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.GameBoard;
+
 import java.util.ArrayList;
 
 public class Bot
@@ -8,15 +10,15 @@ public class Bot
 	private int id;
 	private ArrayList<Card> deck;
 	private int wins;
-	private Game game;
+	private GameBoard gameBoard;
 
-	public Bot(String name, int id, Game game)
+	public Bot(String name, int id, GameBoard gameBoard)
 	{
 		this.name = name;
 		this.id = id;
 		deck = new ArrayList<>();
 		wins = 0;
-		this.game = game;
+		this.gameBoard = gameBoard;
 	}
 
 	public void initialize()
@@ -42,13 +44,13 @@ public class Bot
 	public void drawCard(Card card)
 	{
 		deck.add(card);
-		game.getController().setAIDeck(this);
+		gameBoard.getController().setAIDeck(this);
 	}
 
 	public void drawCards(ArrayList<Card> cards)
 	{
 		deck.addAll(cards);
-		game.getController().setAIDeck(this);
+		gameBoard.getController().setAIDeck(this);
 	}
 
 	public Card playCard(Card card)
@@ -66,7 +68,7 @@ public class Bot
 			{
 				if(lastCard.getProperty().equals(Property.DRAW_TWO))
 				{
-					if(game.getController().settings.isAllowChallengePlusTwo())
+					if(gameBoard.getController().settings.isAllowChallengePlusTwo())
 					{
 						if(currentCard.getProperty().equals(Property.DRAW_TWO) || currentCard.getProperty().equals(Property.DRAW_FOUR))
 						{
@@ -76,7 +78,7 @@ public class Bot
 				}
 				else // lastCard == +4
 				{
-					if(game.getController().settings.isAllowChallengePlusFourWithFour())
+					if(gameBoard.getController().settings.isAllowChallengePlusFourWithFour())
 					{
 						if(currentCard.getProperty().equals(Property.DRAW_FOUR))
 						{
@@ -84,7 +86,7 @@ public class Bot
 						}
 					}
 
-					if(game.getController().settings.isAllowChallengePlusFourWithTwo())
+					if(gameBoard.getController().settings.isAllowChallengePlusFourWithTwo())
 					{
 						if(currentCard.getProperty().equals(Property.DRAW_TWO))
 						{
@@ -161,11 +163,11 @@ public class Bot
 		{
 			if(challenge)
 			{
-				System.out.println("draw " + game.getChallengeCounter() + " cards");
-				ArrayList<Card> drawCards = game.getDeck().drawCards(game.getChallengeCounter(), game.getPlayedCards());
-				if(game.isRunning())
+				System.out.println("draw " + gameBoard.getDrawnCardsCount() + " cards");
+				ArrayList<Card> drawCards = gameBoard.getDeck().drawCards(gameBoard.getDrawnCardsCount(), gameBoard.getPlayedCards());
+				if(gameBoard.isRunning())
 				{
-					game.getController().moveCardFromDeckToAI(this, drawCards);
+					gameBoard.getController().moveCardFromDeckToAI(this, drawCards);
 				}
 				System.out.println("deck after draw: " + deck);
 			}
@@ -173,10 +175,10 @@ public class Bot
 			{
 				System.out.println("draw 1 card");
 				ArrayList<Card> drawnCards = new ArrayList<Card>();
-				drawnCards.add(game.getDeck().drawCard(game.getPlayedCards()));
-				if(game.isRunning())
+				drawnCards.add(gameBoard.getDeck().drawCard(gameBoard.getPlayedCards()));
+				if(gameBoard.isRunning())
 				{
-					game.getController().moveCardFromDeckToAI(this, drawnCards);
+					gameBoard.getController().moveCardFromDeckToAI(this, drawnCards);
 				}
 				System.out.println("deck after draw: " + deck);
 			}
@@ -194,9 +196,9 @@ public class Bot
 				newWishColor = getBestColor();				
 			}
 
-			if(game.isRunning())
+			if(gameBoard.isRunning())
 			{
-				game.getController().moveBotCardToPlayedCards(this, game.getCurrentPlayer(), playedCard, getCardPositionInDeck(playedCard), newWishColor);
+				gameBoard.getController().moveBotCardToPlayedCards(this, gameBoard.getCurrentPlayer(), playedCard, getCardPositionInDeck(playedCard), newWishColor);
 			}
 		}
 	}

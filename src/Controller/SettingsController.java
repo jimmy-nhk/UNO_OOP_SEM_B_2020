@@ -27,16 +27,16 @@ public class SettingsController
 	@FXML public Slider volumeSlider = new Slider();
 
 	private Stage stage;
-	private Controller controller;
+	private MainController mainController;
 	private Locale locale = new Locale("en", "US");
 
-	public void init(Stage stage, Controller controller)
+	public void init(Stage stage, MainController mainController)
 	{
 		Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
 		this.stage = stage;
 		this.stage.setMinHeight(600);
-		this.controller = controller;
+		this.mainController = mainController;
 		sliderAISpeed.setLabelFormatter(new StringConverter<Double>()
 		{
 			@Override
@@ -70,7 +70,7 @@ public class SettingsController
 			}
 		});
 		
-		Settings settings = controller.settings;
+		Settings settings = mainController.settings;
 
 		sliderNumberOfBots.setValue((double)settings.getNumberOfBots());
 		sliderNumberOfStartingCards.setValue((double)settings.getNumberOfStartingCards());
@@ -107,14 +107,14 @@ public class SettingsController
 		vietnameseButton.setOnAction(e -> locale = new Locale("vi", "VN"));
 		englishButton.setOnAction(e -> locale = new Locale("en", "US"));
 
-        Controller.backgroundMusic.adjustMusicVolume(volume);
+        MainController.backgroundMusic.adjustMusicVolume(volume);
 		
-		controller.settings = new Settings(numberOfAIs, numberOfStartingCards, aiSpeed, allowChallengePlusTwo,
+		mainController.settings = new Settings(numberOfAIs, numberOfStartingCards, aiSpeed, allowChallengePlusTwo,
 				                           allowChallengePlusFourWithTwo, allowChallengePlusFourWithFour, locale, volumeAmount);
 		try
 		{
-			controller.settings.save();
-			controller.settings.load();		
+			mainController.settings.save();
+			mainController.settings.load();
 		}
 		catch(Exception e)
 		{			

@@ -36,7 +36,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 
-public class Controller {
+public class MainController {
 
     private final ResourceBundle bundle = ResourceBundle.getBundle("resources/", Locale.ENGLISH);
     private final double CARD_HEIGHT = 90.0;
@@ -53,16 +53,18 @@ public class Controller {
     private final javafx.scene.paint.Color COLOR_BLUE = javafx.scene.paint.Color.web("#5555FD");
     private final javafx.scene.paint.Color COLOR_GREEN = javafx.scene.paint.Color.web("#55AA55");
 
-    public Game game;
-    public Color chosenWishColor;
+    public GameBoard gameBoard;
     public int drawCounter;
     public Settings settings;
     public AchievementHandler handler;
-    public boolean playerMustChallenge;
-    public TranslateTransition translateTransition;
     public Stage stage;
     public Image icon = new Image("images/icon.png");
     public static final Sound backgroundMusic = new Sound("src/resources/sound/background.mp3");
+    public Color chosenWishColor;
+
+    public boolean playerMustDraw;
+    public TranslateTransition translateTransition;
+
 
     @FXML
     private ImageView iconLastCard;
@@ -177,15 +179,15 @@ public class Controller {
     public void startGame() {
         Sound startGameSound = new Sound("src/resources/sound/sound_launch.mp3");
 
-        if (game != null) {
-            game.stop();
+        if (gameBoard != null) {
+            gameBoard.stop();
         }
 
         clearAll();
 
         drawCounter = 0;
         playerHasDrawn = false;
-        playerMustChallenge = false;
+        playerMustDraw = false;
 
         labelCurrentPlayer.setVisible(true);
         labelCurrentPlayer.setText("");
@@ -193,23 +195,23 @@ public class Controller {
         iconDeck.setImage(createEmptyBackCard());
 
         iconDeck.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (game.isRunning() && game.getCurrentPlayer() == 1 && !game.isShowingInfo() && !playerHasDrawn && !playerMustChallenge) {
+            if (gameBoard.isRunning() && gameBoard.getCurrentPlayer() == 1 && !gameBoard.isShowingInfo() && !playerHasDrawn && !playerMustDraw) {
                 playerHasDrawn = true;
-                playerMustChallenge = false;
-                Card drawCard = game.getDeck().drawCard(game.getPlayedCards());
+                playerMustDraw = false;
+                Card drawCard = gameBoard.getDeck().drawCard(gameBoard.getPlayedCards());
                 ArrayList<Card> allCards = new ArrayList<>();
                 allCards.add(drawCard);
                 moveCardFromDeckToPlayer(allCards);
             }
         });
 
-        game = new Game(this, settings.getNumberOfBots(), settings.getBotSpeed());
-        setLabelNames(game.getPlayer(), game.getAIs());
-        game.newGame(settings.getNumberOfStartingCards());
+        gameBoard = new GameBoard(this, settings.getNumberOfBots(), settings.getBotSpeed());
+        setLabelNames(gameBoard.getPlayer(), gameBoard.getBots());
+        gameBoard.newGame(settings.getNumberOfStartingCards());
 
         buttonStart.setOnAction(event -> {
             buttonStart.setVisible(false);
-            game.start();
+            gameBoard.start();
         });
         buttonStart.setVisible(true);
     }
@@ -217,13 +219,13 @@ public class Controller {
     // Show main menu
     public void showMainMenu() {
         Sound startGameSound = new Sound("src/resources/sound/sound_launch.mp3");
-        if (game != null) {
-            game.stop();
+        if (gameBoard != null) {
+            gameBoard.stop();
         }
 
         clearAll();
         clearPlayerDeck();
-        clearAllDecks(game.getAIs());
+        clearAllDecks(gameBoard.getBots());
 
         showNeutralUI();
     }
@@ -342,7 +344,7 @@ public class Controller {
 
         labelInfo.setText(text);
         buttonInfo.setOnAction(event -> {
-            if (game.getChallengeCounter() > 10) {
+            if (gameBoard.getDrawnCardsCount() > 10) {
                 try {
                     handler.unlockAchievement(5);
                     handler.saveAndLoad();
@@ -351,7 +353,7 @@ public class Controller {
                 }
 
             }
-            moveCardFromDeckToPlayer(game.getDeck().drawCards(game.getChallengeCounter(), game.getPlayedCards()));
+            moveCardFromDeckToPlayer(gameBoard.getDeck().drawCards(gameBoard.getDrawnCardsCount(), gameBoard.getPlayedCards()));
         });
 
         hboxInfo.setVisible(true);
@@ -439,7 +441,7 @@ public class Controller {
                 imageView.setImage(snapshot);
             }
         }
-        Controller main = this;
+        MainController main = this;
 
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
@@ -447,11 +449,11 @@ public class Controller {
 
             @Override
             public void handle(MouseEvent event) {
-                if (game.isRunning() && game.getCurrentPlayer() == 1) {
+                if (gameBoard.isRunning() && gameBoard.getCurrentPlayer() == 1) {
                     if (valid) {
                         if (card.getProperty().equals(Property.WILD) || card.getProperty().equals(Property.DRAW_FOUR)) {
                             try {
-                                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ColorChooser.fxml"));
+                                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ColorChooser.fxml"));
 
                                 Parent root = fxmlLoader.load();
                                 Stage newStage = new Stage();
@@ -496,43 +498,40 @@ public class Controller {
         translateTransition.setFromY(0);
         translateTransition.setToX(-(view.getX() - deckPosition.getX()));
         translateTransition.setToY(-(view.getY() - deckPosition.getY()));
-        translateTransition.setOnFinished(new EventHandler<>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-                Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
+        translateTransition.setOnFinished(event -> {
+            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+            Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
 
-                if (game.isRunning()) {
-                    if (newWishColor != null) {
-                        showCircleWishColor(newWishColor);
-                    } else {
-                        hideWishColor();
-                    }
-                    Card playedCard = game.getPlayer().playCard(card);
-
-                    if (playedCard.getProperty().equals(Property.DRAW_FOUR) && game.getPlayedCards().getCards().get(game.getPlayedCards().getCards().size() - 1).getProperty().equals(Property.DRAW_FOUR) && game.getChallengeCounter() > 0) {
-                        try {
-                            handler.unlockAchievement(6);
-                            handler.saveAndLoad();
-                        } catch (Exception e) {
-                        }
-                    }
-
-                    if (playedCard.getProperty().equals(Property.WILD)) {
-                        try {
-                            handler.unlockAchievement(7);
-                            handler.saveAndLoad();
-                        } catch (Exception e) {
-                        }
-                    }
-
-                    setPlayerDeck(game.getPlayer().getDeck());
-                    game.playCard(playedCard, newWishColor);
+            if (gameBoard.isRunning()) {
+                if (newWishColor != null) {
+                    showCircleWishColor(newWishColor);
+                } else {
+                    hideWishColor();
                 }
+                Card playedCard = gameBoard.getPlayer().playCard(card);
+
+                if (playedCard.getProperty().equals(Property.DRAW_FOUR) && gameBoard.getPlayedCards().getCards().get(gameBoard.getPlayedCards().getCards().size() - 1).getProperty().equals(Property.DRAW_FOUR) && gameBoard.getDrawnCardsCount() > 0) {
+                    try {
+                        handler.unlockAchievement(6);
+                        handler.saveAndLoad();
+                    } catch (Exception e) {
+                    }
+                }
+
+                if (playedCard.getProperty().equals(Property.WILD)) {
+                    try {
+                        handler.unlockAchievement(7);
+                        handler.saveAndLoad();
+                    } catch (Exception e) {
+                    }
+                }
+
+                setPlayerDeck(gameBoard.getPlayer().getDeck());
+                gameBoard.playCard(playedCard, newWishColor);
             }
         });
 
-        if (game.isRunning()) {
+        if (gameBoard.isRunning()) {
             translateTransition.play();
         }
     }
@@ -564,7 +563,7 @@ public class Controller {
         translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (game.isRunning()) {
+                if (gameBoard.isRunning()) {
                     if (newWishColor != null) {
                         showCircleWishColor(newWishColor);
                     } else {
@@ -572,18 +571,18 @@ public class Controller {
                     }
                     Card playedCard = bot.playCard(card);
                     setAIDeck(bot);
-                    game.playCard(playedCard, newWishColor);
+                    gameBoard.playCard(playedCard, newWishColor);
                 }
             }
         });
 
-        if (game.isRunning()) {
+        if (gameBoard.isRunning()) {
             translateTransition.play();
         }
     }
 
     public void moveCardFromDeckToPlayer(ArrayList<Card> cards) {
-        if (game.isRunning()) {
+        if (gameBoard.isRunning()) {
             Point2D deckPosition = iconDeck.localToScene(Point2D.ZERO);
 
             ImageView view = createCard(cards.get(drawCounter), true);
@@ -611,25 +610,25 @@ public class Controller {
                             iterator.remove();
                         }
                     }
-                    if (game.isRunning()) {
-                        game.getPlayer().drawCard(cards.get(drawCounter));
-                        setPlayerDeck(game.getPlayer().getDeck());
+                    if (gameBoard.isRunning()) {
+                        gameBoard.getPlayer().drawCard(cards.get(drawCounter));
+                        setPlayerDeck(gameBoard.getPlayer().getDeck());
                         drawCounter++;
                         playerHasDrawn = false;
 
                         if (drawCounter < cards.size()) {
                             moveCardFromDeckToPlayer(cards);
                         } else {
-                            game.setShowingInfo(false);
+                            gameBoard.setShowingInfo(false);
                             hideInfo();
                             drawCounter = 0;
-                            game.draw();
+                            gameBoard.draw();
                         }
                     }
                 }
             });
 
-            if (game.isRunning()) {
+            if (gameBoard.isRunning()) {
                 translateTransition.play();
             }
         }
@@ -639,7 +638,7 @@ public class Controller {
     private double getPositionOfRightCard(Bot bot) {
         if (bot == null) {
             double maxWidth = stage.getScene().getWidth() - (PLAYER_STARTING_POINT.getX() * 2) - CARD_WIDTH;
-            int deckSize = game.getPlayer().getDeckSize();
+            int deckSize = gameBoard.getPlayer().getDeckSize();
             if ((deckSize * (CARD_WIDTH + CARD_SPACING_LARGE)) > maxWidth) {
                 if ((deckSize * (CARD_WIDTH + CARD_SPACING_MEDIUM)) > maxWidth) {
                     if ((deckSize * (CARD_WIDTH + CARD_SPACING_SMALL)) > maxWidth) {
@@ -695,8 +694,8 @@ public class Controller {
 
     @SuppressWarnings("unused")
     public void moveCardFromDeckToAI(Bot bot, ArrayList<Card> cards) {
-        if (game.isRunning()) {
-            Card card = game.getDeck().drawCard(game.getPlayedCards());
+        if (gameBoard.isRunning()) {
+            Card card = gameBoard.getDeck().drawCard(gameBoard.getPlayedCards());
 
             Point2D deckPosition = iconDeck.localToScene(Point2D.ZERO);
 
@@ -742,7 +741,7 @@ public class Controller {
                         }
                     }
 
-                    if (game.isRunning()) {
+                    if (gameBoard.isRunning()) {
                         bot.drawCard(cards.get(drawCounter));
                         setAIDeck(bot);
                         drawCounter++;
@@ -750,16 +749,16 @@ public class Controller {
                         if (drawCounter < cards.size()) {
                             moveCardFromDeckToAI(bot, cards);
                         } else {
-                            game.setShowingInfo(false);
+                            gameBoard.setShowingInfo(false);
                             hideInfo();
                             drawCounter = 0;
-                            game.draw();
+                            gameBoard.draw();
                         }
                     }
                 }
             });
 
-            if (game.isRunning()) {
+            if (gameBoard.isRunning()) {
                 translateTransition.play();
             }
         }
@@ -980,7 +979,7 @@ public class Controller {
 
     public void openSettings() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Settings.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Settings.fxml"));
 
             Parent root = (Parent) fxmlLoader.load();
             Stage newStage = new Stage();

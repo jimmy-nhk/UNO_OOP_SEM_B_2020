@@ -1,6 +1,6 @@
-package Model;
+package Controller;
 
-import Controller.Controller;
+import Model.*;
 import achievements.Achievement.Status;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -9,29 +9,58 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Game {
-
+public class GameBoard {
+    // The deck of the game
     private Deck deck;
+
+    // The cards have been played
     private PlayedCards playedCards;
+
+    // Player plays the game
     private Player player;
+
+    // Bots for playing the game
     private ArrayList<Bot> bots;
-    private int gameCount;
-    private int challengeCounter;
-    private int currentPlayer;
+
+    // If that card is draw card.
+    private boolean ifDrawnCard;
+
+    // How many cards needed to draw from the drawn card
+    private int drawnCardsCount;
+
+    // Set the current Player
+    private int positionOfCurrentPlayer;
+
+    // what is the previous card to validate the possible cards in that player
     private Card previousCard;
-    private Color wishColor;
-    private boolean challenge;
+
+    // chosen color from the Wild card
+    private Color chosenColor;
+
+    // Which direction of the board
     private Direction direction;
-    private Controller controller;
+
+    // Link between the logic game and the GUI
+    private MainController mainController;
+
+
+    // To check what is the last player played the reverse card , so as to switch the direction
     private boolean lastPlayerDraw;
+
+    // If the skip card is played
     private boolean skipped;
-    private int counter;
-    private boolean running;
+
+    // If the game is still running
+    private boolean isRunning;
+
+    // Determine whether to show the info
     private boolean showingInfo;
+
+    // Check the bot Speed
     private int botSpeed;
 
-    public Game(Controller controller, int numberOfBots, int botSpeed) {
-        this.controller = controller;
+    public GameBoard(MainController mainController, int numberOfBots, int botSpeed) {
+        this.mainController = mainController;
         this.botSpeed = botSpeed;
         deck = new Deck();
         playedCards = new PlayedCards();
@@ -54,8 +83,7 @@ public class Game {
             bots.add(new Bot("Bot 3", 2, this));
         }
 
-        gameCount = 0;
-        challengeCounter = 0;
+        drawnCardsCount = 0;
     }
 
     // Create a new game
@@ -64,13 +92,12 @@ public class Game {
         deck = new Deck();
         deck.shuffle();
         playedCards = new PlayedCards();
-        gameCount++;
-        challengeCounter = 0;
+        drawnCardsCount = 0;
         previousCard = null;
-        wishColor = null;
-        challenge = false;
+        chosenColor = null;
+        ifDrawnCard = false;
         direction = Direction.RIGHT;
-        controller.setImageViewDirection(Direction.RIGHT); // The direction will go to the right at the beginning
+        mainController.setImageViewDirection(Direction.RIGHT); // The direction will go to the right at the beginning
         lastPlayerDraw = false;
         skipped = false;
         showingInfo = false;
@@ -95,43 +122,40 @@ public class Game {
         previousCard = playedCards.getCards().get(playedCards.getCards().size() - 1);
 
         // Set the previousCard in the GUI scene
-        controller.setPreviousCard(previousCard);
+        mainController.setPreviousCard(previousCard);
 
         // Check the card validation
         if (previousCard.getProperty().equals(Property.WILD)) {
-            wishColor = Color.ALL;
+            chosenColor = Color.ALL;
 
             // Set the color
-            controller.chosenWishColor = wishColor;
-            controller.showCircleWishColor(wishColor);
+            mainController.chosenWishColor = chosenColor;
+            mainController.showCircleWishColor(chosenColor);
         } else if (previousCard.getProperty().equals(Property.DRAW_FOUR)) {
-            wishColor = Color.ALL;
-            controller.chosenWishColor = wishColor;
-            controller.showCircleWishColor(wishColor);
-            challenge = true;
-            challengeCounter = 4;
+            chosenColor = Color.ALL;
+            mainController.chosenWishColor = chosenColor;
+            mainController.showCircleWishColor(chosenColor);
+
+            // If it is the draw card, ifDrawnCard will be set
+            ifDrawnCard = true;
+            drawnCardsCount = 4;
         } else if (previousCard.getProperty().equals(Property.DRAW_TWO)) {
-            challenge = true;
-            challengeCounter = 2;
+            ifDrawnCard = true;
+            drawnCardsCount = 2;
         }
     }
 
-    public int getGameCount() {
-        return gameCount;
-    }
-
     public void start() {
-        running = true;
+        isRunning = true;
         Random random = new Random();
-        currentPlayer = random.nextInt(bots.size() + 1) + 1;
+        positionOfCurrentPlayer = random.nextInt(bots.size() + 1) + 1;
 
-        counter = 0;
 
         run();
     }
 
     private void run() {
-        if (running) {
+        if (isRunning) {
             if (player.getDeckSize() == 0) {
                 end(player.getName());
                 return;
@@ -144,43 +168,41 @@ public class Game {
                 }
             }
 
-            System.out.println("Round: " + counter / 4 + 1);
-
             if (previousCard.getProperty().equals(Property.REVERSE) && !lastPlayerDraw) {
                 if (direction.equals(Direction.RIGHT)) {
                     direction = Direction.LEFT;
-                    controller.setImageViewDirection(Direction.LEFT);
+                    mainController.setImageViewDirection(Direction.LEFT);
 
                 } else {
                     direction = Direction.RIGHT;
-                    controller.setImageViewDirection(Direction.RIGHT);
+                    mainController.setImageViewDirection(Direction.RIGHT);
                 }
             }
 
             determineNextPlayer();
 
-            System.out.println("Player " + currentPlayer + "'s turn");
+            System.out.println("Player " + positionOfCurrentPlayer + "'s turn");
 
             if (skipped || !previousCard.getProperty().equals(Property.SKIP)) {
-                if (currentPlayer == 1) {
-                    controller.setLabelCurrentPlayer(player.getName() + "'s turn");
+                if (positionOfCurrentPlayer == 1) {
+                    mainController.setLabelCurrentPlayer(player.getName() + "'s turn");
 
-                    ArrayList<Card> validDeck = player.getPossiblePlayableCards(previousCard, wishColor, challenge);
-                    controller.setValidPlayerDeck(player.getDeck(), validDeck);
+                    ArrayList<Card> validDeck = player.getPossiblePlayableCards(previousCard, chosenColor, ifDrawnCard);
+                    mainController.setValidPlayerDeck(player.getDeck(), validDeck);
 
-                    controller.playerMustChallenge = false;
-                    if (challenge && validDeck.size() > 0) {
-                        controller.playerMustChallenge = true;
+                    mainController.playerMustDraw = false;
+                    if (ifDrawnCard && validDeck.size() > 0) {
+                        mainController.playerMustDraw = true;
                     }
 
-                    player.turn(previousCard, wishColor, challenge);
+                    player.turn(previousCard, chosenColor, ifDrawnCard);
                 } else {
-                    if (running) {
-                        Bot currentBot = bots.get(currentPlayer - 2);
+                    if (isRunning) {
+                        Bot currentBot = bots.get(positionOfCurrentPlayer - 2);
 
-                        controller.setLabelCurrentPlayer(currentBot.getName() + "'s turn");
+                        mainController.setLabelCurrentPlayer(currentBot.getName() + "'s turn");
 
-                        controller.setAIDeck(currentBot);
+                        mainController.setAIDeck(currentBot);
 
                         try {
                             switch (botSpeed) {
@@ -204,78 +226,77 @@ public class Game {
                             e.printStackTrace();
                         }
 
-                        currentBot.turn(previousCard, wishColor, challenge);
+                        currentBot.turn(previousCard, chosenColor, ifDrawnCard);
                     }
                 }
             } else {
                 if (!skipped) {
-                    System.out.println("SKIPPED player " + currentPlayer);
+                    System.out.println("SKIPPED player " + positionOfCurrentPlayer);
                     skipped = true;
                     run();
                 }
             }
-            counter++;
         }
     }
 
     private void determineNextPlayer() {
         if (direction.equals(Direction.RIGHT)) {
-            if (currentPlayer == bots.size() + 1) {
-                currentPlayer = 1;
+            if (positionOfCurrentPlayer == bots.size() + 1) {
+                positionOfCurrentPlayer = 1;
             } else {
-                currentPlayer++;
+                positionOfCurrentPlayer++;
             }
         } else {
-            if (currentPlayer == 1) {
-                currentPlayer = bots.size() + 1;
+            if (positionOfCurrentPlayer == 1) {
+                positionOfCurrentPlayer = bots.size() + 1;
             } else {
-                currentPlayer--;
+                positionOfCurrentPlayer--;
             }
         }
     }
 
     private void end(String name) {
-        controller.clearAllDecks(bots);
-        controller.clearAll();
+        mainController.clearAllDecks(bots);
+        mainController.clearAll();
         System.err.println("Player " + name + " wins!");
 
-        running = false;
+        isRunning = false;
 
-        if (currentPlayer == 1) {
+        if (positionOfCurrentPlayer == 1) {
             player.win();
 
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Victory!");
             alert.setHeaderText("");
             alert.setContentText("You won!");
-            alert.initOwner(controller.stage);
+            alert.initOwner(mainController.stage);
             Stage dialogStage = (Stage) alert.getDialogPane().getScene().getWindow();
-            dialogStage.getIcons().add(controller.icon);
+            dialogStage.getIcons().add(mainController.icon);
             alert.show();
 
-            controller.showNeutralUI();
+            mainController.showNeutralUI();
 
             try {
-                controller.handler.unlockAchievement(0);
-                controller.handler.incrementAchievement(1, 1);
-                controller.handler.incrementAchievement(2, 1);
-                controller.handler.incrementAchievement(3, 1);
-                controller.handler.incrementAchievement(4, 1);
-                controller.handler.checkAllIncrementalAchievements();
-                controller.handler.saveAndLoad();
+                mainController.handler.unlockAchievement(0);
+                mainController.handler.incrementAchievement(1, 1);
+                mainController.handler.incrementAchievement(2, 1);
+                mainController.handler.incrementAchievement(3, 1);
+                mainController.handler.incrementAchievement(4, 1);
+                mainController.handler.checkAllIncrementalAchievements();
+                mainController.handler.saveAndLoad();
             } catch (Exception e) {
             }
         } else {
             player.resetWinsInARow();
 
             try {
-                if (controller.handler.getAchievements().get(3).getStatus().equals(Status.LOCKED)) {
-                    controller.handler.resetAchievement(3);
+                if (mainController.handler.getAchievements().get(3).getStatus().equals(Status.LOCKED)) {
+                    mainController.handler.resetAchievement(3);
                 }
-                if (controller.handler.getAchievements().get(4).getStatus().equals(Status.LOCKED)) {
-                    controller.handler.resetAchievement(4);
+                if (mainController.handler.getAchievements().get(4).getStatus().equals(Status.LOCKED)) {
+                    mainController.handler.resetAchievement(4);
                 }
-                controller.handler.saveAndLoad();
+                mainController.handler.saveAndLoad();
             } catch (Exception e) {
             }
 
@@ -283,12 +304,12 @@ public class Game {
             alert.setTitle("Defeated!");
             alert.setHeaderText("");
             alert.setContentText(name + " has won.");
-            alert.initOwner(controller.stage);
+            alert.initOwner(mainController.stage);
             Stage dialogStage = (Stage) alert.getDialogPane().getScene().getWindow();
-            dialogStage.getIcons().add(controller.icon);
+            dialogStage.getIcons().add(mainController.icon);
             alert.show();
 
-            controller.showNeutralUI();
+            mainController.showNeutralUI();
         }
     }
 
@@ -300,28 +321,28 @@ public class Game {
         return playedCards;
     }
 
-    public int getChallengeCounter() {
-        return challengeCounter;
+    public int getDrawnCardsCount() {
+        return drawnCardsCount;
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public ArrayList<Bot> getAIs() {
+    public ArrayList<Bot> getBots() {
         return bots;
     }
 
     public boolean isRunning() {
-        return running;
+        return isRunning;
     }
 
     public int getCurrentPlayer() {
-        return currentPlayer;
+        return positionOfCurrentPlayer;
     }
 
-    public Controller getController() {
-        return controller;
+    public MainController getController() {
+        return mainController;
     }
 
     public boolean isShowingInfo() {
@@ -333,47 +354,47 @@ public class Game {
     }
 
     public void draw() {
-        challenge = false;
-        challengeCounter = 0;
+        ifDrawnCard = false;
+        drawnCardsCount = 0;
         lastPlayerDraw = true;
-        controller.hideLabelChallengeCounter();
+        mainController.hideLabelChallengeCounter();
 
         run();
     }
 
-    public void playCard(Card card, Color wishColor) {
+    public void playCard(Card card, Color chosenColor) {
         playedCards.add(card);
         previousCard = card;
-        this.wishColor = wishColor;
+        this.chosenColor = chosenColor;
 
         if (card.getProperty().equals(Property.DRAW_TWO)) {
-            challenge = true;
-            challengeCounter += 2;
-            controller.showLabelChallengeCounter("Loser draws " + challengeCounter + " cards");
+            ifDrawnCard = true;
+            drawnCardsCount += 2;
+            mainController.showLabelChallengeCounter("Loser draws " + drawnCardsCount + " cards");
         } else if (card.getProperty().equals(Property.DRAW_FOUR)) {
-            challenge = true;
-            challengeCounter += 4;
-            controller.showLabelChallengeCounter("Loser draws " + challengeCounter + " cards");
+            ifDrawnCard = true;
+            drawnCardsCount += 4;
+            mainController.showLabelChallengeCounter("Loser draws " + drawnCardsCount + " cards");
         } else {
-            challenge = false;
-            challengeCounter = 0;
-            controller.hideLabelChallengeCounter();
+            ifDrawnCard = false;
+            drawnCardsCount = 0;
+            mainController.hideLabelChallengeCounter();
         }
 
         lastPlayerDraw = false;
         skipped = false;
-        controller.setPreviousCard(previousCard);
+        mainController.setPreviousCard(previousCard);
 
         System.out.println("new previousCard: " + previousCard);
-        System.out.println("new wishColor: " + this.wishColor);
-        System.out.println("new challenge: " + challenge);
-        System.out.println("new challengeCounter: " + challengeCounter);
+        System.out.println("new chosenColor: " + this.chosenColor);
+        System.out.println("new challenge: " + ifDrawnCard);
+        System.out.println("new challengeCounter: " + drawnCardsCount);
 
         run();
     }
 
     public void stop() {
-        running = false;
+        isRunning = false;
         System.out.println("STOPPED");
     }
 }
