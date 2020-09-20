@@ -88,6 +88,10 @@ public class MainController {
     @FXML
     private Button buttonInfo;
     @FXML
+    public Button quitButton;
+    @FXML
+    private Button buttonSettings;
+    @FXML
     private Label labelChallengeCounter;
     @FXML
     private ImageView imageViewDirection;
@@ -117,9 +121,7 @@ public class MainController {
     private Label labelLogo;
     @FXML
     private Button buttonNewGame;
-    @FXML
 
-    private Button buttonSettings;
     private int secretCounter;
     private boolean playerHasDrawn;
     private Point2D PLAYER_STARTING_POINT;
@@ -992,5 +994,9 @@ public class MainController {
         alert.showAndWait();
         Sound buttonClickingSound1 = new Sound("src/resources/sound/sound_button_click.mp3");
 
+    }
+
+    public void quit(MouseEvent mouseEvent) {
+        System.exit(1);
     }
 }

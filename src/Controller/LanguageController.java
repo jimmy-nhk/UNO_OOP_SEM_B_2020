@@ -6,6 +6,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -73,6 +75,11 @@ public class LanguageController {
 
     // setup button text
     public static void setUpButtonText(Button button, final String key, final Object... args) {
+        button.textProperty().bind(createStringBinding(key));
+    }
+
+    // setup radio button text
+    public static void setUpRadioButtonText(RadioButton button, final String key, final Object... args) {
         button.textProperty().bind(createStringBinding(key));
     }
 
