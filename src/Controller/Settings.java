@@ -9,23 +9,13 @@ public class Settings implements Serializable {
     private static final long serialVersionUID = 1L;
     private int numberOfBots;
     private int numberOfStartingCards;
-    private int aiSpeed;
-    private boolean allowChallengePlusTwo;
-    private boolean allowChallengePlusFourWithTwo;
-    private boolean allowChallengePlusFourWithFour;
     private int volume;
     private Locale locale;
 
 
-    public Settings(int numberOfBots, int numberOfStartingCards, int aiSpeed,
-                    boolean allowChallengePlusTwo, boolean allowChallengePlusFourWithTwo,
-                    boolean allowChallengePlusFourWithFour, Locale locale, int volume) {
+    public Settings(int numberOfBots, int numberOfStartingCards, Locale locale, int volume) {
         this.numberOfBots = numberOfBots;
         this.numberOfStartingCards = numberOfStartingCards;
-        this.aiSpeed = aiSpeed;
-        this.allowChallengePlusTwo = allowChallengePlusTwo;
-        this.allowChallengePlusFourWithTwo = allowChallengePlusFourWithTwo;
-        this.allowChallengePlusFourWithFour = allowChallengePlusFourWithFour;
         this.volume = volume;
         this.locale = locale;
     }
@@ -46,10 +36,6 @@ public class Settings implements Serializable {
     public void createStandardValues() {
         numberOfBots = 1;
         numberOfStartingCards = 7;
-        aiSpeed = 2;
-        allowChallengePlusTwo = false;
-        allowChallengePlusFourWithTwo = false;
-        allowChallengePlusFourWithFour = false;
     }
 
     // Save the data
@@ -71,10 +57,6 @@ public class Settings implements Serializable {
 
         this.numberOfBots = loaded.getNumberOfBots();
         this.numberOfStartingCards = loaded.getNumberOfStartingCards();
-        this.aiSpeed = loaded.getBotSpeed();
-        this.allowChallengePlusTwo = loaded.isAllowChallengePlusTwo();
-        this.allowChallengePlusFourWithTwo = loaded.isAllowChallengePlusFourWithTwo();
-        this.allowChallengePlusFourWithFour = loaded.isAllowChallengePlusFourWithFour();
         this.locale = loaded.getLocale();
         this.volume = loaded.getVolume();
     }
@@ -93,21 +75,5 @@ public class Settings implements Serializable {
 
     public int getNumberOfStartingCards() {
         return numberOfStartingCards;
-    }
-
-    public int getBotSpeed() {
-        return aiSpeed;
-    }
-
-    public boolean isAllowChallengePlusTwo() {
-        return allowChallengePlusTwo;
-    }
-
-    public boolean isAllowChallengePlusFourWithTwo() {
-        return allowChallengePlusFourWithTwo;
-    }
-
-    public boolean isAllowChallengePlusFourWithFour() {
-        return allowChallengePlusFourWithFour;
     }
 }
