@@ -3,9 +3,7 @@ package achievements;
 import java.io.Serializable;
 
 /**
- * Repräsentiert ein Achievement
- * @author Robert
- *
+ * Present achievement of player
  */
 @SuppressWarnings("serial")
 public class Achievement implements Serializable
@@ -21,8 +19,7 @@ public class Achievement implements Serializable
 	private int currentValue;
 	
 	/**
-	 * Enum für den Status des Achievements
-	 * @author Robert
+	 * Enum for achievement status
 	 */
 	public enum Status
 	{
@@ -31,27 +28,20 @@ public class Achievement implements Serializable
 	}
 
 	/**
-	 * Konstruktor für ein normales Achievement
-	 * @param name String - Nam
-	 * @param description String - Beschreibungstext
-	 * @param iconLocked String - Pfad zum Icon solange das Achievement noch nicht freigeschaltet wurde
-	 * @param iconUnlocked String - Pfad zum Icon, wenn das Achievement freigeschaltet wurde
-	 * @param status Status - Status
+	 * Constructor for normal achievement
 	 */	
 	public Achievement(String name, String description, String iconLocked, String iconUnlocked, Status status)
 	{	
 		this.name = name;
 		this.description = description;
-		this.iconLocked = iconLocked;
-		this.iconUnlocked = iconUnlocked;
+		this.iconLocked = iconLocked; // Path to the icon when the achievement has not yet been activated
+		this.iconUnlocked = iconUnlocked; // Path to the icon when the achievement has been activated
 		this.status = status;
 		this.incremental = false;
 	}
 	
 	/**
-	 * Konstruktor für ein inkrementierbares Achievement
-	 * @param name String - Nam
-	 * @param description String - Beschreibungstext
+	 * Constructor for incrementable achiement
 	 * @param iconLocked String - Pfad zum Icon solange das Achievement noch nicht freigeschaltet wurde
 	 * @param iconUnlocked String - Pfad zum Icon, wenn das Achievement freigeschaltet wurde
 	 * @param status Status - Status

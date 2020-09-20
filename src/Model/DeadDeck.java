@@ -2,22 +2,27 @@ package Model;
 
 import java.util.ArrayList;
 
-public class DeadDeck
-{
-	private ArrayList<Card> cards;
+/**
+ * discarded deck
+ */
+public class DeadDeck {
+    // field
+    private ArrayList<Card> cards;
 
-	public DeadDeck()
-	{
-		cards = new ArrayList<Card>();
-	}
-	
-	public void add(Card card)
-	{
-		cards.add(card);
-	}
+    // constructor
+    public DeadDeck() {
+        cards = new ArrayList<Card>();
+    }
 
-	public ArrayList<Card> getCards()
-	{
-		return cards;
-	}	
+    /**
+     * add dealt card in dead deck
+     */
+    public void add(Card card) {
+        cards.add(card);
+    }
+
+    // accessor
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
 }

@@ -62,17 +62,7 @@ public class SettingsController
 		sliderAISpeed.setValue((double)settings.getAiSpeed());
 		checkBoxRule1.setSelected(settings.isAllowChallengePlusTwo());
 		checkBoxRule2.setSelected(settings.isAllowChallengePlusFourWithTwo());
-		checkBoxRule3.setSelected(settings.isAllowChallengePlusFourWithFour());		
-		
-		
-		// stage.setOnCloseRequest(new EventHandler<WindowEvent>()
-		// {
-		// @Override
-		// public void handle(WindowEvent event)
-		// {
-		// event.consume();
-		// }
-		// });
+		checkBoxRule3.setSelected(settings.isAllowChallengePlusFourWithFour());
 	}
 
 	public void save()
@@ -85,7 +75,7 @@ public class SettingsController
 		boolean allowChallengePlusFourWithTwo = checkBoxRule2.isSelected();
 		boolean allowChallengePlusFourWithFour = checkBoxRule3.isSelected();	
 		
-		controller.settings = new Settings(numberOfAIs, numberOfStartingCards, aiSpeed, allowChallengePlusTwo, allowChallengePlusFourWithTwo, allowChallengePlusFourWithFour);
+		controller.settings = new Settings(numberOfAIs, numberOfStartingCards, allowChallengePlusTwo, allowChallengePlusFourWithTwo, allowChallengePlusFourWithFour);
 		try
 		{
 			controller.settings.save();

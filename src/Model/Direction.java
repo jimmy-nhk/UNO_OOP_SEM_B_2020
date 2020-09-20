@@ -1,6 +1,8 @@
 package Model;
 
-public enum Direction
-{
-	RIGHT, LEFT
+/**
+ * direction of turns
+ */
+public enum Direction {
+    RIGHT, LEFT
 }
