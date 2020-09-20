@@ -64,11 +64,11 @@ public class Bot
 		{
 			for(Card currentCard : deck)
 			{
-				if(lastCard.getType().equals(Property.DRAW_TWO))
+				if(lastCard.getProperty().equals(Property.DRAW_TWO))
 				{
 					if(game.getController().settings.isAllowChallengePlusTwo())
 					{
-						if(currentCard.getType().equals(Property.DRAW_TWO) || currentCard.getType().equals(Property.DRAW_FOUR))
+						if(currentCard.getProperty().equals(Property.DRAW_TWO) || currentCard.getProperty().equals(Property.DRAW_FOUR))
 						{
 							validCards.add(currentCard);
 						}
@@ -78,7 +78,7 @@ public class Bot
 				{
 					if(game.getController().settings.isAllowChallengePlusFourWithFour())
 					{
-						if(currentCard.getType().equals(Property.DRAW_FOUR))
+						if(currentCard.getProperty().equals(Property.DRAW_FOUR))
 						{
 							validCards.add(currentCard);
 						}
@@ -86,7 +86,7 @@ public class Bot
 
 					if(game.getController().settings.isAllowChallengePlusFourWithTwo())
 					{
-						if(currentCard.getType().equals(Property.DRAW_TWO))
+						if(currentCard.getProperty().equals(Property.DRAW_TWO))
 						{
 							if(wishColor == Color.ALL)
 							{
@@ -107,7 +107,7 @@ public class Bot
 			{
 				for(Card currentCard : deck)
 				{
-					if(currentCard.getColor().equals(lastCard.getColor()) || currentCard.getType().equals(lastCard.getType()) || currentCard.getType().equals(Property.WILD) || currentCard.getType().equals(Property.DRAW_FOUR))
+					if(currentCard.getColor().equals(lastCard.getColor()) || currentCard.getProperty().equals(lastCard.getProperty()) || currentCard.getProperty().equals(Property.WILD) || currentCard.getProperty().equals(Property.DRAW_FOUR))
 					{
 						validCards.add(currentCard);
 					}
@@ -117,7 +117,7 @@ public class Bot
 			{
 				for(Card currentCard : deck)
 				{
-					if(!currentCard.getType().equals(Property.WILD) && !currentCard.getType().equals(Property.DRAW_FOUR))
+					if(!currentCard.getProperty().equals(Property.WILD) && !currentCard.getProperty().equals(Property.DRAW_FOUR))
 					{
 						validCards.add(currentCard);
 					}
@@ -162,7 +162,7 @@ public class Bot
 			if(challenge)
 			{
 				System.out.println("draw " + game.getChallengeCounter() + " cards");
-				ArrayList<Card> drawCards = game.getDeck().drawCards(game.getChallengeCounter(), game.getDeadDeck());
+				ArrayList<Card> drawCards = game.getDeck().drawCards(game.getChallengeCounter(), game.getPlayedCards());
 				if(game.isRunning())
 				{
 					game.getController().moveCardFromDeckToAI(this, drawCards);
@@ -173,7 +173,7 @@ public class Bot
 			{
 				System.out.println("draw 1 card");
 				ArrayList<Card> drawnCards = new ArrayList<Card>();
-				drawnCards.add(game.getDeck().drawCard(game.getDeadDeck()));
+				drawnCards.add(game.getDeck().drawCard(game.getPlayedCards()));
 				if(game.isRunning())
 				{
 					game.getController().moveCardFromDeckToAI(this, drawnCards);
@@ -189,14 +189,14 @@ public class Bot
 			Card playedCard = getHighestValuedCard(validDeck);
 			Color newWishColor = null;
 
-			if(playedCard.getType().equals(Property.WILD) || playedCard.getType().equals(Property.DRAW_FOUR))
+			if(playedCard.getProperty().equals(Property.WILD) || playedCard.getProperty().equals(Property.DRAW_FOUR))
 			{
 				newWishColor = getBestColor();				
 			}
 
 			if(game.isRunning())
 			{
-				game.getController().moveAICardToDeadDeck(this, game.getCurrentPlayer(), playedCard, getCardPositionInDeck(playedCard), newWishColor);
+				game.getController().moveBotCardToPlayedCards(this, game.getCurrentPlayer(), playedCard, getCardPositionInDeck(playedCard), newWishColor);
 			}
 		}
 	}

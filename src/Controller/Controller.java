@@ -35,7 +35,9 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+
 public class Controller {
+
     private final ResourceBundle bundle = ResourceBundle.getBundle("resources/", Locale.ENGLISH);
     private final double CARD_HEIGHT = 90.0;
     private final double CARD_WIDTH = 57.0;
@@ -44,10 +46,13 @@ public class Controller {
     private final double CARD_SPACING_SMALL = -25.0;
     private final double CARD_SPACING_ULTRA_SMALL = -35.0;
     private final Point2D AI_1_STARTING_POINT = new Point2D(100.0, 75.0);
+
+    // These color take from the internet the code of the color
     private final javafx.scene.paint.Color COLOR_YELLOW = javafx.scene.paint.Color.web("#FFAA00");
     private final javafx.scene.paint.Color COLOR_RED = javafx.scene.paint.Color.web("#FF5555");
     private final javafx.scene.paint.Color COLOR_BLUE = javafx.scene.paint.Color.web("#5555FD");
     private final javafx.scene.paint.Color COLOR_GREEN = javafx.scene.paint.Color.web("#55AA55");
+
     public Game game;
     public Color chosenWishColor;
     public int drawCounter;
@@ -188,7 +193,7 @@ public class Controller {
             if (game.isRunning() && game.getCurrentPlayer() == 1 && !game.isShowingInfo() && !playerHasDrawn && !playerMustChallenge) {
                 playerHasDrawn = true;
                 playerMustChallenge = false;
-                Card drawCard = game.getDeck().drawCard(game.getDeadDeck());
+                Card drawCard = game.getDeck().drawCard(game.getPlayedCards());
                 ArrayList<Card> allCards = new ArrayList<>();
                 allCards.add(drawCard);
                 moveCardFromDeckToPlayer(allCards);
@@ -321,7 +326,7 @@ public class Controller {
                 }
 
             }
-            moveCardFromDeckToPlayer(game.getDeck().drawCards(game.getChallengeCounter(), game.getDeadDeck()));
+            moveCardFromDeckToPlayer(game.getDeck().drawCards(game.getChallengeCounter(), game.getPlayedCards()));
         });
 
         hboxInfo.setVisible(true);
@@ -356,7 +361,7 @@ public class Controller {
         labelCurrentPlayer.setText(text);
     }
 
-    public void setLastCard(Card card) {
+    public void setPreviousCard(Card card) {
         iconLastCard.setImage(createCard(card, true).getImage());
     }
 
@@ -374,7 +379,7 @@ public class Controller {
 
     // Loading cards from the resources
     private ImageView createCard(Card card, boolean valid) {
-        ImageView imageView = new ImageView(new Image("images/" + card.getType() + "-" + card.getColor() + ".png"));
+        ImageView imageView = new ImageView(new Image("images/" + card.getProperty() + "-" + card.getColor() + ".png"));
         imageView.setFitHeight(CARD_HEIGHT);
         imageView.setFitWidth(CARD_WIDTH);
         imageView.setSmooth(true);
@@ -384,7 +389,7 @@ public class Controller {
             parameters.setFill(javafx.scene.paint.Color.TRANSPARENT);
             WritableImage snapshot = imageView.snapshot(parameters, null);
 
-            if (card.getType().equals(Property.DRAW_FOUR) && card.getType().equals(Property.WILD)) {
+            if (card.getProperty().equals(Property.DRAW_FOUR) && card.getProperty().equals(Property.WILD)) {
                 for (int x = 0; x < snapshot.getWidth(); x++) {
                     for (int y = 0; y < snapshot.getHeight(); y++) {
                         javafx.scene.paint.Color oldColor = snapshot.getPixelReader().getColor(x, y).desaturate().desaturate().brighter();
@@ -409,7 +414,7 @@ public class Controller {
             public void handle(MouseEvent event) {
                 if (game.isRunning() && game.getCurrentPlayer() == 1) {
                     if (valid) {
-                        if (card.getType().equals(Property.WILD) || card.getType().equals(Property.DRAW_FOUR)) {
+                        if (card.getProperty().equals(Property.WILD) || card.getProperty().equals(Property.DRAW_FOUR)) {
                             try {
                                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ColorChooser.fxml"));
 
@@ -467,7 +472,7 @@ public class Controller {
                     }
                     Card playedCard = game.getPlayer().playCard(card);
 
-                    if (playedCard.getType().equals(Property.DRAW_FOUR) && game.getDeadDeck().getCards().get(game.getDeadDeck().getCards().size() - 1).getType().equals(Property.DRAW_FOUR) && game.getChallengeCounter() > 0) {
+                    if (playedCard.getProperty().equals(Property.DRAW_FOUR) && game.getPlayedCards().getCards().get(game.getPlayedCards().getCards().size() - 1).getProperty().equals(Property.DRAW_FOUR) && game.getChallengeCounter() > 0) {
                         try {
                             handler.unlockAchievement(6);
                             handler.saveAndLoad();
@@ -475,7 +480,7 @@ public class Controller {
                         }
                     }
 
-                    if (playedCard.getType().equals(Property.WILD)) {
+                    if (playedCard.getProperty().equals(Property.WILD)) {
                         try {
                             handler.unlockAchievement(7);
                             handler.saveAndLoad();
@@ -494,7 +499,7 @@ public class Controller {
         }
     }
 
-    public void moveAICardToDeadDeck(Bot bot, int currentPlayer, Card card, int cardPosition, Color newWishColor) {
+    public void moveBotCardToPlayedCards(Bot bot, int currentPlayer, Card card, int cardPosition, Color newWishColor) {
         ObservableList<Node> nodes = mainPane.getChildren();
         ArrayList<Integer> possibleNodes = new ArrayList<Integer>();
         for (int i = 0; i < nodes.size(); i++) {
@@ -505,7 +510,7 @@ public class Controller {
         }
 
         ImageView view = (ImageView) mainPane.getChildren().get(possibleNodes.get(cardPosition));
-        view.setImage(new Image("images/" + card.getType() + "-" + card.getColor() + ".png"));
+        view.setImage(new Image("images/" + card.getProperty() + "-" + card.getColor() + ".png"));
 
         Point2D deckPosition = iconLastCard.localToScene(Point2D.ZERO);
 
@@ -592,6 +597,7 @@ public class Controller {
         }
     }
 
+    // Get the position of Right Player
     private double getPositionOfRightCard(Bot bot) {
         if (bot == null) {
             double maxWidth = stage.getScene().getWidth() - (PLAYER_STARTING_POINT.getX() * 2) - CARD_WIDTH;
@@ -652,7 +658,7 @@ public class Controller {
     @SuppressWarnings("unused")
     public void moveCardFromDeckToAI(Bot bot, ArrayList<Card> cards) {
         if (game.isRunning()) {
-            Card card = game.getDeck().drawCard(game.getDeadDeck());
+            Card card = game.getDeck().drawCard(game.getPlayedCards());
 
             Point2D deckPosition = iconDeck.localToScene(Point2D.ZERO);
 

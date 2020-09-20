@@ -2,25 +2,25 @@ package Model;
 
 public class Card
 {
-	private Property type;
+	private Property property;
 	private Color color;
 	private int value;	
 	
-	public Card(Property type, Color color, int value)
+	public Card(Property property, Color color, int value)
 	{
-		this.type = type;
+		this.property = property;
 		this.color = color;
 		this.value = value;
 	}
 
-	public Property getType()
+	public Property getProperty()
 	{
-		return type;
+		return property;
 	}
 	
-	public String getTypeBeautyfied()
+	public String getPropertyBeautyfied()
 	{
-		switch(type)
+		switch(property)
 		{
 			case ZERO:		return "0";
 			case ONE:		return "1";
@@ -66,12 +66,12 @@ public class Card
 	
 	public boolean equals(Card other)
 	{
-		return type.equals(other.getType()) && color.equals(other.getColor());
+		return property.equals(other.getProperty()) && color.equals(other.getColor());
 	}		
 
 	@Override
 	public String toString()
 	{
-		return "(" + type + ", " + color + ", value=" + value + ")\n";
+		return "(" + property + ", " + color + ", value=" + value + ")\n";
 	}	
 }

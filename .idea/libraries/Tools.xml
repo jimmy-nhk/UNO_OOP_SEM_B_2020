@@ -4,6 +4,9 @@
       <root url="jar://$PROJECT_DIR$/lib/Tools.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/Tools.jar!/" />
+      <root url="file://$PROJECT_DIR$/lib" />
+    </SOURCES>
   </library>
 </component>
