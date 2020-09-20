@@ -79,7 +79,6 @@
           <Menu fx:id="menu1" mnemonicParsing="false" text="Menu">
             <items>
                   <MenuItem fx:id="menuItemBack" mnemonicParsing="false" onAction="#showMainMenu" text="Back to start" />
-                  <MenuItem fx:id="menuItem1" mnemonicParsing="false" onAction="#buttonAchievements" text="Achievements" />
               <MenuItem fx:id="menuItem3" mnemonicParsing="false" onAction="#about" text="Information" />
             </items>
           </Menu>
