@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
+<AnchorPane fx:id="mainPane" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
    <children>
       <ImageView fx:id="iconDeck" fitHeight="90.0" fitWidth="57.0" layoutX="447.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="iconLastCard" fitHeight="90.0" fitWidth="57.0" layoutX="277.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true" />
@@ -31,7 +32,7 @@
       <ImageView fx:id="imageViewWishColor" fitHeight="40.0" fitWidth="40.0" layoutX="372.0" layoutY="278.0" pickOnBounds="true" preserveRatio="true" />
       <HBox fx:id="hboxInfo" alignment="CENTER" layoutX="207.0" layoutY="611.0" prefHeight="25.0" prefWidth="338.0">
          <children>
-            <Label fx:id="labelInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="255.0" text="Du kannst nicht kontern. Ziehe xx Karten." textAlignment="CENTER">
+            <Label fx:id="labelInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="255.0" text="Display Message" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -104,5 +105,8 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
+      <TextArea fx:id="textGetName" layoutX="305.0" layoutY="126.0" prefHeight="40.0" prefWidth="190.0" />
+      <Label fx:id="labelSetName" layoutX="207.0" layoutY="138.0" text="Your name" />
+      <Button fx:id="buttonSetName" layoutX="350.0" layoutY="377.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="100.0" text="Set Name" />
    </children>
 </AnchorPane>
