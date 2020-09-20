@@ -1,9 +1,9 @@
 package Controller;
 
 import Model.*;
-import achievements.Achievement;
-import achievements.Achievement.Status;
-import achievements.AchievementHandler;
+//import achievements.Achievement;
+//import achievements.Achievement.Status;
+//import achievements.AchievementHandler;
 import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -56,7 +56,7 @@ public class MainController {
     public GameBoard gameBoard;
     public int drawCounter;
     public Settings settings;
-    public AchievementHandler handler;
+//    public AchievementHandler handler;
     public Stage stage;
     public Image icon = new Image("images/icon.png");
     public static final Sound backgroundMusic = new Sound("src/resources/sound/background.mp3");
@@ -142,30 +142,30 @@ public class MainController {
             e.printStackTrace();
         }
 
-        handler = new AchievementHandler(stage);
-        handler.setPath(PathUtils.getOSindependentPath() + "/OOP/UNO/achievements.save");
-        try {
-            handler.loadAchievements();
-        } catch (Exception e) {
-            // if file does not exist, create a new file
-            createAchievements();
-            try {
-                handler.loadAchievements();
-            } catch (Exception ex) {
-                System.out.println(ex.toString());
-            }
-        }
+//        handler = new AchievementHandler(stage);
+//        handler.setPath(PathUtils.getOSindependentPath() + "/OOP/UNO/achievements.save");
+//        try {
+//            handler.loadAchievements();
+//        } catch (Exception e) {
+//            // if file does not exist, create a new file
+//            createAchievements();
+//            try {
+//                handler.loadAchievements();
+//            } catch (Exception ex) {
+//                System.out.println(ex.toString());
+//            }
+//        }
 
         iconLastCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (secretCounter < 5) {
                 secretCounter++;
                 if (secretCounter == 5) {
-                    try {
-                        handler.unlockAchievement(9);
-                        handler.saveAndLoad();
-                    } catch (Exception e) {
-                        System.out.println(e.toString());
-                    }
+//                    try {
+//                        handler.unlockAchievement(9);
+//                        handler.saveAndLoad();
+//                    } catch (Exception e) {
+//                        System.out.println(e.toString());
+//                    }
                 }
             }
         });
@@ -346,8 +346,8 @@ public class MainController {
         buttonInfo.setOnAction(event -> {
             if (gameBoard.getDrawnCardsCount() > 10) {
                 try {
-                    handler.unlockAchievement(5);
-                    handler.saveAndLoad();
+//                    handler.unlockAchievement(5);
+//                    handler.saveAndLoad();
                 } catch (Exception e) {
                     System.out.println(e.toString());
                 }
@@ -499,7 +499,7 @@ public class MainController {
         translateTransition.setToX(-(view.getX() - deckPosition.getX()));
         translateTransition.setToY(-(view.getY() - deckPosition.getY()));
         translateTransition.setOnFinished(event -> {
-            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+//            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
             Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
 
             if (gameBoard.isRunning()) {
@@ -510,23 +510,23 @@ public class MainController {
                 }
                 Card playedCard = gameBoard.getPlayer().playCard(card);
 
-                if (playedCard.getProperty().equals(Property.DRAW_FOUR) && gameBoard.getPlayedCards().getCards().get(gameBoard.getPlayedCards().getCards().size() - 1).getProperty().equals(Property.DRAW_FOUR) && gameBoard.getDrawnCardsCount() > 0) {
-                    try {
-                        handler.unlockAchievement(6);
-                        handler.saveAndLoad();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if (playedCard.getProperty().equals(Property.WILD)) {
-                    try {
-                        handler.unlockAchievement(7);
-                        handler.saveAndLoad();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+//                if (playedCard.getProperty().equals(Property.DRAW_FOUR) && gameBoard.getPlayedCards().getCards().get(gameBoard.getPlayedCards().getCards().size() - 1).getProperty().equals(Property.DRAW_FOUR) && gameBoard.getDrawnCardsCount() > 0) {
+//                    try {
+//                        handler.unlockAchievement(6);
+//                        handler.saveAndLoad();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                if (playedCard.getProperty().equals(Property.WILD)) {
+//                    try {
+//                        handler.unlockAchievement(7);
+//                        handler.saveAndLoad();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 
                 setPlayerDeck(gameBoard.getPlayer().getDeck());
                 gameBoard.playCard(playedCard, newWishColor);
@@ -570,7 +570,7 @@ public class MainController {
                     hideWishColor();
                 }
                 Card playedCard = bot.playCard(card);
-                setAIDeck(bot);
+                setBotDeck(bot);
                 gameBoard.playCard(playedCard, newWishColor);
             }
         });
@@ -648,7 +648,8 @@ public class MainController {
                 return PLAYER_STARTING_POINT.getX() + ((deckSize + 1) * (CARD_WIDTH + CARD_SPACING_LARGE)) - CARD_SPACING_LARGE;
             }
         }
-        //AI 1 (Above Player)
+        
+        //Bot 1 (Above Player)
         else {
             double maxWidth = stage.getScene().getWidth() - (AI_1_STARTING_POINT.getX() * 2) - CARD_WIDTH;
             int deckSize = bot.getDeckSize();
@@ -687,8 +688,8 @@ public class MainController {
         }
     }
 
-    @SuppressWarnings("unused")
-    public void moveCardFromDeckToAI(Bot bot, ArrayList<Card> cards) {
+    
+    public void moveCardFromDeckToBot(Bot bot, ArrayList<Card> cards) {
         if (gameBoard.isRunning()) {
             Card card = gameBoard.getDeck().drawCard(gameBoard.getPlayedCards());
 
@@ -735,11 +736,11 @@ public class MainController {
 
                 if (gameBoard.isRunning()) {
                     bot.drawCard(cards.get(drawCounter));
-                    setAIDeck(bot);
+                    setBotDeck(bot);
                     drawCounter++;
 
                     if (drawCounter < cards.size()) {
-                        moveCardFromDeckToAI(bot, cards);
+                        moveCardFromDeckToBot(bot, cards);
                     } else {
                         gameBoard.setShowingInfo(false);
                         hideInfo();
@@ -755,6 +756,7 @@ public class MainController {
         }
     }
 
+    // Clear player deck
     public void clearPlayerDeck() {
         ObservableList<Node> nodes = mainPane.getChildren();
         Iterator<Node> iterator = nodes.iterator();
@@ -765,14 +767,17 @@ public class MainController {
         }
     }
 
+    // Set player deck
     public void setPlayerDeck(ArrayList<Card> deck) {
         clearPlayerDeck();
 
         int counter = 1;
 
         for (int i = 0; i < deck.size(); i++) {
+            // Set the deck of the player
             ImageView current = createCard(deck.get(i), true);
 
+            // Gets the card for its id
             current.setId("player");
             mainPane.getChildren().add(current);
 
@@ -845,7 +850,7 @@ public class MainController {
         }
     }
 
-    public void clearAIDeck(Bot bot) {
+    public void clearBotDeck(Bot bot) {
         ObservableList<Node> nodes = mainPane.getChildren();
         Iterator<Node> iterator = nodes.iterator();
         while (iterator.hasNext()) {
@@ -855,8 +860,8 @@ public class MainController {
         }
     }
 
-    public void setAIDeck(Bot bot) {
-        clearAIDeck(bot);
+    public void setBotDeck(Bot bot) {
+        clearBotDeck(bot);
 
         ArrayList<Card> deck = bot.getDeck();
 
@@ -964,7 +969,7 @@ public class MainController {
         clearPlayerDeck();
 
         for (Bot currentBot : bots) {
-            clearAIDeck(currentBot);
+            clearBotDeck(currentBot);
         }
     }
 
@@ -1006,72 +1011,72 @@ public class MainController {
         iconLastCard.setImage(null);
     }
 
-    private void createAchievements() {
-        AchievementHandler handler = new AchievementHandler(stage);
-        handler.setPath(PathUtils.getOSindependentPath() + "/OOP/UNO/achievements.save");
-        handler.addAchievement(new Achievement("Anf�nger", "Gewinne dein erstes Spiel", null, null, Status.LOCKED));
-        handler.addAchievement(new Achievement("Fortgeschrittener", "Gewinne insgesamt 10 Spiele", null, null, Status.LOCKED, 0, 10, 0));
-        handler.addAchievement(new Achievement("Experte", "Gewinne insgesamt 50 Spiele", null, null, Status.LOCKED, 0, 50, 0));
+//    private void createAchievements() {
+//        AchievementHandler handler = new AchievementHandler(stage);
+//        handler.setPath(PathUtils.getOSindependentPath() + "/OOP/UNO/achievements.save");
+//        handler.addAchievement(new Achievement("Anf�nger", "Gewinne dein erstes Spiel", null, null, Status.LOCKED));
+//        handler.addAchievement(new Achievement("Fortgeschrittener", "Gewinne insgesamt 10 Spiele", null, null, Status.LOCKED, 0, 10, 0));
+//        handler.addAchievement(new Achievement("Experte", "Gewinne insgesamt 50 Spiele", null, null, Status.LOCKED, 0, 50, 0));
+//
+//        handler.addAchievement(new Achievement("Gl�cksstr�hne", "Gewinne hintereinander 3 Spiele", null, null, Status.LOCKED, 0, 3, 0));
+//        handler.addAchievement(new Achievement("L�uft bei dir!", "Gewinne hintereinander 5 Spiele", null, null, Status.LOCKED, 0, 5, 0));
+//
+//        handler.addAchievement(new Achievement("Arme Sau", "Du musst mehr als 10 Karten ziehen", null, null, Status.LOCKED));
+//        handler.addAchievement(new Achievement("Gegenangriff", "Kontere eine +4", null, null, Status.LOCKED));
+//        handler.addAchievement(new Achievement("Wunschkonzert", "W�nsch dir eine Farbe", null, null, Status.LOCKED));
+//        handler.addAchievement(new Achievement("Cheatest du?", "Besitze zwei +4 Karten gleichzeitig", null, null, Status.LOCKED));
+//
+//        handler.addAchievement(new Achievement("Unm�glich", "Klicke 5 mal auf den Ablagestapel", null, null, Status.HIDDEN));
+//
+//        try {
+//            handler.saveAchievements();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-        handler.addAchievement(new Achievement("Gl�cksstr�hne", "Gewinne hintereinander 3 Spiele", null, null, Status.LOCKED, 0, 3, 0));
-        handler.addAchievement(new Achievement("L�uft bei dir!", "Gewinne hintereinander 5 Spiele", null, null, Status.LOCKED, 0, 5, 0));
-
-        handler.addAchievement(new Achievement("Arme Sau", "Du musst mehr als 10 Karten ziehen", null, null, Status.LOCKED));
-        handler.addAchievement(new Achievement("Gegenangriff", "Kontere eine +4", null, null, Status.LOCKED));
-        handler.addAchievement(new Achievement("Wunschkonzert", "W�nsch dir eine Farbe", null, null, Status.LOCKED));
-        handler.addAchievement(new Achievement("Cheatest du?", "Besitze zwei +4 Karten gleichzeitig", null, null, Status.LOCKED));
-
-        handler.addAchievement(new Achievement("Unm�glich", "Klicke 5 mal auf den Ablagestapel", null, null, Status.HIDDEN));
-
-        try {
-            handler.saveAchievements();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void buttonAchievements() {
-        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-
-        Stage newStage = new Stage();
-
-        AnchorPane root = new AnchorPane();
-
-        try {
-            handler.loadAchievements();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        AnchorPane list = handler.getAchievementList();
-        AnchorPane summary = handler.getSummary();
-
-        root.getChildren().add(summary);
-        root.getChildren().add(list);
-
-        AnchorPane.setTopAnchor(summary, 50.0);
-        AnchorPane.setLeftAnchor(summary, 25.0);
-        AnchorPane.setRightAnchor(summary, 50.0);
-
-        AnchorPane.setTopAnchor(list, 180.0);
-        AnchorPane.setLeftAnchor(list, 25.0);
-        AnchorPane.setRightAnchor(list, 25.0);
-        AnchorPane.setBottomAnchor(list, 25.0);
-
-        root.setStyle("-fx-background-color: #3F3F3F;");
-
-        Scene scene = new Scene(root, 600, 600);
-        newStage.setScene(scene);
-        newStage.setMinHeight(500);
-        newStage.setMinWidth(600);
-
-        newStage.setTitle("Achievements");
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        newStage.getIcons().add(new Image("/images/icon.png"));
-        newStage.setResizable(true);
-        newStage.show();
-    }
+//    @FXML
+//    private void buttonAchievements() {
+//        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+//
+//        Stage newStage = new Stage();
+//
+//        AnchorPane root = new AnchorPane();
+//
+//        try {
+//            handler.loadAchievements();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        AnchorPane list = handler.getAchievementList();
+//        AnchorPane summary = handler.getSummary();
+//
+//        root.getChildren().add(summary);
+//        root.getChildren().add(list);
+//
+//        AnchorPane.setTopAnchor(summary, 50.0);
+//        AnchorPane.setLeftAnchor(summary, 25.0);
+//        AnchorPane.setRightAnchor(summary, 50.0);
+//
+//        AnchorPane.setTopAnchor(list, 180.0);
+//        AnchorPane.setLeftAnchor(list, 25.0);
+//        AnchorPane.setRightAnchor(list, 25.0);
+//        AnchorPane.setBottomAnchor(list, 25.0);
+//
+//        root.setStyle("-fx-background-color: #3F3F3F;");
+//
+//        Scene scene = new Scene(root, 600, 600);
+//        newStage.setScene(scene);
+//        newStage.setMinHeight(500);
+//        newStage.setMinWidth(600);
+//
+//        newStage.setTitle("Achievements");
+//        newStage.initModality(Modality.APPLICATION_MODAL);
+//        newStage.getIcons().add(new Image("/images/icon.png"));
+//        newStage.setResizable(true);
+//        newStage.show();
+//    }
 
     public void about() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");

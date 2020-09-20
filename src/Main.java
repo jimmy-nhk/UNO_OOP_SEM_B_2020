@@ -26,7 +26,7 @@ public class Main extends Application
 			scene.getStylesheets().add(getClass().getResource("resources/css/Settings.css").toExternalForm());
 
 			stage.setResizable(true);
-			stage.setTitle("UNO");
+			stage.setTitle("UNO TIME!!");
 			stage.setScene(scene);		
 			stage.setResizable(false);
 			
@@ -34,29 +34,29 @@ public class Main extends Application
 			mainController.setStage(stage);
 			mainController.init();
 			
-			stage.setOnCloseRequest(new EventHandler<WindowEvent>()
-			{				
-				@Override
-				public void handle(WindowEvent event)
-				{
-					try
-					{
-						if(mainController.handler.getAchievements().get(3).getStatus().equals(Status.LOCKED))
-						{
-							mainController.handler.resetAchievement(3);
-						}
-						if(mainController.handler.getAchievements().get(4).getStatus().equals(Status.LOCKED))
-						{
-							mainController.handler.resetAchievement(4);
-						}	
-						mainController.handler.saveAndLoad();
-					}
-					catch(Exception e)
-					{
-						System.out.println(e.toString());
-					}					
-				}
-			});
+//			stage.setOnCloseRequest(new EventHandler<WindowEvent>()
+//			{
+//				@Override
+//				public void handle(WindowEvent event)
+//				{
+//					try
+//					{
+//						if(mainController.handler.getAchievements().get(3).getStatus().equals(Status.LOCKED))
+//						{
+//							mainController.handler.resetAchievement(3);
+//						}
+//						if(mainController.handler.getAchievements().get(4).getStatus().equals(Status.LOCKED))
+//						{
+//							mainController.handler.resetAchievement(4);
+//						}
+//						mainController.handler.saveAndLoad();
+//					}
+//					catch(Exception e)
+//					{
+//						System.out.println(e.toString());
+//					}
+//				}
+//			});
 
 			stage.getIcons().add(new Image("images/icon.png"));
 			stage.show();		
