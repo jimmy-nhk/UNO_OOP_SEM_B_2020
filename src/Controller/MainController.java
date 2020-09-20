@@ -205,7 +205,7 @@ public class MainController {
             }
         });
 
-        gameBoard = new GameBoard(this, settings.getNumberOfBots(), settings.getBotSpeed());
+        gameBoard = new GameBoard(this, settings.getNumberOfBots());
         setLabelNames(gameBoard.getPlayer(), gameBoard.getBots());
         gameBoard.newGame(settings.getNumberOfStartingCards());
 
@@ -443,7 +443,7 @@ public class MainController {
         }
         MainController main = this;
 
-        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<>() {
             Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
             Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
 
@@ -515,6 +515,7 @@ public class MainController {
                         handler.unlockAchievement(6);
                         handler.saveAndLoad();
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -523,6 +524,7 @@ public class MainController {
                         handler.unlockAchievement(7);
                         handler.saveAndLoad();
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -538,7 +540,7 @@ public class MainController {
 
     public void moveBotCardToPlayedCards(Bot bot, int currentPlayer, Card card, int cardPosition, Color newWishColor) {
         ObservableList<Node> nodes = mainPane.getChildren();
-        ArrayList<Integer> possibleNodes = new ArrayList<Integer>();
+        ArrayList<Integer> possibleNodes = new ArrayList<>();
         for (int i = 0; i < nodes.size(); i++) {
             Node current = nodes.get(i);
             if (current.getId().contains("ai" + bot.getID())) {
@@ -560,19 +562,16 @@ public class MainController {
         translateTransition.setFromY(0);
         translateTransition.setToX(-(view.getX() - deckPosition.getX()));
         translateTransition.setToY(-(view.getY() - deckPosition.getY()));
-        translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (gameBoard.isRunning()) {
-                    if (newWishColor != null) {
-                        showCircleWishColor(newWishColor);
-                    } else {
-                        hideWishColor();
-                    }
-                    Card playedCard = bot.playCard(card);
-                    setAIDeck(bot);
-                    gameBoard.playCard(playedCard, newWishColor);
+        translateTransition.setOnFinished(event -> {
+            if (gameBoard.isRunning()) {
+                if (newWishColor != null) {
+                    showCircleWishColor(newWishColor);
+                } else {
+                    hideWishColor();
                 }
+                Card playedCard = bot.playCard(card);
+                setAIDeck(bot);
+                gameBoard.playCard(playedCard, newWishColor);
             }
         });
 
@@ -600,30 +599,26 @@ public class MainController {
             translateTransition.setFromY(0);
             translateTransition.setToX(-(view.getX() - getPositionOfRightCard(null)));
             translateTransition.setToY(-(view.getY() - PLAYER_STARTING_POINT.getY()));
-            translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    ObservableList<Node> nodes = mainPane.getChildren();
-                    Iterator<Node> iterator = nodes.iterator();
-                    while (iterator.hasNext()) {
-                        if (iterator.next().getId().equals("drawAnimation")) {
-                            iterator.remove();
-                        }
-                    }
-                    if (gameBoard.isRunning()) {
-                        gameBoard.getPlayer().drawCard(cards.get(drawCounter));
-                        setPlayerDeck(gameBoard.getPlayer().getDeck());
-                        drawCounter++;
-                        playerHasDrawn = false;
+            translateTransition.setOnFinished(event -> {
+                ObservableList<Node> nodes = mainPane.getChildren();
+                Iterator<Node> iterator = nodes.iterator();
+                while (iterator.hasNext()) {
+                    if (iterator.next().getId().equals("drawAnimation"))
+                        iterator.remove();
+                }
+                if (gameBoard.isRunning()) {
+                    gameBoard.getPlayer().drawCard(cards.get(drawCounter));
+                    setPlayerDeck(gameBoard.getPlayer().getDeck());
+                    drawCounter++;
+                    playerHasDrawn = false;
 
-                        if (drawCounter < cards.size()) {
-                            moveCardFromDeckToPlayer(cards);
-                        } else {
-                            gameBoard.setShowingInfo(false);
-                            hideInfo();
-                            drawCounter = 0;
-                            gameBoard.draw();
-                        }
+                    if (drawCounter < cards.size()) {
+                        moveCardFromDeckToPlayer(cards);
+                    } else {
+                        gameBoard.setShowingInfo(false);
+                        hideInfo();
+                        drawCounter = 0;
+                        gameBoard.draw();
                     }
                 }
             });
@@ -730,30 +725,26 @@ public class MainController {
                     break;
             }
 
-            translateTransition.setOnFinished(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    ObservableList<Node> nodes = mainPane.getChildren();
-                    Iterator<Node> iterator = nodes.iterator();
-                    while (iterator.hasNext()) {
-                        if (iterator.next().getId().equals("drawAnimation")) {
-                            iterator.remove();
-                        }
-                    }
+            translateTransition.setOnFinished(event -> {
+                ObservableList<Node> nodes = mainPane.getChildren();
+                Iterator<Node> iterator = nodes.iterator();
+                while (iterator.hasNext()) {
+                    if (iterator.next().getId().equals("drawAnimation"))
+                        iterator.remove();
+                }
 
-                    if (gameBoard.isRunning()) {
-                        bot.drawCard(cards.get(drawCounter));
-                        setAIDeck(bot);
-                        drawCounter++;
+                if (gameBoard.isRunning()) {
+                    bot.drawCard(cards.get(drawCounter));
+                    setAIDeck(bot);
+                    drawCounter++;
 
-                        if (drawCounter < cards.size()) {
-                            moveCardFromDeckToAI(bot, cards);
-                        } else {
-                            gameBoard.setShowingInfo(false);
-                            hideInfo();
-                            drawCounter = 0;
-                            gameBoard.draw();
-                        }
+                    if (drawCounter < cards.size()) {
+                        moveCardFromDeckToAI(bot, cards);
+                    } else {
+                        gameBoard.setShowingInfo(false);
+                        hideInfo();
+                        drawCounter = 0;
+                        gameBoard.draw();
                     }
                 }
             });
@@ -981,10 +972,10 @@ public class MainController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Settings.fxml"));
 
-            Parent root = (Parent) fxmlLoader.load();
+            Parent root = fxmlLoader.load();
             Stage newStage = new Stage();
             newStage.setScene(new Scene(root, 600, 400));
-            newStage.setTitle("Setting");
+            newStage.setTitle("UNO");
             newStage.initOwner(stage);
 
             newStage.getIcons().add(icon);
@@ -1050,6 +1041,7 @@ public class MainController {
         try {
             handler.loadAchievements();
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         AnchorPane list = handler.getAchievementList();

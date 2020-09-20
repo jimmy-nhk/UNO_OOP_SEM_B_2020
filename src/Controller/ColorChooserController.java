@@ -1,12 +1,10 @@
 package Controller;
 
 import Model.Color;
-import javafx.event.EventHandler;
+import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class ColorChooserController
 {
@@ -33,23 +31,11 @@ public class ColorChooserController
 			stage.close();
 		});
 
-		rectGreen.setOnMouseClicked(new EventHandler<MouseEvent>()
-		{
-			@Override
-			public void handle(MouseEvent event)
-			{
-				mainController.chosenWishColor = Color.GREEN;
-				stage.close();
-			}
+		rectGreen.setOnMouseClicked(event -> {
+			mainController.chosenWishColor = Color.GREEN;
+			stage.close();
 		});
 		
-		stage.setOnCloseRequest(new EventHandler<WindowEvent>()
-		{
-			@Override
-			public void handle(WindowEvent event)
-			{
-				event.consume();				
-			}
-		});
+		stage.setOnCloseRequest(Event::consume);
 	}
 }

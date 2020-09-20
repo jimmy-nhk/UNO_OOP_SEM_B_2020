@@ -37,13 +37,6 @@ public class Sound {
         return mediaPlayer;
     }
 
-//    Slider slVolume = new Slider();
-//        slVolume.setPrefWidth(150);
-//        slVolume.setMaxWidth(Region.USE_PREF_SIZE);
-//        slVolume.setMinWidth(30);
-//        slVolume.setValue(50);
-//        mediaPlayer.volumeProperty().bind(slVolume.valueProperty().divide(100));
-
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }

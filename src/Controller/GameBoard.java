@@ -56,12 +56,8 @@ public class GameBoard {
     // Determine whether to show the info
     private boolean showingInfo;
 
-    // Check the bot Speed
-    private int botSpeed;
-
-    public GameBoard(MainController mainController, int numberOfBots, int botSpeed) {
+    public GameBoard(MainController mainController, int numberOfBots) {
         this.mainController = mainController;
-        this.botSpeed = botSpeed;
         deck = new Deck();
         playedCards = new PlayedCards();
         player = new Player("Player", this);
@@ -189,11 +185,7 @@ public class GameBoard {
 
                     ArrayList<Card> validDeck = player.getPossiblePlayableCards(previousCard, chosenColor, ifDrawnCard);
                     mainController.setValidPlayerDeck(player.getDeck(), validDeck);
-
-                    mainController.playerMustDraw = false;
-                    if (ifDrawnCard && validDeck.size() > 0) {
-                        mainController.playerMustDraw = true;
-                    }
+                    mainController.playerMustDraw = ifDrawnCard && validDeck.size() > 0;
 
                     player.turn(previousCard, chosenColor, ifDrawnCard);
                 } else {
@@ -205,22 +197,7 @@ public class GameBoard {
                         mainController.setAIDeck(currentBot);
 
                         try {
-                            switch (botSpeed) {
-                                case 1:
-                                    Thread.sleep(500);
-                                    break;
-                                case 2:
-                                    Thread.sleep(250);
-                                    break;
-                                case 3:
-                                    Thread.sleep(50);
-                                    break;
-                                case 4:
-                                    Thread.sleep(0);
-                                    break;
-                                default:
-                                    break;
-                            }
+                            Thread.sleep(500);
                         } catch (InterruptedException e) {
                             //Handle errors
                             e.printStackTrace();
@@ -285,6 +262,7 @@ public class GameBoard {
                 mainController.handler.checkAllIncrementalAchievements();
                 mainController.handler.saveAndLoad();
             } catch (Exception e) {
+                e.printStackTrace();
             }
         } else {
             player.resetWinsInARow();
@@ -298,6 +276,7 @@ public class GameBoard {
                 }
                 mainController.handler.saveAndLoad();
             } catch (Exception e) {
+                e.printStackTrace();
             }
 
             Alert alert = new Alert(AlertType.INFORMATION);
