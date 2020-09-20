@@ -16,20 +16,20 @@ public class ColorChooserController
 	@FXML private Rectangle rectBlue;
 	@FXML private Rectangle rectGreen;
 
-	public void init(Stage stage, Controller controller)
+	public void init(Stage stage, MainController mainController)
 	{
 		rectYellow.setOnMouseClicked(event -> {
-			controller.chosenWishColor = Color.YELLOW;
+			mainController.chosenWishColor = Color.YELLOW;
 			stage.close();
 		});
 
 		rectRed.setOnMouseClicked(event -> {
-			controller.chosenWishColor = Color.RED;
+			mainController.chosenWishColor = Color.RED;
 			stage.close();
 		});
 
 		rectBlue.setOnMouseClicked(event -> {
-			controller.chosenWishColor = Color.BLUE;
+			mainController.chosenWishColor = Color.BLUE;
 			stage.close();
 		});
 
@@ -38,7 +38,7 @@ public class ColorChooserController
 			@Override
 			public void handle(MouseEvent event)
 			{
-				controller.chosenWishColor = Color.GREEN;
+				mainController.chosenWishColor = Color.GREEN;
 				stage.close();
 			}
 		});

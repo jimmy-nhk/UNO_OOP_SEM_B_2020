@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Controller">
+<AnchorPane fx:id="mainPane" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
    <children>
       <ImageView fx:id="iconDeck" fitHeight="90.0" fitWidth="57.0" layoutX="447.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="iconLastCard" fitHeight="90.0" fitWidth="57.0" layoutX="277.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true" />
@@ -95,7 +95,7 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
-      <Button fx:id="buttonNewGame" layoutX="282.0" layoutY="468.0" mnemonicParsing="false" onAction="#startGame" text="New game">
+      <Button fx:id="buttonNewGame" layoutX="282.0" layoutY="468.0" mnemonicParsing="false" onAction="#startGame" text="New Game">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

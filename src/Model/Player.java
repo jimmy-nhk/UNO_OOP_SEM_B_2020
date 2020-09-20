@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.GameBoard;
+
 import java.util.ArrayList;
 
 public class Player
@@ -7,14 +9,14 @@ public class Player
 	private String name;
 	private ArrayList<Card> deck;
 	private int winsInARow;	
-	private Game game;
+	private GameBoard gameBoard;
 	
-	public Player(String name, Game game)
+	public Player(String name, GameBoard gameBoard)
 	{	
 		this.name = name;
 		deck = new ArrayList<Card>();
 		winsInARow = 0;
-		this.game = game;
+		this.gameBoard = gameBoard;
 	}
 	
 	public void initialize()
@@ -44,8 +46,8 @@ public class Player
 		{
 			try
 			{							
-				game.getController().handler.unlockAchievement(8);						
-				game.getController().handler.saveAndLoad();
+				gameBoard.getController().handler.unlockAchievement(8);
+				gameBoard.getController().handler.saveAndLoad();
 			}
 			catch(Exception e)
 			{
@@ -53,14 +55,14 @@ public class Player
 			} 
 		}		
 		
-		game.getController().setPlayerDeck(deck);
+		gameBoard.getController().setPlayerDeck(deck);
 	}
 	
 	public void drawCards(ArrayList<Card> cards)
 	{
 		deck.addAll(cards);
-		game.getController().setPlayerDeck(deck);
-		game.getController().hideInfo();
+		gameBoard.getController().setPlayerDeck(deck);
+		gameBoard.getController().hideInfo();
 	}
 	
 	public Card playCard(Card card)
@@ -78,7 +80,7 @@ public class Player
 			{	
 				if(lastCard.getProperty().equals(Property.DRAW_TWO))
 				{
-					if(game.getController().settings.isAllowChallengePlusTwo())
+					if(gameBoard.getController().settings.isAllowChallengePlusTwo())
 					{
 						if(currentCard.getProperty().equals(Property.DRAW_TWO) || currentCard.getProperty().equals(Property.DRAW_FOUR))
 						{
@@ -88,7 +90,7 @@ public class Player
 				}
 				else // lastCard == +4
 				{
-					if(game.getController().settings.isAllowChallengePlusFourWithFour())
+					if(gameBoard.getController().settings.isAllowChallengePlusFourWithFour())
 					{
 						if(currentCard.getProperty().equals(Property.DRAW_FOUR))
 						{
@@ -96,7 +98,7 @@ public class Player
 						}						
 					}
 					
-					if(game.getController().settings.isAllowChallengePlusFourWithTwo())
+					if(gameBoard.getController().settings.isAllowChallengePlusFourWithTwo())
 					{
 						if(currentCard.getProperty().equals(Property.DRAW_TWO))
 						{
@@ -174,8 +176,8 @@ public class Player
 		{
 			if(challenge)
 			{					
-				game.setShowingInfo(true);
-				game.getController().showInfo("You can not deal card. Draw " + game.getChallengeCounter() + " cards.", game.getChallengeCounter());
+				gameBoard.setShowingInfo(true);
+				gameBoard.getController().showInfo("You can not deal card. Draw " + gameBoard.getDrawnCardsCount() + " cards.", gameBoard.getDrawnCardsCount());
 			}
 			else
 			{			
