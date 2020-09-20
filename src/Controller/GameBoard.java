@@ -59,7 +59,7 @@ public class GameBoard {
         this.mainController = mainController;
         deck = new Deck();
         playedCards = new PlayedCards();
-        player = new Player("Player", this);
+        player = new Player(mainController.getPlayerName()+"", this);
         bots = new ArrayList<>();
 
         if (numberOfBots == 1) {

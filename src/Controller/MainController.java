@@ -56,9 +56,15 @@ public class MainController {
     public Image icon = new Image("images/icon.png");
     public static final Sound backgroundMusic = new Sound("src/resources/sound/background.mp3");
     public Color chosenWishColor;
+    private String playerName;
 
     public boolean playerMustDraw;
     public TranslateTransition translateTransition;
+
+    @FXML private TextArea textGetName;
+
+    @FXML private Button buttonSetName;
+    @FXML private Label labelSetName;
 
 
     @FXML
@@ -128,7 +134,7 @@ public class MainController {
         AI_3_STARTING_POINT = new Point2D(60.0, 70.0);
 
         clearAll();
-        showNeutralUI();
+        showSetNameScene();
 
         settings = new Settings();
         try {
@@ -195,19 +201,44 @@ public class MainController {
         clearPlayerDeck();
         clearAllDecks(gameBoard.getBots());
 
-        showNeutralUI();
+        showMenu();
     }
 
 
-    public void showNeutralUI() {
+    public void showMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         imageViewLogo.setVisible(true);
         labelLogo.setVisible(true);
         buttonNewGame.setVisible(true);
         buttonSettings.setVisible(true);
+        labelLogo.setText("WELCOME " + playerName +" TO UNO !!!");
     }
 
-    public void hideNeutralUI() {
+    public void showSetNameScene (){
+
+        labelSetName.setVisible(true);
+        buttonSetName.setVisible(true);
+        textGetName.setVisible(true);
+
+        buttonSetName.setOnAction(e -> {
+
+            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+            playerName = textGetName.getText();
+
+            showMenu(); // Show the menu
+            hideSetNameScene(); // Hide the set name scene
+
+        });
+
+    }
+
+    public void hideSetNameScene (){
+        labelSetName.setVisible(false);
+        buttonSetName.setVisible(false);
+        textGetName.setVisible(false);
+    }
+
+    public void hideMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
         imageViewLogo.setVisible(false);
@@ -624,6 +655,10 @@ public class MainController {
         }
     }
 
+    public String getPlayerName() {
+        return playerName;
+    }
+
     @SuppressWarnings("unused")
     public void moveCardFromDeckToAI(Bot bot, ArrayList<Card> cards) {
         if (gameBoard.isRunning()) {
@@ -929,7 +964,9 @@ public class MainController {
     }
 
     public void clearAll() {
-        hideNeutralUI();
+
+        hideMenu();
+        hideSetNameScene();
         hideWishColor();
         hideInfo();
         labelCurrentPlayer.setVisible(false);
