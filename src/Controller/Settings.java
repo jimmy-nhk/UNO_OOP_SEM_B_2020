@@ -3,6 +3,7 @@ package Controller;
 import tools.PathUtils;
 
 import java.io.*;
+import java.util.Locale;
 
 public class Settings implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -12,15 +13,21 @@ public class Settings implements Serializable {
     private boolean allowChallengePlusTwo;
     private boolean allowChallengePlusFourWithTwo;
     private boolean allowChallengePlusFourWithFour;
+    private int volume;
+    private Locale locale;
 
 
-    public Settings(int numberOfBots, int numberOfStartingCards, int aiSpeed, boolean allowChallengePlusTwo, boolean allowChallengePlusFourWithTwo, boolean allowChallengePlusFourWithFour) {
+    public Settings(int numberOfBots, int numberOfStartingCards, int aiSpeed,
+                    boolean allowChallengePlusTwo, boolean allowChallengePlusFourWithTwo,
+                    boolean allowChallengePlusFourWithFour, Locale locale, int volume) {
         this.numberOfBots = numberOfBots;
         this.numberOfStartingCards = numberOfStartingCards;
         this.aiSpeed = aiSpeed;
         this.allowChallengePlusTwo = allowChallengePlusTwo;
         this.allowChallengePlusFourWithTwo = allowChallengePlusFourWithTwo;
         this.allowChallengePlusFourWithFour = allowChallengePlusFourWithFour;
+        this.volume = volume;
+        this.locale = locale;
     }
 
     public Settings() {
@@ -54,7 +61,6 @@ public class Settings implements Serializable {
         fileOut.close();
     }
 
-
     // Load the data from the file
     public void load() throws Exception {
         FileInputStream fileIn = new FileInputStream(PathUtils.getOSindependentPath() + "/OOP/UNO/settings.config");
@@ -69,6 +75,16 @@ public class Settings implements Serializable {
         this.allowChallengePlusTwo = loaded.isAllowChallengePlusTwo();
         this.allowChallengePlusFourWithTwo = loaded.isAllowChallengePlusFourWithTwo();
         this.allowChallengePlusFourWithFour = loaded.isAllowChallengePlusFourWithFour();
+        this.locale = loaded.getLocale();
+        this.volume = loaded.getVolume();
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public Locale getLocale() {
+        return locale;
     }
 
     public int getNumberOfBots() {

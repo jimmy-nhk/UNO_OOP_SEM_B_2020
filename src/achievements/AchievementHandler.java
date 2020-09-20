@@ -16,7 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import notification.Notification;
-import sounds.Sound;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -257,8 +256,6 @@ public class AchievementHandler
 					{
 						current.setStatus(Status.UNLOCKED);
 	
-						Sound.playSound("unlocked");
-	
 						Image image;
 						if(current.getIconUnlocked() != null)
 						{
@@ -328,9 +325,7 @@ public class AchievementHandler
 
 		if(!current.isIncremental() && current.getStatus() != Status.UNLOCKED)
 		{
-			current.setStatus(Status.UNLOCKED);			
-
-			Sound.playSound("unlocked");
+			current.setStatus(Status.UNLOCKED);
 
 			Image image;
 			if(current.getIconUnlocked() != null)
