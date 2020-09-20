@@ -18,7 +18,7 @@ public class Game {
     private int gameCount;
     private int challengeCounter;
     private int currentPlayer;
-    private Card lastCard;
+    private Card previousCard;
     private Color wishColor;
     private boolean challenge;
     private Direction direction;
@@ -28,26 +28,26 @@ public class Game {
     private int counter;
     private boolean running;
     private boolean showingInfo;
-    private int aiSpeed;
+    private int botSpeed;
 
-    public Game(Controller controller, int numberOfAIs, int aiSpeed) {
+    public Game(Controller controller, int numberOfBots, int botSpeed) {
         this.controller = controller;
-        this.aiSpeed = aiSpeed;
+        this.botSpeed = botSpeed;
         deck = new Deck();
         playedCards = new PlayedCards();
         player = new Player("Player", this);
-        bots = new ArrayList<Bot>();
+        bots = new ArrayList<>();
 
-        if (numberOfAIs == 1) {
+        if (numberOfBots == 1) {
 
             bots.add(new Bot("Bot 1", 1, this));
 
-        } else if (numberOfAIs == 2) {
+        } else if (numberOfBots == 2) {
 
             bots.add(new Bot("Bot 1", 1, this));
             bots.add(new Bot("Bot 2", 2, this));
 
-        } else if (numberOfAIs == 3) {
+        } else if (numberOfBots == 3) {
 
             bots.add(new Bot("Bot 1", 3, this));
             bots.add(new Bot("Bot 2", 1, this));
@@ -58,6 +58,7 @@ public class Game {
         challengeCounter = 0;
     }
 
+    // Create a new game
     public void newGame(int numberOfStartingCards) {
 
         deck = new Deck();
@@ -65,39 +66,51 @@ public class Game {
         playedCards = new PlayedCards();
         gameCount++;
         challengeCounter = 0;
-        lastCard = null;
+        previousCard = null;
         wishColor = null;
         challenge = false;
         direction = Direction.RIGHT;
-        controller.setImageViewDirection(Direction.RIGHT);
+        controller.setImageViewDirection(Direction.RIGHT); // The direction will go to the right at the beginning
         lastPlayerDraw = false;
         skipped = false;
         showingInfo = false;
 
         player.initialize();
 
+        // The deck will send the number of starting cards to the player
         player.drawCards(deck.drawCards(numberOfStartingCards, playedCards));
 
         for (Bot currentBot : bots) {
+            
             currentBot.initialize();
+            
+            // The deck will send the number of starting cards to the player
             currentBot.drawCards(deck.drawCards(numberOfStartingCards, playedCards));
         }
 
+        // Start the game by draw a card from the main deck to the played cards
         playedCards.add(deck.drawCard(playedCards));
-        lastCard = playedCards.getCards().get(playedCards.getCards().size() - 1);
+        
+        // Set the previous card by getting the top card of the playedCards
+        previousCard = playedCards.getCards().get(playedCards.getCards().size() - 1);
 
-        controller.setLastCard(lastCard);
-        if (lastCard.getType().equals(Property.WILD)) {
+        // Set the previousCard in the GUI scene
+        controller.setPreviousCard(previousCard);
+
+        // Check the card validation
+        if (previousCard.getProperty().equals(Property.WILD)) {
             wishColor = Color.ALL;
+
+            // Set the color
             controller.chosenWishColor = wishColor;
             controller.showCircleWishColor(wishColor);
-        } else if (lastCard.getType().equals(Property.DRAW_FOUR)) {
+        } else if (previousCard.getProperty().equals(Property.DRAW_FOUR)) {
             wishColor = Color.ALL;
             controller.chosenWishColor = wishColor;
             controller.showCircleWishColor(wishColor);
             challenge = true;
             challengeCounter = 4;
-        } else if (lastCard.getType().equals(Property.DRAW_TWO)) {
+        } else if (previousCard.getProperty().equals(Property.DRAW_TWO)) {
             challenge = true;
             challengeCounter = 2;
         }
@@ -133,7 +146,7 @@ public class Game {
 
             System.out.println("Round: " + counter / 4 + 1);
 
-            if (lastCard.getType().equals(Property.REVERSE) && !lastPlayerDraw) {
+            if (previousCard.getProperty().equals(Property.REVERSE) && !lastPlayerDraw) {
                 if (direction.equals(Direction.RIGHT)) {
                     direction = Direction.LEFT;
                     controller.setImageViewDirection(Direction.LEFT);
@@ -148,11 +161,11 @@ public class Game {
 
             System.out.println("Player " + currentPlayer + "'s turn");
 
-            if (skipped || !lastCard.getType().equals(Property.SKIP)) {
+            if (skipped || !previousCard.getProperty().equals(Property.SKIP)) {
                 if (currentPlayer == 1) {
                     controller.setLabelCurrentPlayer(player.getName() + "'s turn");
 
-                    ArrayList<Card> validDeck = player.getPossiblePlayableCards(lastCard, wishColor, challenge);
+                    ArrayList<Card> validDeck = player.getPossiblePlayableCards(previousCard, wishColor, challenge);
                     controller.setValidPlayerDeck(player.getDeck(), validDeck);
 
                     controller.playerMustChallenge = false;
@@ -160,7 +173,7 @@ public class Game {
                         controller.playerMustChallenge = true;
                     }
 
-                    player.turn(lastCard, wishColor, challenge);
+                    player.turn(previousCard, wishColor, challenge);
                 } else {
                     if (running) {
                         Bot currentBot = bots.get(currentPlayer - 2);
@@ -170,7 +183,7 @@ public class Game {
                         controller.setAIDeck(currentBot);
 
                         try {
-                            switch (aiSpeed) {
+                            switch (botSpeed) {
                                 case 1:
                                     Thread.sleep(500);
                                     break;
@@ -191,7 +204,7 @@ public class Game {
                             e.printStackTrace();
                         }
 
-                        currentBot.turn(lastCard, wishColor, challenge);
+                        currentBot.turn(previousCard, wishColor, challenge);
                     }
                 }
             } else {
@@ -283,7 +296,7 @@ public class Game {
         return deck;
     }
 
-    public PlayedCards getDeadDeck() {
+    public PlayedCards getPlayedCards() {
         return playedCards;
     }
 
@@ -330,14 +343,14 @@ public class Game {
 
     public void playCard(Card card, Color wishColor) {
         playedCards.add(card);
-        lastCard = card;
+        previousCard = card;
         this.wishColor = wishColor;
 
-        if (card.getType().equals(Property.DRAW_TWO)) {
+        if (card.getProperty().equals(Property.DRAW_TWO)) {
             challenge = true;
             challengeCounter += 2;
             controller.showLabelChallengeCounter("Loser draws " + challengeCounter + " cards");
-        } else if (card.getType().equals(Property.DRAW_FOUR)) {
+        } else if (card.getProperty().equals(Property.DRAW_FOUR)) {
             challenge = true;
             challengeCounter += 4;
             controller.showLabelChallengeCounter("Loser draws " + challengeCounter + " cards");
@@ -349,9 +362,9 @@ public class Game {
 
         lastPlayerDraw = false;
         skipped = false;
-        controller.setLastCard(lastCard);
+        controller.setPreviousCard(previousCard);
 
-        System.out.println("new lastCard: " + lastCard);
+        System.out.println("new previousCard: " + previousCard);
         System.out.println("new wishColor: " + this.wishColor);
         System.out.println("new challenge: " + challenge);
         System.out.println("new challengeCounter: " + challengeCounter);

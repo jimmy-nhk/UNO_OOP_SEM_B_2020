@@ -76,11 +76,11 @@ public class Player
 		{
 			for(Card currentCard : deck)
 			{	
-				if(lastCard.getType().equals(Property.DRAW_TWO))
+				if(lastCard.getProperty().equals(Property.DRAW_TWO))
 				{
 					if(game.getController().settings.isAllowChallengePlusTwo())
 					{
-						if(currentCard.getType().equals(Property.DRAW_TWO) || currentCard.getType().equals(Property.DRAW_FOUR))
+						if(currentCard.getProperty().equals(Property.DRAW_TWO) || currentCard.getProperty().equals(Property.DRAW_FOUR))
 						{
 							validCards.add(currentCard);
 						}
@@ -90,7 +90,7 @@ public class Player
 				{
 					if(game.getController().settings.isAllowChallengePlusFourWithFour())
 					{
-						if(currentCard.getType().equals(Property.DRAW_FOUR))
+						if(currentCard.getProperty().equals(Property.DRAW_FOUR))
 						{
 							validCards.add(currentCard);
 						}						
@@ -98,7 +98,7 @@ public class Player
 					
 					if(game.getController().settings.isAllowChallengePlusFourWithTwo())
 					{
-						if(currentCard.getType().equals(Property.DRAW_TWO))
+						if(currentCard.getProperty().equals(Property.DRAW_TWO))
 						{
 							if(wishColor == Color.ALL)
 							{
@@ -119,7 +119,7 @@ public class Player
 			{	
 				for(Card currentCard : deck)
 				{								
-					if(currentCard.getColor().equals(lastCard.getColor()) || currentCard.getType().equals(lastCard.getType()) || currentCard.getType().equals(Property.WILD) || currentCard.getType().equals(Property.DRAW_FOUR))
+					if(currentCard.getColor().equals(lastCard.getColor()) || currentCard.getProperty().equals(lastCard.getProperty()) || currentCard.getProperty().equals(Property.WILD) || currentCard.getProperty().equals(Property.DRAW_FOUR))
 					{
 						validCards.add(currentCard);
 					}						
@@ -129,7 +129,7 @@ public class Player
 			{
 				for(Card currentCard : deck)
 				{								
-					if(!currentCard.getType().equals(Property.WILD) && !currentCard.getType().equals(Property.DRAW_FOUR))
+					if(!currentCard.getProperty().equals(Property.WILD) && !currentCard.getProperty().equals(Property.DRAW_FOUR))
 					{
 						validCards.add(currentCard);
 					}						
@@ -193,7 +193,7 @@ public class Player
 		int counter = 0;
 		for(Card card : deck)
 		{
-			if(card.getType().equals(Property.DRAW_FOUR))
+			if(card.getProperty().equals(Property.DRAW_FOUR))
 			{
 				counter++;
 			}

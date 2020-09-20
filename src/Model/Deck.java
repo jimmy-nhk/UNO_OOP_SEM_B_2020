@@ -53,7 +53,7 @@ public class Deck
         Collections.shuffle(cards);
     }
 
-    public Card drawCard(PlayedCards deadDeck)
+    public Card drawCard(PlayedCards playedCards)
     {
         if(cards.size() > 0)
         {
@@ -61,20 +61,20 @@ public class Deck
         }
         else
         {
-            refill(deadDeck);
+            refill(playedCards);
             return cards.pop();
         }
     }
 
     public ArrayList<Card> drawCards(int numberOfCards, PlayedCards deadDeck)
     {
-        ArrayList<Card> drawedCards = new ArrayList<Card>();
+        ArrayList<Card> drawnCards = new ArrayList<>();
         for(int i = 0; i < numberOfCards; i++)
         {
-            drawedCards.add(drawCard(deadDeck));
+            drawnCards.add(drawCard(deadDeck));
         }
 
-        return drawedCards;
+        return drawnCards;
     }
 
     public void refill(PlayedCards deadDeck)
