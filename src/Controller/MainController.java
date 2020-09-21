@@ -65,7 +65,7 @@ public class MainController {
     public TranslateTransition translateTransition;
     @FXML private TextField textGetName;
     @FXML private Label labelSetName;
-    @FXML private Button btSetName;
+    @FXML public ImageView setName;
 
 
     @FXML
@@ -115,8 +115,6 @@ public class MainController {
     @FXML
     private ImageView imageViewLogo;
     @FXML
-    private Label labelLogo;
-    @FXML
     private Button buttonNewGame;
     @FXML
 
@@ -129,6 +127,7 @@ public class MainController {
     public void init() {
 
         imageViewWishColor.setImage(new Image("/images/circle-all.png"));
+        setName.setImage(new Image("/images/button.png"));
 
         PLAYER_STARTING_POINT = new Point2D(100.0, stage.getScene().getHeight() - 50.0 - CARD_HEIGHT);
         AI_2_STARTING_POINT = new Point2D(stage.getScene().getWidth() - CARD_HEIGHT - 30, 70.0);
@@ -137,7 +136,6 @@ public class MainController {
         clearAll();
         showSetNameScene();
 
-        labelLogo.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
         buttonNewGame.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         buttonSettings.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 
@@ -209,7 +207,6 @@ public class MainController {
 
     // Show main menu
     public void showMainMenu() {
-        Sound startGameSound = new Sound("src/resources/sound/sound_launch.mp3");
         if (gameBoard != null) {
             gameBoard.stop();
         }
@@ -224,46 +221,37 @@ public class MainController {
     public void showSetNameScene (){
         textGetName.setVisible(true);
         labelSetName.setVisible(true);
-        btSetName.setVisible(true);
+        setName.setVisible(true);
 
-        btSetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 12));
         textGetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         labelSetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         labelSetName.setTextFill(COLOR_BLUE);
 
 
-        btSetName.setOnAction(actionEvent -> {
-            showMenu();
+        setName.setOnMouseClicked(actionEvent -> {
             playerName = textGetName.getText();
             hideSetNameScene();
             showMenu();
-            labelLogo.setText("WELCOME " + playerName + " TO UNO !!!"); // Set the text for the Main Menu
         });
     }
     
     public void hideSetNameScene (){
         textGetName.setVisible(false);
         labelSetName.setVisible(false);
-        btSetName.setVisible(false);
+        setName.setVisible(false);
     }
 
 
 
     public void showMenu() {
-
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         imageViewLogo.setVisible(true);
-        labelLogo.setVisible(true);
         buttonNewGame.setVisible(true);
         buttonSettings.setVisible(true);
-        labelLogo.setTextFill(COLOR_RED);
     }
 
     public void hideMenu() {
-        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-
         imageViewLogo.setVisible(false);
-        labelLogo.setVisible(false);
         buttonNewGame.setVisible(false);
         buttonSettings.setVisible(false);
     }
@@ -372,17 +360,6 @@ public class MainController {
 
         labelInfo.setText(text);
         buttonInfo.setOnAction(event -> {
-//            if (gameBoard.getDrawnCardsCount() > 10) {
-//                try {
-
-//                    handler.unlockAchievement(5);
-//                    handler.saveAndLoad();
-
-//                } catch (Exception e) {
-//                    System.out.println(e.toString());
-//                }
-//
-//            }
             moveCardFromDeckToPlayer(gameBoard.getDeck().drawCards(gameBoard.getDrawnCardsCount(), gameBoard.getPlayedCards()));
         });
 
@@ -402,15 +379,11 @@ public class MainController {
     }
 
     public void hideImageViewDirection() {
-        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-
         imageViewDirection.setVisible(false);
         labelDirection.setVisible(false);
     }
 
     public void setImageViewDirection(Direction direction) {
-        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-
         imageViewDirection.setVisible(true);
         labelDirection.setVisible(true);
 
@@ -460,7 +433,6 @@ public class MainController {
                         snapshot.getPixelWriter().setColor(x, y, new javafx.scene.paint.Color(oldColor.getRed(), oldColor.getGreen(), oldColor.getBlue(), oldColor.getOpacity() * 1.0));
                     }
                 }
-                imageView.setImage(snapshot);
             } else {
                 for (int x = 0; x < snapshot.getWidth(); x++) {
                     for (int y = 0; y < snapshot.getHeight(); y++) {
@@ -468,14 +440,13 @@ public class MainController {
                         snapshot.getPixelWriter().setColor(x, y, new javafx.scene.paint.Color(oldColor.getRed(), oldColor.getGreen(), oldColor.getBlue(), oldColor.getOpacity() * 1.0));
                     }
                 }
-                imageView.setImage(snapshot);
             }
+            imageView.setImage(snapshot);
         }
         MainController main = this;
 
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<>() {
-            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-            Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
+            final Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
 
             @Override
             public void handle(MouseEvent event) {
@@ -529,7 +500,6 @@ public class MainController {
         translateTransition.setToX(-(view.getX() - deckPosition.getX()));
         translateTransition.setToY(-(view.getY() - deckPosition.getY()));
         translateTransition.setOnFinished(event -> {
-//            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
             Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
 
             if (gameBoard.isRunning()) {
@@ -613,11 +583,7 @@ public class MainController {
             translateTransition.setToY(-(view.getY() - PLAYER_STARTING_POINT.getY()));
             translateTransition.setOnFinished(event -> {
                 ObservableList<Node> nodes = mainPane.getChildren();
-                Iterator<Node> iterator = nodes.iterator();
-                while (iterator.hasNext()) {
-                    if (iterator.next().getId().equals("drawAnimation"))
-                        iterator.remove();
-                }
+                nodes.removeIf(node -> node.getId().equals("drawAnimation"));
                 if (gameBoard.isRunning()) {
                     gameBoard.getPlayer().drawCard(cards.get(drawCounter));
                     setPlayerDeck(gameBoard.getPlayer().getDeck());
@@ -740,12 +706,7 @@ public class MainController {
 
             translateTransition.setOnFinished(event -> {
                 ObservableList<Node> nodes = mainPane.getChildren();
-                Iterator<Node> iterator = nodes.iterator();
-                while (iterator.hasNext()) {
-                    if (iterator.next().getId().equals("drawAnimation"))
-                        iterator.remove();
-                }
-
+                nodes.removeIf(node -> node.getId().equals("drawAnimation"));
                 if (gameBoard.isRunning()) {
                     bot.drawCard(cards.get(drawCounter));
                     setBotDeck(bot);
@@ -771,12 +732,7 @@ public class MainController {
     // Clear player deck
     public void clearPlayerDeck() {
         ObservableList<Node> nodes = mainPane.getChildren();
-        Iterator<Node> iterator = nodes.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getId().equals("player")) {
-                iterator.remove();
-            }
-        }
+        nodes.removeIf(node -> node.getId().equals("player"));
     }
 
     // Set player deck
@@ -864,12 +820,7 @@ public class MainController {
 
     public void clearBotDeck(Bot bot) {
         ObservableList<Node> nodes = mainPane.getChildren();
-        Iterator<Node> iterator = nodes.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getId().contains("ai" + bot.getID())) {
-                iterator.remove();
-            }
-        }
+        nodes.removeIf(node -> node.getId().contains("ai" + bot.getID()));
     }
 
     public void setBotDeck(Bot bot) {
@@ -1017,7 +968,6 @@ public class MainController {
     }
 
     private void setLabelBindingText() {
-        LanguageController.setUpLabelText(labelLogo, "menu.welcome");
         LanguageController.setUpLabelText(labelWishColor, "chosenColor.pleaseChooseColor");
         LanguageController.setUpLabelText(labelChallengeCounter, "menu.welcome");
         LanguageController.setUpLabelText(labelDirection, "menu.directionOfPlay");
@@ -1057,7 +1007,6 @@ public class MainController {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("About " + bundle.getString("app.name"));
         alert.setHeaderText(bundle.getString("app.name"));
-        //alert.setContentText("Version:     " + bundle.getString("version.name") + "\r\nDate:      " + bundle.getString("version.date") + "\r\nAuthor:        Robert Goldmann\r\nCard images from:\nhttps://upload.wikimedia.org/wikipedia/commons/thumb/9/95/UNO_cards_deck.svg/800px-UNO_cards_deck.svg.png");
         Stage dialogStage = (Stage) alert.getDialogPane().getScene().getWindow();
         dialogStage.getIcons().add(icon);
         alert.showAndWait();
