@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.awt.*;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
@@ -140,6 +140,8 @@ public class MainController {
     private Point2D PLAYER_STARTING_POINT;
     private Point2D AI_2_STARTING_POINT;
     private Point2D AI_3_STARTING_POINT;
+    ArrayList<String> namesList = new ArrayList<String>();
+    ArrayList<Integer> winList = new ArrayList<Integer>();
 
     public void init() {
 
@@ -255,6 +257,32 @@ public class MainController {
             hideSetNameScene();
             showMenu();
             labelLogo.setText("WELCOME " + playerName + " TO UNO !!!"); // Set the text for the Main Menu
+            FileOutputStream fos = null;
+            try {
+
+
+                        fos = new FileOutputStream("listName");
+                        ObjectOutputStream oos = new ObjectOutputStream(fos);
+                        oos.writeObject(playerName);
+                        oos.close();
+                        fos.close();
+                        FileOutputStream fos1 = new FileOutputStream("listWin");
+                        ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
+                        oos1.writeObject(0);
+                        oos1.close();
+                        fos1.close();
+//                for (int i =0; i < namesList.size();i++) {
+//                    if (playerName.equals(namesList.get(i)))
+//                    {break;}
+//                    if (i==namesList.size()-1){
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         });
     }
 
@@ -1056,12 +1084,27 @@ public class MainController {
 
     }
 
-    public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException {
+    public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         hideMenu();
         leaderBoardPane1.setVisible(true);
         backButton1.setVisible(true);
         labelLeaderBoard.setVisible(true);
         menuBar.setVisible(false);
+        FileInputStream fis = new FileInputStream("listName");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        namesList = (ArrayList) ois.readObject();
+        ois.close();
+        fis.close();
+        FileInputStream fis1 = new FileInputStream("listWin");
+        ObjectInputStream ois1 = new ObjectInputStream(fis1);
+        winList = (ArrayList) ois1.readObject();
+        ois.close();
+        fis.close();
+        
+        for (int i = 0; i < namesList.size();i++) {
+            String string = namesList.get(i) + "          win:   " + winList.get(i).toString()+"\n";
+        }
+
     }
 
     public void backFromLeaderBoard(ActionEvent actionEvent) {
