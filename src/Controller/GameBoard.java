@@ -141,76 +141,102 @@ public class GameBoard {
     }
 
     public void start() {
+
+        // Set the game playing
         isRunning = true;
+
+        // Random players
         Random random = new Random();
         positionOfCurrentPlayer = random.nextInt(bots.size() + 1) + 1;
 
-
+        // Run the game
         run();
     }
 
     private void run() {
+
+        // Check if game is still running
         if (isRunning) {
             if (player.getDeckSize() == 0) {
+
+                // If deck is zero , then display the winner
                 end(player.getName());
+
                 return;
             }
 
             for (Bot winningBot : bots) {
+
+                // if any bots is winning , display the message
                 if (winningBot.getDeckSize() == 0) {
                     end(winningBot.getName());
                     return;
                 }
             }
 
-            if (previousCard.getProperty().equals(Property.REVERSE) && !lastPlayerDraw) {
-                if (direction.equals(Direction.RIGHT)) {
-                    direction = Direction.LEFT;
-                    mainController.setImageViewDirection(Direction.LEFT);
+            // Identify the direction
+            determineIfChangeDirection();
 
-                } else {
-                    direction = Direction.RIGHT;
-                    mainController.setImageViewDirection(Direction.RIGHT);
-                }
-            }
-
+            // Identify next player
             identifyNextPlayer();
 
             System.out.println("Player " + positionOfCurrentPlayer + "'s turn");
 
-            if (skipped || !previousCard.getProperty().equals(Property.SKIP)) {
-                if (positionOfCurrentPlayer == 1) {
-                    mainController.setLabelCurrentPlayer(player.getName() + "'s turn");
+            checkSkipCard();
 
-                    ArrayList<Card> validDeck = player.getPossiblePlayableCards(previousCard, chosenColor, ifDrawnCard);
-                    mainController.setValidPlayerDeck(player.getDeck(), validDeck);
-                    mainController.playerMustDraw = ifDrawnCard && validDeck.size() > 0;
+            }
 
-                    player.turn(previousCard, chosenColor, ifDrawnCard);
-                } else {
-                    if (isRunning) {
-                        Bot currentBot = bots.get(positionOfCurrentPlayer - 2);
 
-                        mainController.setLabelCurrentPlayer(currentBot.getName() + "'s turn");
+    }
 
-                        mainController.setBotDeck(currentBot);
+    // Check skip card
+    public void checkSkipCard () {
+        if (skipped || !previousCard.getProperty().equals(Property.SKIP)) {
+            if (positionOfCurrentPlayer == 1) {
+                mainController.setLabelCurrentPlayer(player.getName() + "'s turn");
 
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            //Handle errors
-                            e.printStackTrace();
-                        }
+                ArrayList<Card> validDeck = player.getPossiblePlayableCards(previousCard, chosenColor, ifDrawnCard);
+                mainController.setValidPlayerDeck(player.getDeck(), validDeck);
+                mainController.playerMustDraw = ifDrawnCard && validDeck.size() > 0;
 
-                        currentBot.turn(previousCard, chosenColor, ifDrawnCard);
-                    }
-                }
+                player.turn(previousCard, chosenColor, ifDrawnCard);
             } else {
-                if (!skipped) {
-                    System.out.println("SKIPPED player " + positionOfCurrentPlayer);
-                    skipped = true;
-                    run();
+                if (isRunning) {
+                    Bot currentBot = bots.get(positionOfCurrentPlayer - 2);
+
+                    mainController.setLabelCurrentPlayer(currentBot.getName() + "'s turn");
+
+                    mainController.setBotDeck(currentBot);
+
+                    try {
+                        Thread.sleep(700);
+                    } catch (InterruptedException e) {
+                        //Handle errors
+                        e.printStackTrace();
+                    }
+
+                    currentBot.turn(previousCard, chosenColor, ifDrawnCard);
                 }
+            }
+        } else {
+            if (!skipped) {
+                System.out.println("SKIPPED player " + positionOfCurrentPlayer);
+                skipped = true;
+                run();
+            }
+        }
+    }
+
+    // Check the direction of the code
+    public void determineIfChangeDirection (){
+        if (previousCard.getProperty().equals(Property.REVERSE) && !lastPlayerDraw) {
+            if (direction.equals(Direction.RIGHT)) {
+                direction = Direction.LEFT;
+                mainController.setImageViewDirection(Direction.LEFT);
+
+            } else {
+                direction = Direction.RIGHT;
+                mainController.setImageViewDirection(Direction.RIGHT);
             }
         }
     }
@@ -218,7 +244,6 @@ public class GameBoard {
     // Determine which is the current player
     private void identifyNextPlayer() {
         if (direction.equals(Direction.RIGHT)) {
-
 
             if (positionOfCurrentPlayer == bots.size() + 1) {
                 positionOfCurrentPlayer = 1;
@@ -236,6 +261,7 @@ public class GameBoard {
         }
     }
 
+    //  if the game is ended, display winning message
     private void end(String name) {
         mainController.clearAllDecks(bots);
         mainController.clearAll();
@@ -243,6 +269,7 @@ public class GameBoard {
 
         isRunning = false;
 
+        // Winning message for player
         if (positionOfCurrentPlayer == 1) {
             player.win();
 
@@ -256,7 +283,7 @@ public class GameBoard {
             alert.show();
 
 
-
+            // Winning message for bot
         } else {
             player.resetWinsInARow();
 
@@ -270,6 +297,8 @@ public class GameBoard {
             alert.show();
 
         }
+
+        // Back to menu
         mainController.showMenu();
     }
 
@@ -313,7 +342,9 @@ public class GameBoard {
         this.showingInfo = showingInfo;
     }
 
+    // draw card
     public void draw() {
+        // set no drawn card is previously played
         ifDrawnCard = false;
         drawnCardsCount = 0;
         lastPlayerDraw = true;
@@ -322,24 +353,14 @@ public class GameBoard {
         run();
     }
 
+    // Play card
     public void playCard(Card card, Color chosenColor) {
+
         playedCards.add(card);
         previousCard = card;
         this.chosenColor = chosenColor;
 
-        if (card.getProperty().equals(Property.DRAW_TWO)) {
-            ifDrawnCard = true;
-            drawnCardsCount += 2;
-            mainController.showLabelChallengeCounter("Loser draws " + drawnCardsCount + " cards");
-        } else if (card.getProperty().equals(Property.DRAW_FOUR)) {
-            ifDrawnCard = true;
-            drawnCardsCount += 4;
-            mainController.showLabelChallengeCounter("Loser draws " + drawnCardsCount + " cards");
-        } else {
-            ifDrawnCard = false;
-            drawnCardsCount = 0;
-            mainController.hideLabelChallengeCounter();
-        }
+        updateCardStatus(card);
 
         lastPlayerDraw = false;
         skipped = false;
@@ -353,6 +374,24 @@ public class GameBoard {
         run();
     }
 
+    // Update status
+    public void updateCardStatus (Card card){
+        if (card.getProperty().equals(Property.DRAW_TWO)) {
+            ifDrawnCard = true;
+            drawnCardsCount += 2;
+            mainController.showLabelChallengeCounter("Loser draws " + drawnCardsCount + " cards");
+        } else if (card.getProperty().equals(Property.DRAW_FOUR)) {
+            ifDrawnCard = true;
+            drawnCardsCount += 4;
+            mainController.showLabelChallengeCounter("Loser draws " + drawnCardsCount + " cards");
+        } else {
+            ifDrawnCard = false;
+            drawnCardsCount = 0;
+            mainController.hideLabelChallengeCounter();
+        }
+    }
+
+    // Stop the game
     public void stop() {
         isRunning = false;
         System.out.println("STOPPED");
