@@ -59,7 +59,7 @@ public class GameBoard {
         this.mainController = mainController;
         deck = new Deck();
         playedCards = new PlayedCards();
-        player = new Player("Player", this);
+        player = new Player(mainController.getPlayerName() +"", this);
         bots = new ArrayList<>();
 
         if (numberOfBots == 1) {
@@ -174,7 +174,7 @@ public class GameBoard {
                 }
             }
 
-            determineNextPlayer();
+            identifyNextPlayer();
 
             System.out.println("Player " + positionOfCurrentPlayer + "'s turn");
 
@@ -215,13 +215,18 @@ public class GameBoard {
         }
     }
 
-    private void determineNextPlayer() {
+    // Determine which is the current player
+    private void identifyNextPlayer() {
         if (direction.equals(Direction.RIGHT)) {
+
+
             if (positionOfCurrentPlayer == bots.size() + 1) {
                 positionOfCurrentPlayer = 1;
             } else {
                 positionOfCurrentPlayer++;
             }
+
+
         } else {
             if (positionOfCurrentPlayer == 1) {
                 positionOfCurrentPlayer = bots.size() + 1;
@@ -250,7 +255,7 @@ public class GameBoard {
             dialogStage.getIcons().add(mainController.icon);
             alert.show();
 
-            mainController.showNeutralUI();
+            mainController.showMenu();
 
         } else {
             player.resetWinsInARow();
@@ -264,7 +269,7 @@ public class GameBoard {
             dialogStage.getIcons().add(mainController.icon);
             alert.show();
 
-            mainController.showNeutralUI();
+            mainController.showMenu();
         }
     }
 
