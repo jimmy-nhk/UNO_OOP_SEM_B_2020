@@ -1,9 +1,6 @@
 package Controller;
 
 import Model.*;
-//import achievements.Achievement;
-//import achievements.Achievement.Status;
-//import achievements.AchievementHandler;
 import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,7 +24,6 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import tools.PathUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
