@@ -22,10 +22,13 @@ public class Player {
     }
 
     public void win() {
+
         winsInARow++;
     }
 
     public void resetWinsInARow() {
+
+
         winsInARow = 0;
     }
 
@@ -134,13 +137,5 @@ public class Player {
         }
     }
 
-    private int getNumberOfDrawFourCards() {
-        int counter = 0;
-        for (Card card : deck) {
-            if (card.getProperty().equals(Property.DRAW_FOUR)) {
-                counter++;
-            }
-        }
-        return counter;
-    }
+
 }
