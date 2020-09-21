@@ -140,7 +140,7 @@ public class MainController {
         labelLogo.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
         buttonNewGame.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         buttonSettings.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        labelDirection.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+
 
         settings = new Settings();
         try {
@@ -216,16 +216,23 @@ public class MainController {
         setLabelNames(gameBoard.getPlayer(), gameBoard.getBots());
         gameBoard.newGame(settings.getNumberOfStartingCards());
 
-        labelAI1Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        labelAI2Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        labelAI3Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        labelChallengeCounter.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        labelInfo.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        setFontForGame(); // Set font for the game
+
+
         buttonStart.setOnAction(event -> {
             buttonStart.setVisible(false);
             gameBoard.start();
         });
         buttonStart.setVisible(true);
+    }
+
+    public void setFontForGame(){
+        labelAI1Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelAI2Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelAI3Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelDirection.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+        labelWishColor.setFont(Font.font("verdana", FontWeight.LIGHT, FontPosture.ITALIC, 10));
+        labelCurrentPlayer.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
     }
 
     // Show main menu
