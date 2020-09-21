@@ -8,7 +8,6 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -82,14 +81,6 @@
          <MenuItem fx:id="menuItem3" mnemonicParsing="false" onAction="#about" text="Information" />
       </Menu>
    </MenuBar>
-   <ImageView fx:id="imageViewLogo" fitHeight="160.0" fitWidth="175.0" layoutX="312.0" layoutY="189.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@../images/icon.png" />
-   </ImageView>
-   <Label fx:id="labelLogo" layoutX="230.0" layoutY="387.0" text="WELCOME TO UNO!">
-      <font>
-         <Font name="System Bold" size="40.0" />
-      </font>
-   </Label>
    <Button fx:id="buttonNewGame" layoutX="354.0" layoutY="468.0" mnemonicParsing="false" onAction="#startGame" prefHeight="28.0" prefWidth="106.0" text="NEW GAME">
       <font>
          <Font name="System Bold" size="14.0" />
