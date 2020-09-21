@@ -1,6 +1,14 @@
 package Controller;
 
 import Model.*;
+import Model.Color;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -19,6 +27,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -27,6 +36,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -59,14 +69,20 @@ public class MainController {
     public Image icon = new Image("images/icon.png");
     public static final Sound backgroundMusic = new Sound("src/resources/sound/background.mp3");
     public Color chosenWishColor;
+    @FXML private Label labelLeaderBoard;
+    @FXML private Pane leaderBoardPane1;
+    @FXML private Button backButton1;
     private String playerName;
-
     public boolean playerMustDraw;
     public TranslateTransition translateTransition;
-    @FXML private TextField textGetName;
-    @FXML private Label labelSetName;
-    @FXML private Button btSetName;
-
+    @FXML
+    private TextField textGetName;
+    @FXML
+    private Label labelSetName;
+    @FXML
+    private Button btSetName;
+    @FXML
+    private Button btnLeaderBoard;
 
     @FXML
     private ImageView iconLastCard;
@@ -118,9 +134,8 @@ public class MainController {
     private Label labelLogo;
     @FXML
     private Button buttonNewGame;
-    @FXML
-
-    private Button buttonSettings;
+    @FXML private Button backButton;
+    @FXML private Button buttonSettings;
     private boolean playerHasDrawn;
     private Point2D PLAYER_STARTING_POINT;
     private Point2D AI_2_STARTING_POINT;
@@ -198,7 +213,7 @@ public class MainController {
         buttonStart.setVisible(true);
     }
 
-    public void setFontForGame(){
+    public void setFontForGame() {
         labelAI1Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         labelAI2Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         labelAI3Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
@@ -221,11 +236,13 @@ public class MainController {
         showMenu();
     }
 
-    public void showSetNameScene (){
+    public void showSetNameScene() {
         textGetName.setVisible(true);
         labelSetName.setVisible(true);
         btSetName.setVisible(true);
-
+        btnLeaderBoard.setVisible(false);
+        leaderBoardPane1.setVisible(false);
+        labelLeaderBoard.setVisible(false);
         btSetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 12));
         textGetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         labelSetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
@@ -240,13 +257,12 @@ public class MainController {
             labelLogo.setText("WELCOME " + playerName + " TO UNO !!!"); // Set the text for the Main Menu
         });
     }
-    
-    public void hideSetNameScene (){
+
+    public void hideSetNameScene() {
         textGetName.setVisible(false);
         labelSetName.setVisible(false);
         btSetName.setVisible(false);
     }
-
 
 
     public void showMenu() {
@@ -254,14 +270,16 @@ public class MainController {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         imageViewLogo.setVisible(true);
         labelLogo.setVisible(true);
+        btnLeaderBoard.setVisible(true);
         buttonNewGame.setVisible(true);
         buttonSettings.setVisible(true);
+        menuBar.setVisible(true);
         labelLogo.setTextFill(COLOR_RED);
     }
 
     public void hideMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-
+        btnLeaderBoard.setVisible(false);
         imageViewLogo.setVisible(false);
         labelLogo.setVisible(false);
         buttonNewGame.setVisible(false);
@@ -1063,5 +1081,20 @@ public class MainController {
         alert.showAndWait();
         Sound buttonClickingSound1 = new Sound("src/resources/sound/sound_button_click.mp3");
 
+    }
+
+    public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException {
+        hideMenu();
+        leaderBoardPane1.setVisible(true);
+        backButton1.setVisible(true);
+        labelLeaderBoard.setVisible(true);
+        menuBar.setVisible(false);
+    }
+
+    public void backFromLeaderBoard(ActionEvent actionEvent) {
+        leaderBoardPane1.setVisible(false);
+        backButton1.setVisible(false);
+        labelLeaderBoard.setVisible(false);
+        showMenu();
     }
 }
