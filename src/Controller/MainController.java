@@ -1,12 +1,12 @@
 package Controller;
 
 import Model.*;
-//import achievements.Achievement;
-//import achievements.Achievement.Status;
-//import achievements.AchievementHandler;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,10 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
@@ -63,9 +59,13 @@ public class MainController {
     public Image icon = new Image("images/icon.png");
     public static final Sound backgroundMusic = new Sound("src/resources/sound/background.mp3");
     public Color chosenWishColor;
+    private String playerName;
 
     public boolean playerMustDraw;
     public TranslateTransition translateTransition;
+    @FXML private TextField textGetName;
+    @FXML private Label labelSetName;
+    @FXML private Button btSetName;
 
 
     @FXML
@@ -135,11 +135,12 @@ public class MainController {
         AI_3_STARTING_POINT = new Point2D(60.0, 70.0);
 
         clearAll();
-        showNeutralUI();
+        showSetNameScene();
+
         labelLogo.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
         buttonNewGame.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         buttonSettings.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        labelDirection.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+
 
         settings = new Settings();
         try {
@@ -187,16 +188,23 @@ public class MainController {
         setLabelNames(gameBoard.getPlayer(), gameBoard.getBots());
         gameBoard.newGame(settings.getNumberOfStartingCards());
 
-        labelAI1Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        labelAI2Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        labelAI3Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        labelChallengeCounter.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        labelInfo.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        setFontForGame(); // Set font for the game
+
+
         buttonStart.setOnAction(event -> {
             buttonStart.setVisible(false);
             gameBoard.start();
         });
         buttonStart.setVisible(true);
+    }
+
+    public void setFontForGame(){
+        labelAI1Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelAI2Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelAI3Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelDirection.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+        labelWishColor.setFont(Font.font("verdana", FontWeight.LIGHT, FontPosture.ITALIC, 10));
+        labelCurrentPlayer.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
     }
 
     // Show main menu
@@ -210,24 +218,62 @@ public class MainController {
         clearPlayerDeck();
         clearAllDecks(gameBoard.getBots());
 
-        showNeutralUI();
+        showMenu();
     }
 
-    public void showNeutralUI() {
+    public void showSetNameScene (){
+        textGetName.setVisible(true);
+        labelSetName.setVisible(true);
+        btSetName.setVisible(true);
+
+        btSetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 12));
+        textGetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelSetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelSetName.setTextFill(COLOR_BLUE);
+
+
+        btSetName.setOnAction(actionEvent -> {
+            showMenu();
+            playerName = textGetName.getText();
+            hideSetNameScene();
+            showMenu();
+            labelLogo.setText("WELCOME " + playerName + " TO UNO !!!"); // Set the text for the Main Menu
+        });
+    }
+    
+    public void hideSetNameScene (){
+        textGetName.setVisible(false);
+        labelSetName.setVisible(false);
+        btSetName.setVisible(false);
+    }
+
+
+
+    public void showMenu() {
+
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         imageViewLogo.setVisible(true);
         labelLogo.setVisible(true);
         buttonNewGame.setVisible(true);
         buttonSettings.setVisible(true);
+        labelLogo.setTextFill(COLOR_RED);
     }
 
-    public void hideNeutralUI() {
+    public void hideMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
         imageViewLogo.setVisible(false);
         labelLogo.setVisible(false);
         buttonNewGame.setVisible(false);
         buttonSettings.setVisible(false);
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public void setLabelNames(Player player, ArrayList<Bot> bots) {
@@ -493,24 +539,6 @@ public class MainController {
                     hideWishColor();
                 }
                 Card playedCard = gameBoard.getPlayer().playCard(card);
-
-//                if (playedCard.getProperty().equals(Property.DRAW_FOUR) && gameBoard.getPlayedCards().getCards().get(gameBoard.getPlayedCards().getCards().size() - 1).getProperty().equals(Property.DRAW_FOUR) && gameBoard.getDrawnCardsCount() > 0) {
-//                    try {
-//                        handler.unlockAchievement(6);
-//                        handler.saveAndLoad();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                if (playedCard.getProperty().equals(Property.WILD)) {
-//                    try {
-//                        handler.unlockAchievement(7);
-//                        handler.saveAndLoad();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
 
                 setPlayerDeck(gameBoard.getPlayer().getDeck());
                 gameBoard.playCard(playedCard, newWishColor);
@@ -981,7 +1009,7 @@ public class MainController {
     }
 
     public void clearAll() {
-        hideNeutralUI();
+        hideMenu();
         hideWishColor();
         hideInfo();
         labelCurrentPlayer.setVisible(false);
@@ -995,74 +1023,6 @@ public class MainController {
         iconLastCard.setImage(null);
     }
 
-//    private void createAchievements() {
-//        AchievementHandler handler = new AchievementHandler(stage);
-//        handler.setPath(PathUtils.getOSindependentPath() + "/OOP/UNO/achievements.save");
-
-//        handler.addAchievement(new Achievement("Anf�nger", "Gewinne dein erstes Spiel", null, null, Status.LOCKED));
-//        handler.addAchievement(new Achievement("Fortgeschrittener", "Gewinne insgesamt 10 Spiele", null, null, Status.LOCKED, 0, 10, 0));
-//        handler.addAchievement(new Achievement("Experte", "Gewinne insgesamt 50 Spiele", null, null, Status.LOCKED, 0, 50, 0));
-//
-//        handler.addAchievement(new Achievement("Gl�cksstr�hne", "Gewinne hintereinander 3 Spiele", null, null, Status.LOCKED, 0, 3, 0));
-//        handler.addAchievement(new Achievement("L�uft bei dir!", "Gewinne hintereinander 5 Spiele", null, null, Status.LOCKED, 0, 5, 0));
-//
-//        handler.addAchievement(new Achievement("Arme Sau", "Du musst mehr als 10 Karten ziehen", null, null, Status.LOCKED));
-//        handler.addAchievement(new Achievement("Gegenangriff", "Kontere eine +4", null, null, Status.LOCKED));
-//        handler.addAchievement(new Achievement("Wunschkonzert", "W�nsch dir eine Farbe", null, null, Status.LOCKED));
-//        handler.addAchievement(new Achievement("Cheatest du?", "Besitze zwei +4 Karten gleichzeitig", null, null, Status.LOCKED));
-//
-//        handler.addAchievement(new Achievement("Unm�glich", "Klicke 5 mal auf den Ablagestapel", null, null, Status.HIDDEN));
-
-//
-//        try {
-//            handler.saveAchievements();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-//    @FXML
-//    private void buttonAchievements() {
-//        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-//
-//        Stage newStage = new Stage();
-//
-//        AnchorPane root = new AnchorPane();
-//
-//        try {
-//            handler.loadAchievements();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        AnchorPane list = handler.getAchievementList();
-//        AnchorPane summary = handler.getSummary();
-//
-//        root.getChildren().add(summary);
-//        root.getChildren().add(list);
-//
-//        AnchorPane.setTopAnchor(summary, 50.0);
-//        AnchorPane.setLeftAnchor(summary, 25.0);
-//        AnchorPane.setRightAnchor(summary, 50.0);
-//
-//        AnchorPane.setTopAnchor(list, 180.0);
-//        AnchorPane.setLeftAnchor(list, 25.0);
-//        AnchorPane.setRightAnchor(list, 25.0);
-//        AnchorPane.setBottomAnchor(list, 25.0);
-//
-//        root.setStyle("-fx-background-color: #3F3F3F;");
-//
-//        Scene scene = new Scene(root, 600, 600);
-//        newStage.setScene(scene);
-//        newStage.setMinHeight(500);
-//        newStage.setMinWidth(600);
-//
-//        newStage.setTitle("Achievements");
-//        newStage.initModality(Modality.APPLICATION_MODAL);
-//        newStage.getIcons().add(new Image("/images/icon.png"));
-//        newStage.setResizable(true);
-//        newStage.show();
-//    }
 
     public void about() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");

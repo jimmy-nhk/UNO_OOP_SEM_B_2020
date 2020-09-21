@@ -33,6 +33,7 @@ public class Main extends Application
 			mainController.setStage(stage);
 			mainController.init();
 
+
 			stage.getIcons().add(new Image("images/icon.png"));
 			stage.show();
 		}

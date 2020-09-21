@@ -22,15 +22,19 @@ public class Player {
     }
 
     public void win() {
+
         winsInARow++;
     }
 
     public void resetWinsInARow() {
+
+
         winsInARow = 0;
     }
 
     public void drawCard(Card card) {
         deck.add(card);
+
         gameBoard.getController().setPlayerDeck(deck);
     }
 
@@ -124,4 +128,5 @@ public class Player {
             System.out.println("choose");
         }
     }
+
 }
