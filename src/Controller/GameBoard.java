@@ -104,16 +104,16 @@ public class GameBoard {
         player.drawCards(deck.drawCards(numberOfStartingCards, playedCards));
 
         for (Bot currentBot : bots) {
-            
+
             currentBot.initialize();
-            
+
             // The deck will send the number of starting cards to the player
             currentBot.drawCards(deck.drawCards(numberOfStartingCards, playedCards));
         }
 
         // Start the game by draw a card from the main deck to the played cards
         playedCards.add(deck.drawCard(playedCards));
-        
+
         // Set the previous card by getting the top card of the playedCards
         previousCard = playedCards.getCards().get(playedCards.getCards().size() - 1);
 

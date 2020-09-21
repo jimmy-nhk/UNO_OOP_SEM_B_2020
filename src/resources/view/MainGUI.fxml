@@ -69,32 +69,33 @@
          </font>
       </Button>
       <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="304.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <menus>
-          <Menu fx:id="menu1" mnemonicParsing="false" text="Menu">
-            <items>
+         <menus>
+            <Menu fx:id="menu1" mnemonicParsing="false" text="Menu">
+               <items>
                   <MenuItem fx:id="menuItemBack" mnemonicParsing="false" onAction="#showMainMenu" text="Back to start" />
-                  <MenuItem fx:id="menuItem1" mnemonicParsing="false"  text="Achievements" />
-              <MenuItem fx:id="menuItem3" mnemonicParsing="false" onAction="#about" text="Information" />
-            </items>
-          </Menu>
-        </menus>
+
+                  <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Achievements" />
+                  <MenuItem fx:id="menuItem3" mnemonicParsing="false" onAction="#about" text="Information" />
+               </items>
+            </Menu>
+         </menus>
       </MenuBar>
       <ImageView fx:id="imageViewLogo" fitHeight="160.0" fitWidth="175.0" layoutX="312.0" layoutY="189.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/icon.png" />
          </image>
       </ImageView>
-      <Label fx:id="labelLogo" layoutX="252.0" layoutY="385.0" text="WELCOME TO UNO!">
+      <Label fx:id="labelLogo" layoutX="230.0" layoutY="387.0" text="WELCOME TO UNO!">
          <font>
-            <Font name="System Bold" size="28.0" />
+            <Font name="System Bold" size="40.0" />
          </font>
       </Label>
-      <Button fx:id="buttonNewGame" layoutX="282.0" layoutY="468.0" mnemonicParsing="false" onAction="#startGame" text="NEW GAME">
+      <Button fx:id="buttonNewGame" layoutX="214.0" layoutY="468.0" mnemonicParsing="false" onAction="#startGame" text="NEW GAME">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="buttonSettings" layoutX="410.0" layoutY="468.0" mnemonicParsing="false" onAction="#openSettings" text="SETTING">
+      <Button fx:id="buttonSettings" layoutX="430.0" layoutY="468.0" mnemonicParsing="false" onAction="#openSettings" text="SETTING">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

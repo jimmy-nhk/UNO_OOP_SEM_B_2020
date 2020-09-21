@@ -24,6 +24,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -125,6 +128,7 @@ public class MainController {
     private Point2D AI_3_STARTING_POINT;
 
     public void init() {
+
         imageViewWishColor.setImage(new Image("/images/circle-all.png"));
 
         PLAYER_STARTING_POINT = new Point2D(100.0, stage.getScene().getHeight() - 50.0 - CARD_HEIGHT);
@@ -133,6 +137,10 @@ public class MainController {
 
         clearAll();
         showNeutralUI();
+        labelLogo.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
+        buttonNewGame.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        buttonSettings.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelDirection.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
 
         settings = new Settings();
         try {
@@ -208,6 +216,11 @@ public class MainController {
         setLabelNames(gameBoard.getPlayer(), gameBoard.getBots());
         gameBoard.newGame(settings.getNumberOfStartingCards());
 
+        labelAI1Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelAI2Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelAI3Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelChallengeCounter.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelInfo.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         buttonStart.setOnAction(event -> {
             buttonStart.setVisible(false);
             gameBoard.start();
@@ -345,8 +358,10 @@ public class MainController {
         buttonInfo.setOnAction(event -> {
 //            if (gameBoard.getDrawnCardsCount() > 10) {
 //                try {
+
 //                    handler.unlockAchievement(5);
 //                    handler.saveAndLoad();
+
 //                } catch (Exception e) {
 //                    System.out.println(e.toString());
 //                }
@@ -647,7 +662,7 @@ public class MainController {
                 return PLAYER_STARTING_POINT.getX() + ((deckSize + 1) * (CARD_WIDTH + CARD_SPACING_LARGE)) - CARD_SPACING_LARGE;
             }
         }
-        
+
         //Bot 1 (Above Player)
         else {
             double maxWidth = stage.getScene().getWidth() - (AI_1_STARTING_POINT.getX() * 2) - CARD_WIDTH;
@@ -687,7 +702,7 @@ public class MainController {
         }
     }
 
-    
+
     public void moveCardFromDeckToBot(Bot bot, ArrayList<Card> cards) {
         if (gameBoard.isRunning()) {
             Card card = gameBoard.getDeck().drawCard(gameBoard.getPlayedCards());
@@ -1013,6 +1028,7 @@ public class MainController {
 //    private void createAchievements() {
 //        AchievementHandler handler = new AchievementHandler(stage);
 //        handler.setPath(PathUtils.getOSindependentPath() + "/OOP/UNO/achievements.save");
+
 //        handler.addAchievement(new Achievement("Anf�nger", "Gewinne dein erstes Spiel", null, null, Status.LOCKED));
 //        handler.addAchievement(new Achievement("Fortgeschrittener", "Gewinne insgesamt 10 Spiele", null, null, Status.LOCKED, 0, 10, 0));
 //        handler.addAchievement(new Achievement("Experte", "Gewinne insgesamt 50 Spiele", null, null, Status.LOCKED, 0, 50, 0));
@@ -1026,6 +1042,7 @@ public class MainController {
 //        handler.addAchievement(new Achievement("Cheatest du?", "Besitze zwei +4 Karten gleichzeitig", null, null, Status.LOCKED));
 //
 //        handler.addAchievement(new Achievement("Unm�glich", "Klicke 5 mal auf den Ablagestapel", null, null, Status.HIDDEN));
+
 //
 //        try {
 //            handler.saveAchievements();

@@ -27,13 +27,15 @@ public class Main extends Application
 
 			stage.setResizable(true);
 			stage.setTitle("UNO TIME!!");
+
 			stage.setScene(scene);		
+
 			stage.setResizable(false);
-			
+
 			MainController mainController = (MainController)loader.getController();
 			mainController.setStage(stage);
 			mainController.init();
-			
+
 //			stage.setOnCloseRequest(new EventHandler<WindowEvent>()
 //			{
 //				@Override
@@ -59,7 +61,7 @@ public class Main extends Application
 //			});
 
 			stage.getIcons().add(new Image("images/icon.png"));
-			stage.show();		
+			stage.show();
 		}
 		catch(Exception e)
 		{
