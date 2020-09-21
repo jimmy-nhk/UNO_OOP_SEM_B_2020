@@ -7,98 +7,104 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
-   <children>
-      <ImageView fx:id="iconDeck" fitHeight="90.0" fitWidth="57.0" layoutX="447.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="iconLastCard" fitHeight="90.0" fitWidth="57.0" layoutX="277.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="labelCurrentPlayer" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="420.0" prefHeight="31.0" prefWidth="286.0" textAlignment="CENTER">
+<AnchorPane fx:id="mainPane" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
+   <ImageView fx:id="iconDeck" fitHeight="90.0" fitWidth="57.0" layoutX="447.0" layoutY="253.0" pickOnBounds="true"
+              preserveRatio="true"/>
+   <ImageView fx:id="iconLastCard" fitHeight="90.0" fitWidth="57.0" layoutX="277.0" layoutY="253.0" pickOnBounds="true"
+              preserveRatio="true"/>
+   <Label fx:id="labelCurrentPlayer" alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="420.0"
+          prefHeight="31.0" prefWidth="286.0" textAlignment="CENTER">
+      <font>
+         <Font name="System Bold" size="19.0"/>
+      </font>
+   </Label>
+   <Circle fx:id="circleWishColor" fill="DODGERBLUE" layoutX="392.0" layoutY="298.0" radius="16.0" stroke="BLACK"
+           strokeType="INSIDE" strokeWidth="0.0"/>
+   <Label fx:id="labelWishColor" layoutX="355.0" layoutY="253.0" text="Chosen color">
+      <font>
+         <Font name="System Bold" size="12.0"/>
+      </font>
+   </Label>
+   <ImageView fx:id="imageViewWishColor" fitHeight="40.0" fitWidth="40.0" layoutX="372.0" layoutY="278.0"
+              pickOnBounds="true" preserveRatio="true"/>
+   <HBox fx:id="hboxInfo" alignment="CENTER" layoutX="207.0" layoutY="611.0" prefHeight="25.0" prefWidth="338.0">
+      <Label fx:id="labelInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="255.0"
+             text="DisplayInfo" textAlignment="CENTER">
          <font>
-            <Font name="System Bold" size="19.0" />
+            <Font name="System Bold" size="13.0"/>
          </font>
       </Label>
-      <Circle fx:id="circleWishColor" fill="DODGERBLUE" layoutX="392.0" layoutY="298.0" radius="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-      <Label fx:id="labelWishColor" layoutX="355.0" layoutY="253.0" text="Chosen color">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="imageViewWishColor" fitHeight="40.0" fitWidth="40.0" layoutX="372.0" layoutY="278.0" pickOnBounds="true" preserveRatio="true" />
-      <HBox fx:id="hboxInfo" alignment="CENTER" layoutX="207.0" layoutY="611.0" prefHeight="25.0" prefWidth="338.0">
-         <children>
-            <Label fx:id="labelInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="255.0" text="DisplayInfo" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <Button fx:id="buttonInfo" mnemonicParsing="false" text="OK">
-               <HBox.margin>
-                  <Insets left="15.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-      </HBox>
-      <Label fx:id="labelChallengeCounter" alignment="CENTER" contentDisplay="CENTER" layoutX="297.0" layoutY="352.0" prefHeight="17.0" prefWidth="190.0" text="Loser draws 12 card" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="imageViewDirection" fitHeight="30.0" fitWidth="30.0" layoutX="543.0" layoutY="282.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="labelDirection" layoutX="520.0" layoutY="252.0" text="Direction of play:">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <Label fx:id="labelAI2Name" alignment="CENTER" contentDisplay="CENTER" layoutX="661.0" layoutY="107.0" prefHeight="19.0" prefWidth="106.0" text="Computer 2" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <Label fx:id="labelAI3Name" alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="107.0" prefHeight="19.0" prefWidth="106.0" text="Computer 3" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <Label fx:id="labelAI1Name" alignment="CENTER" contentDisplay="CENTER" layoutX="340.0" layoutY="38.0" prefHeight="19.0" prefWidth="106.0" text="Computer 1" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <Button fx:id="buttonStart" layoutX="360.0" layoutY="390.0" mnemonicParsing="false" text="START">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
+      <Button fx:id="buttonInfo" mnemonicParsing="false" text="OK">
+         <HBox.margin>
+            <Insets left="15.0"/>
+         </HBox.margin>
       </Button>
-      <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="304.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <menus>
-            <Menu fx:id="menu1" mnemonicParsing="false" text="Menu">
-               <items>
-                  <MenuItem fx:id="menuItemBack" mnemonicParsing="false" onAction="#showMainMenu" text="Back to start" />
+   </HBox>
+   <Label fx:id="labelChallengeCounter" alignment="CENTER" contentDisplay="CENTER" layoutX="297.0" layoutY="352.0"
+          prefHeight="17.0" prefWidth="190.0" text="Loser draws 12 card" textAlignment="CENTER">
+      <font>
+         <Font name="System Bold" size="14.0"/>
+      </font>
+   </Label>
+   <ImageView fx:id="imageViewDirection" fitHeight="30.0" fitWidth="30.0" layoutX="543.0" layoutY="282.0"
+              pickOnBounds="true" preserveRatio="true"/>
+   <Label fx:id="labelDirection" layoutX="520.0" layoutY="252.0" text="Direction of play:">
+      <font>
+         <Font name="System Bold" size="12.0"/>
+      </font>
+   </Label>
+   <Label fx:id="labelAI2Name" alignment="CENTER" contentDisplay="CENTER" layoutX="661.0" layoutY="107.0"
+          prefHeight="19.0" prefWidth="106.0" text="Computer 2" textAlignment="CENTER">
+      <font>
+         <Font name="System Bold" size="13.0"/>
+      </font>
+   </Label>
+   <Label fx:id="labelAI3Name" alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="107.0"
+          prefHeight="19.0" prefWidth="106.0" text="Computer 3" textAlignment="CENTER">
+      <font>
+         <Font name="System Bold" size="13.0"/>
+      </font>
+   </Label>
+   <Label fx:id="labelAI1Name" alignment="CENTER" contentDisplay="CENTER" layoutX="340.0" layoutY="38.0"
+          prefHeight="19.0" prefWidth="106.0" text="Computer 1" textAlignment="CENTER">
+      <font>
+         <Font name="System Bold" size="13.0"/>
+      </font>
+   </Label>
+   <Button fx:id="buttonStart" layoutX="360.0" layoutY="390.0" mnemonicParsing="false" text="START">
+      <font>
+         <Font name="System Bold" size="14.0"/>
+      </font>
+   </Button>
+   <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="304.0" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0">
+      <Menu fx:id="menu1" mnemonicParsing="false" text="Menu">
+         <MenuItem fx:id="menuItemBack" mnemonicParsing="false" onAction="#showMainMenu" text="Back to start"/>
 
-                  <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Achievements" />
-                  <MenuItem fx:id="menuItem3" mnemonicParsing="false" onAction="#about" text="Information" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
-      <ImageView fx:id="imageViewLogo" fitHeight="160.0" fitWidth="175.0" layoutX="312.0" layoutY="189.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/icon.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="labelLogo" layoutX="230.0" layoutY="387.0" text="WELCOME TO UNO!">
-         <font>
-            <Font name="System Bold" size="40.0" />
-         </font>
-      </Label>
-      <Button fx:id="buttonNewGame" layoutX="214.0" layoutY="468.0" mnemonicParsing="false" onAction="#startGame" text="NEW GAME">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="buttonSettings" layoutX="430.0" layoutY="468.0" mnemonicParsing="false" onAction="#openSettings" text="SETTING">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
-   </children>
+         <MenuItem fx:id="menuItem1" mnemonicParsing="false" text="Achievements"/>
+         <MenuItem fx:id="menuItem3" mnemonicParsing="false" onAction="#about" text="Information"/>
+      </Menu>
+   </MenuBar>
+   <ImageView fx:id="imageViewLogo" fitHeight="160.0" fitWidth="175.0" layoutX="312.0" layoutY="189.0"
+              pickOnBounds="true" preserveRatio="true">
+      <Image url="@../images/icon.png"/>
+   </ImageView>
+   <Label fx:id="labelLogo" layoutX="230.0" layoutY="387.0" text="WELCOME TO UNO!">
+      <font>
+         <Font name="System Bold" size="40.0"/>
+      </font>
+   </Label>
+   <Button fx:id="buttonNewGame" layoutX="214.0" layoutY="468.0" mnemonicParsing="false" onAction="#startGame"
+           text="NEW GAME">
+      <font>
+         <Font name="System Bold" size="14.0"/>
+      </font>
+   </Button>
+   <Button fx:id="buttonSettings" layoutX="430.0" layoutY="468.0" mnemonicParsing="false" onAction="#openSettings"
+           text="SETTING">
+      <font>
+         <Font name="System Bold" size="14.0"/>
+      </font>
+   </Button>
 </AnchorPane>

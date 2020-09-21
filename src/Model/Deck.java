@@ -10,7 +10,7 @@ public class Deck
 
     public Deck()
     {
-        cards = new Stack<Card>();
+        cards = new Stack<>();
 
         for(Color currentColor : Color.values())
         {
@@ -55,15 +55,10 @@ public class Deck
 
     public Card drawCard(PlayedCards playedCards)
     {
-        if(cards.size() > 0)
-        {
-            return cards.pop();
-        }
-        else
-        {
+        if (cards.size() <= 0) {
             refill(playedCards);
-            return cards.pop();
         }
+        return cards.pop();
     }
 
     public ArrayList<Card> drawCards(int numberOfCards, PlayedCards deadDeck)
@@ -79,10 +74,7 @@ public class Deck
 
     public void refill(PlayedCards deadDeck)
     {
-        for(Card currentCard : deadDeck.getCards())
-        {
-            cards.add(currentCard);
-        }
+        cards.addAll(deadDeck.getCards());
 
         shuffle();
     }

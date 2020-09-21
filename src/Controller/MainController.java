@@ -121,7 +121,6 @@ public class MainController {
     @FXML
 
     private Button buttonSettings;
-    private int secretCounter;
     private boolean playerHasDrawn;
     private Point2D PLAYER_STARTING_POINT;
     private Point2D AI_2_STARTING_POINT;
@@ -148,34 +147,6 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        handler = new AchievementHandler(stage);
-//        handler.setPath(PathUtils.getOSindependentPath() + "/OOP/UNO/achievements.save");
-//        try {
-//            handler.loadAchievements();
-//        } catch (Exception e) {
-//            // if file does not exist, create a new file
-//            createAchievements();
-//            try {
-//                handler.loadAchievements();
-//            } catch (Exception ex) {
-//                System.out.println(ex.toString());
-//            }
-//        }
-
-        iconLastCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (secretCounter < 5) {
-                secretCounter++;
-                if (secretCounter == 5) {
-//                    try {
-//                        handler.unlockAchievement(9);
-//                        handler.saveAndLoad();
-//                    } catch (Exception e) {
-//                        System.out.println(e.toString());
-//                    }
-                }
-            }
-        });
     }
 
     public void setStage(Stage stage) {
@@ -241,7 +212,6 @@ public class MainController {
 
         showNeutralUI();
     }
-
 
     public void showNeutralUI() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");

@@ -19,7 +19,6 @@ public class Settings implements Serializable {
     }
 
     public Settings() {
-//        PathUtils.checkFolder(new File("/OOP/UNO/"));
         File file = new File("\\src\\settings.config");
         if (!file.exists()) {
             createStandardValues();
