@@ -22,23 +22,18 @@ public class Player {
     }
 
     public void win() {
+
         winsInARow++;
     }
 
     public void resetWinsInARow() {
+
+
         winsInARow = 0;
     }
 
     public void drawCard(Card card) {
         deck.add(card);
-//        if (getNumberOfDrawFourCards() >= 2) {
-//            try {
-//                gameBoard.getController().handler.unlockAchievement(8);
-//                gameBoard.getController().handler.saveAndLoad();
-//            } catch (Exception e) {
-//                System.out.println(e.toString());
-//            }
-//        }
 
         gameBoard.getController().setPlayerDeck(deck);
     }
@@ -134,13 +129,5 @@ public class Player {
         }
     }
 
-    private int getNumberOfDrawFourCards() {
-        int counter = 0;
-        for (Card card : deck) {
-            if (card.getProperty().equals(Property.DRAW_FOUR)) {
-                counter++;
-            }
-        }
-        return counter;
-    }
+
 }

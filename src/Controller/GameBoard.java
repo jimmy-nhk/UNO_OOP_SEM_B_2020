@@ -1,7 +1,6 @@
 package Controller;
 
 import Model.*;
-//import achievements.Achievement.Status;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -60,7 +59,7 @@ public class GameBoard {
         this.mainController = mainController;
         deck = new Deck();
         playedCards = new PlayedCards();
-        player = new Player("Player", this);
+        player = new Player(mainController.getPlayerName() +"", this);
         bots = new ArrayList<>();
 
         if (numberOfBots == 1) {
@@ -175,7 +174,7 @@ public class GameBoard {
                 }
             }
 
-            determineNextPlayer();
+            identifyNextPlayer();
 
             System.out.println("Player " + positionOfCurrentPlayer + "'s turn");
 
@@ -216,13 +215,18 @@ public class GameBoard {
         }
     }
 
-    private void determineNextPlayer() {
+    // Determine which is the current player
+    private void identifyNextPlayer() {
         if (direction.equals(Direction.RIGHT)) {
+
+
             if (positionOfCurrentPlayer == bots.size() + 1) {
                 positionOfCurrentPlayer = 1;
             } else {
                 positionOfCurrentPlayer++;
             }
+
+
         } else {
             if (positionOfCurrentPlayer == 1) {
                 positionOfCurrentPlayer = bots.size() + 1;
@@ -251,33 +255,10 @@ public class GameBoard {
             dialogStage.getIcons().add(mainController.icon);
             alert.show();
 
-            mainController.showNeutralUI();
+            mainController.showMenu();
 
-//            try {
-//                mainController.handler.unlockAchievement(0);
-//                mainController.handler.incrementAchievement(1, 1);
-//                mainController.handler.incrementAchievement(2, 1);
-//                mainController.handler.incrementAchievement(3, 1);
-//                mainController.handler.incrementAchievement(4, 1);
-//                mainController.handler.checkAllIncrementalAchievements();
-//                mainController.handler.saveAndLoad();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
         } else {
             player.resetWinsInARow();
-
-//            try {
-//                if (mainController.handler.getAchievements().get(3).getStatus().equals(Status.LOCKED)) {
-//                    mainController.handler.resetAchievement(3);
-//                }
-//                if (mainController.handler.getAchievements().get(4).getStatus().equals(Status.LOCKED)) {
-//                    mainController.handler.resetAchievement(4);
-//                }
-//                mainController.handler.saveAndLoad();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
 
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Defeated!");
@@ -288,7 +269,7 @@ public class GameBoard {
             dialogStage.getIcons().add(mainController.icon);
             alert.show();
 
-            mainController.showNeutralUI();
+            mainController.showMenu();
         }
     }
 
