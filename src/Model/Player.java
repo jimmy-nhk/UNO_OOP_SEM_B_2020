@@ -2,6 +2,10 @@ package Model;
 
 import Controller.GameBoard;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class Player {
@@ -22,11 +26,38 @@ public class Player {
     }
 
     public void win() {
-
+        FileInputStream fis = null;
+        try {
+            ArrayList<String> namesList = new ArrayList<>();
+            ArrayList<Integer> winList = new ArrayList<>();
+            fis = new FileInputStream("listName");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            namesList = (ArrayList) ois.readObject();
+            ois.close();
+            fis.close();
+            FileInputStream fis1 = new FileInputStream("listWin");
+            ObjectInputStream ois1 = new ObjectInputStream(fis1);
+            winList = (ArrayList) ois1.readObject();
+            ois.close();
+            fis.close();
+            for (int i =0; i < namesList.size();i++) {
+                if (this.name.equals(namesList.get(i))) {
+                    int count = winList.get(i);
+                    winList.remove(i);
+                    winList.add(i,count+1);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
         winsInARow++;
-    }
+        }
 
-    public void resetWinsInARow() {
+        public void resetWinsInARow() {
 
 
         winsInARow = 0;
