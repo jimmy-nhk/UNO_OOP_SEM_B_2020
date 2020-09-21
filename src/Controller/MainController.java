@@ -121,7 +121,6 @@ public class MainController {
     @FXML
 
     private Button buttonSettings;
-    private int secretCounter;
     private boolean playerHasDrawn;
     private Point2D PLAYER_STARTING_POINT;
     private Point2D AI_2_STARTING_POINT;
@@ -149,12 +148,6 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        iconLastCard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (secretCounter < 5) {
-                secretCounter++;
-            }
-        });
     }
 
     public void setStage(Stage stage) {
@@ -255,7 +248,9 @@ public class MainController {
     }
 
 
+
     public void showMenu() {
+
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         imageViewLogo.setVisible(true);
         labelLogo.setVisible(true);

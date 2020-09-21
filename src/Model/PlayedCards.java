@@ -8,7 +8,7 @@ public class PlayedCards
 
 	public PlayedCards()
 	{
-		cards = new ArrayList<Card>();
+		cards = new ArrayList<>();
 	}
 	
 	public void add(Card card)

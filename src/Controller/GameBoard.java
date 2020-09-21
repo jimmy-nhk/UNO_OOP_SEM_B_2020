@@ -255,7 +255,7 @@ public class GameBoard {
             dialogStage.getIcons().add(mainController.icon);
             alert.show();
 
-            mainController.showMenu();
+
 
         } else {
             player.resetWinsInARow();
@@ -269,8 +269,8 @@ public class GameBoard {
             dialogStage.getIcons().add(mainController.icon);
             alert.show();
 
-            mainController.showMenu();
         }
+        mainController.showMenu();
     }
 
     public Deck getDeck() {
