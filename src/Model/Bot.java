@@ -29,12 +29,12 @@ public class Bot {
 
     public void drawCard(Card card) {
         deck.add(card);
-        gameBoard.getController().setAIDeck(this);
+        gameBoard.getController().setBotDeck(this);
     }
 
     public void drawCards(ArrayList<Card> cards) {
         deck.addAll(cards);
-        gameBoard.getController().setAIDeck(this);
+        gameBoard.getController().setBotDeck(this);
     }
 
     public Card playCard(Card card) {
@@ -67,14 +67,14 @@ public class Bot {
                 System.out.println("draw " + gameBoard.getDrawnCardsCount() + " cards");
                 ArrayList<Card> drawCards = gameBoard.getDeck().drawCards(gameBoard.getDrawnCardsCount(), gameBoard.getPlayedCards());
                 if (gameBoard.isRunning()) {
-                    gameBoard.getController().moveCardFromDeckToAI(this, drawCards);
+                    gameBoard.getController().moveCardFromDeckToBot(this, drawCards);
                 }
             } else {
                 System.out.println("draw 1 card");
                 ArrayList<Card> drawnCards = new ArrayList<>();
                 drawnCards.add(gameBoard.getDeck().drawCard(gameBoard.getPlayedCards()));
                 if (gameBoard.isRunning()) {
-                    gameBoard.getController().moveCardFromDeckToAI(this, drawnCards);
+                    gameBoard.getController().moveCardFromDeckToBot(this, drawnCards);
                 }
             }
             System.out.println("deck after draw: " + deck);
