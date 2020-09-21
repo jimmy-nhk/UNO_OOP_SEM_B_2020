@@ -1007,11 +1007,38 @@ public class MainController {
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.setResizable(true);
             newStage.showAndWait();
+            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+            settings.load();
 
-        } catch (IOException e1) {
+            Locale locale = SettingsController.locale;
+            LanguageController.switchLanguage(locale);
+            setButtonBindingText();
+//            setLabelBindingText();
+            System.out.println(locale);
+
+        } catch (Exception e1) {
             e1.printStackTrace();
         }
     }
+
+    private void setLabelBindingText() {
+        LanguageController.setUpLabelText(labelLogo, "menu.welcome");
+        LanguageController.setUpLabelText(labelWishColor, "chosenColor.pleaseChooseColor");
+        LanguageController.setUpLabelText(labelChallengeCounter, "menu.welcome");
+        LanguageController.setUpLabelText(labelDirection, "menu.directionOfPlay");
+        LanguageController.setUpLabelText(labelAI1Name, "menu.computer1");
+        LanguageController.setUpLabelText(labelAI2Name, "menu.computer2");
+        LanguageController.setUpLabelText(labelAI3Name, "menu.computer1");
+    }
+
+    private void setButtonBindingText() {
+        LanguageController.setUpButtonText(buttonSettings, "menu.setting");
+        LanguageController.setUpButtonText(buttonInfo, "menu.information");
+        LanguageController.setUpButtonText(buttonNewGame, "menu.newGame");
+        LanguageController.setUpButtonText(buttonStart, "menu.start");
+
+    }
+
 
     public void clearAll() {
         hideMenu();
