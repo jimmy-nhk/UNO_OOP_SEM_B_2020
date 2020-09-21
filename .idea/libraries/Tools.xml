@@ -1,12 +1,7 @@
 <component name="libraryTable">
   <library name="Tools">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/Tools.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
-    <SOURCES>
-      <root url="jar://$PROJECT_DIR$/lib/Tools.jar!/" />
-      <root url="file://$PROJECT_DIR$/lib" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>

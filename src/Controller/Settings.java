@@ -1,7 +1,5 @@
 package Controller;
 
-import tools.PathUtils;
-
 import java.io.*;
 import java.util.Locale;
 
@@ -21,8 +19,8 @@ public class Settings implements Serializable {
     }
 
     public Settings() {
-        PathUtils.checkFolder(new File(PathUtils.getOSindependentPath() + "/OOP/UNO/"));
-        File file = new File(PathUtils.getOSindependentPath() + "/OOP/UNO/settings.config");
+//        PathUtils.checkFolder(new File("/OOP/UNO/"));
+        File file = new File("\\src\\settings.config");
         if (!file.exists()) {
             createStandardValues();
             try {
@@ -40,7 +38,7 @@ public class Settings implements Serializable {
 
     // Save the data
     public void save() throws Exception {
-        FileOutputStream fileOut = new FileOutputStream(PathUtils.getOSindependentPath() + "/OOP/UNO/settings.config");
+        FileOutputStream fileOut = new FileOutputStream("src\\settings.config");
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(this);
         out.close();
@@ -49,7 +47,7 @@ public class Settings implements Serializable {
 
     // Load the data from the file
     public void load() throws Exception {
-        FileInputStream fileIn = new FileInputStream(PathUtils.getOSindependentPath() + "/OOP/UNO/settings.config");
+        FileInputStream fileIn = new FileInputStream("src\\settings.config");
         ObjectInputStream in = new ObjectInputStream(fileIn);
         Settings loaded = (Settings) in.readObject();
         in.close();

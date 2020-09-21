@@ -27,7 +27,9 @@ public class Main extends Application
 
 			stage.setResizable(true);
 			stage.setTitle("UNO TIME!!");
-			stage.setScene(scene);
+
+			stage.setScene(scene);		
+
 			stage.setResizable(false);
 
 			MainController mainController = (MainController)loader.getController();

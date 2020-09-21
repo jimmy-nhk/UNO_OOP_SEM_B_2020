@@ -30,7 +30,6 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import tools.PathUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -359,8 +358,10 @@ public class MainController {
         buttonInfo.setOnAction(event -> {
 //            if (gameBoard.getDrawnCardsCount() > 10) {
 //                try {
-////                    handler.unlockAchievement(5);
-////                    handler.saveAndLoad();
+
+//                    handler.unlockAchievement(5);
+//                    handler.saveAndLoad();
+
 //                } catch (Exception e) {
 //                    System.out.println(e.toString());
 //                }
@@ -1027,19 +1028,21 @@ public class MainController {
 //    private void createAchievements() {
 //        AchievementHandler handler = new AchievementHandler(stage);
 //        handler.setPath(PathUtils.getOSindependentPath() + "/OOP/UNO/achievements.save");
-//        handler.addAchievement(new Achievement("Anf?nger", "Gewinne dein erstes Spiel", null, null, Status.LOCKED));
+
+//        handler.addAchievement(new Achievement("Anf�nger", "Gewinne dein erstes Spiel", null, null, Status.LOCKED));
 //        handler.addAchievement(new Achievement("Fortgeschrittener", "Gewinne insgesamt 10 Spiele", null, null, Status.LOCKED, 0, 10, 0));
 //        handler.addAchievement(new Achievement("Experte", "Gewinne insgesamt 50 Spiele", null, null, Status.LOCKED, 0, 50, 0));
 //
-//        handler.addAchievement(new Achievement("Gl?cksstr?hne", "Gewinne hintereinander 3 Spiele", null, null, Status.LOCKED, 0, 3, 0));
-//        handler.addAchievement(new Achievement("L?uft bei dir!", "Gewinne hintereinander 5 Spiele", null, null, Status.LOCKED, 0, 5, 0));
+//        handler.addAchievement(new Achievement("Gl�cksstr�hne", "Gewinne hintereinander 3 Spiele", null, null, Status.LOCKED, 0, 3, 0));
+//        handler.addAchievement(new Achievement("L�uft bei dir!", "Gewinne hintereinander 5 Spiele", null, null, Status.LOCKED, 0, 5, 0));
 //
 //        handler.addAchievement(new Achievement("Arme Sau", "Du musst mehr als 10 Karten ziehen", null, null, Status.LOCKED));
 //        handler.addAchievement(new Achievement("Gegenangriff", "Kontere eine +4", null, null, Status.LOCKED));
-//        handler.addAchievement(new Achievement("Wunschkonzert", "W?nsch dir eine Farbe", null, null, Status.LOCKED));
+//        handler.addAchievement(new Achievement("Wunschkonzert", "W�nsch dir eine Farbe", null, null, Status.LOCKED));
 //        handler.addAchievement(new Achievement("Cheatest du?", "Besitze zwei +4 Karten gleichzeitig", null, null, Status.LOCKED));
 //
-//        handler.addAchievement(new Achievement("Unm?glich", "Klicke 5 mal auf den Ablagestapel", null, null, Status.HIDDEN));
+//        handler.addAchievement(new Achievement("Unm�glich", "Klicke 5 mal auf den Ablagestapel", null, null, Status.HIDDEN));
+
 //
 //        try {
 //            handler.saveAchievements();
