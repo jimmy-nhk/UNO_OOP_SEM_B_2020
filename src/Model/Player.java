@@ -31,6 +31,15 @@ public class Player {
 
     public void drawCard(Card card) {
         deck.add(card);
+//        if (getNumberOfDrawFourCards() >= 2) {
+//            try {
+//                gameBoard.getController().handler.unlockAchievement(8);
+//                gameBoard.getController().handler.saveAndLoad();
+//            } catch (Exception e) {
+//                System.out.println(e.toString());
+//            }
+//        }
+
         gameBoard.getController().setPlayerDeck(deck);
     }
 
