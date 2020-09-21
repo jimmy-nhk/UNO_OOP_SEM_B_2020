@@ -59,9 +59,13 @@ public class MainController {
     public Image icon = new Image("images/icon.png");
     public static final Sound backgroundMusic = new Sound("src/resources/sound/background.mp3");
     public Color chosenWishColor;
+    private String playerName;
 
     public boolean playerMustDraw;
     public TranslateTransition translateTransition;
+    @FXML private TextField textGetName;
+    @FXML private Label labelSetName;
+    @FXML private Button btSetName;
 
 
     @FXML
@@ -132,7 +136,8 @@ public class MainController {
         AI_3_STARTING_POINT = new Point2D(60.0, 70.0);
 
         clearAll();
-        showNeutralUI();
+        showSetNameScene();
+
         labelLogo.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
         buttonNewGame.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         buttonSettings.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
@@ -220,25 +225,60 @@ public class MainController {
         clearPlayerDeck();
         clearAllDecks(gameBoard.getBots());
 
-        showNeutralUI();
+        showMenu();
+    }
+
+    public void showSetNameScene (){
+        textGetName.setVisible(true);
+        labelSetName.setVisible(true);
+        btSetName.setVisible(true);
+
+        btSetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 12));
+        textGetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelSetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        labelSetName.setTextFill(COLOR_BLUE);
+
+
+        btSetName.setOnAction(actionEvent -> {
+            showMenu();
+            playerName = textGetName.getText();
+            hideSetNameScene();
+            showMenu();
+            labelLogo.setText("WELCOME " + playerName + " TO UNO !!!"); // Set the text for the Main Menu
+        });
+    }
+    
+    public void hideSetNameScene (){
+        textGetName.setVisible(false);
+        labelSetName.setVisible(false);
+        btSetName.setVisible(false);
     }
 
 
-    public void showNeutralUI() {
+    public void showMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         imageViewLogo.setVisible(true);
         labelLogo.setVisible(true);
         buttonNewGame.setVisible(true);
         buttonSettings.setVisible(true);
+        labelLogo.setTextFill(COLOR_RED);
     }
 
-    public void hideNeutralUI() {
+    public void hideMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
         imageViewLogo.setVisible(false);
         labelLogo.setVisible(false);
         buttonNewGame.setVisible(false);
         buttonSettings.setVisible(false);
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     public void setLabelNames(Player player, ArrayList<Bot> bots) {
@@ -974,7 +1014,7 @@ public class MainController {
     }
 
     public void clearAll() {
-        hideNeutralUI();
+        hideMenu();
         hideWishColor();
         hideInfo();
         labelCurrentPlayer.setVisible(false);
