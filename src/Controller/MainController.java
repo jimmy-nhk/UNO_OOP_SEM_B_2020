@@ -67,7 +67,6 @@ public class MainController {
     public boolean playerMustDraw;
     public TranslateTransition translateTransition;
 
-
     @FXML
     private ImageView iconLastCard;
     @FXML
@@ -88,6 +87,8 @@ public class MainController {
     private Label labelInfo;
     @FXML
     private Button buttonInfo;
+    @FXML
+    public Button buttonQuit;
     @FXML
     private Label labelChallengeCounter;
     @FXML
@@ -1011,10 +1012,27 @@ public class MainController {
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.setResizable(true);
             newStage.showAndWait();
+            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+            settings.load();
 
-        } catch (IOException e1) {
+            Locale locale = SettingsController.locale;
+            LanguageController.switchLanguage(locale);
+            setButtonBindingText();
+            setLabelBindingText();
+            System.out.println(locale);
+
+        } catch (Exception e1) {
             e1.printStackTrace();
         }
+    }
+
+    private void setLabelBindingText() {
+        LanguageController.setUpLabelText(labelLogo, "menu.welcome");
+    }
+
+    private void setButtonBindingText() {
+        LanguageController.setUpButtonText(buttonQuit, "menu.quit");
+
     }
 
     public void clearAll() {
@@ -1113,5 +1131,9 @@ public class MainController {
         alert.showAndWait();
         Sound buttonClickingSound1 = new Sound("src/resources/sound/sound_button_click.mp3");
 
+    }
+
+    public void quit(ActionEvent actionEvent) {
+        System.exit(1);
     }
 }

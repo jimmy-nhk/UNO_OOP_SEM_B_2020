@@ -2,10 +2,10 @@ package Controller;
 
 import Model.Sound;
 import javafx.beans.property.DoubleProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.Locale;
@@ -16,13 +16,17 @@ public class SettingsController
 	@FXML private Slider sliderNumberOfStartingCards;
 	@FXML public RadioButton englishButton;
 	@FXML public RadioButton vietnameseButton;
+	@FXML public Button saveButton;
 	@FXML public Label languageLabel;
 	@FXML public Label volumeLabel;
+	@FXML public Label settingLabel;
+	@FXML public Label opponentLabel;
+	@FXML public Label startingCardLabel;
 	@FXML public Slider volumeSlider = new Slider();
 
 	private Stage stage;
 	private MainController mainController;
-	private Locale locale = new Locale("en", "US");
+	public static Locale locale = new Locale("en", "US");
 
 	public void init(Stage stage, MainController mainController)
 	{
@@ -31,6 +35,10 @@ public class SettingsController
 		this.stage = stage;
 		this.stage.setMinHeight(600);
 		this.mainController = mainController;
+
+		ToggleGroup group = new ToggleGroup();
+		vietnameseButton.setToggleGroup(group);
+		englishButton.setToggleGroup(group);
 		
 		Settings settings = mainController.settings;
 
@@ -68,5 +76,39 @@ public class SettingsController
 	@FXML
 	private void setActionForVolumeSlider() {
 		volumeSlider.setValue(volumeSlider.getValue());
+	}
+
+	@FXML
+	public void changeLanguageToVietnamese(ActionEvent actionEvent) {
+		Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+		LanguageController.switchLanguage(LanguageController.getLanguageLocale(LanguageController.Language.VIETNAMESE));
+		locale = LanguageController.getLocale();
+		setButtonBindingText();
+		setLabelBindingText();
+	}
+
+	@FXML
+	public void changeLanguageToEnglish(ActionEvent actionEvent) {
+		Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+		LanguageController.switchLanguage(LanguageController.getLanguageLocale(LanguageController.Language.ENGLISH));
+		locale = LanguageController.getLocale();
+		setButtonBindingText();
+		setLabelBindingText();
+
+	}
+	private void setLabelBindingText() {
+		LanguageController.setUpLabelText(settingLabel, "setting.settingLabel");
+		LanguageController.setUpLabelText(opponentLabel, "setting.opponent");
+		LanguageController.setUpLabelText(startingCardLabel, "setting.startingCards");
+		LanguageController.setUpLabelText(volumeLabel, "setting.volume");
+		LanguageController.setUpLabelText(languageLabel, "setting.language");
+
+	}
+
+	private void setButtonBindingText() {
+		LanguageController.setUpRadioButtonText(englishButton, "setting.english");
+		LanguageController.setUpRadioButtonText(vietnameseButton, "setting.vietnamese");
+		LanguageController.setUpButtonText(saveButton, "setting.save");
+
 	}
 }
