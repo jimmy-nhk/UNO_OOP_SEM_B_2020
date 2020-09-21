@@ -1,6 +1,9 @@
 package Controller;
 
 import Model.*;
+//import achievements.Achievement;
+//import achievements.Achievement.Status;
+//import achievements.AchievementHandler;
 import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,7 +55,7 @@ public class MainController {
     public GameBoard gameBoard;
     public int drawCounter;
     public Settings settings;
-//    public AchievementHandler handler;
+    //    public AchievementHandler handler;
     public Stage stage;
     public Image icon = new Image("images/icon.png");
     public static final Sound backgroundMusic = new Sound("src/resources/sound/background.mp3");
@@ -340,15 +343,15 @@ public class MainController {
 
         labelInfo.setText(text);
         buttonInfo.setOnAction(event -> {
-            if (gameBoard.getDrawnCardsCount() > 10) {
-                try {
+//            if (gameBoard.getDrawnCardsCount() > 10) {
+//                try {
 //                    handler.unlockAchievement(5);
 //                    handler.saveAndLoad();
-                } catch (Exception e) {
-                    System.out.println(e.toString());
-                }
-
-            }
+//                } catch (Exception e) {
+//                    System.out.println(e.toString());
+//                }
+//
+//            }
             moveCardFromDeckToPlayer(gameBoard.getDeck().drawCards(gameBoard.getDrawnCardsCount(), gameBoard.getPlayedCards()));
         });
 
