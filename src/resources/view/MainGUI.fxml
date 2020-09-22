@@ -75,7 +75,7 @@
          <Font name="System Bold" size="14.0" />
       </font>
    </Button>
-   <MenuBar fx:id="menuBar" layoutX="24.0" layoutY="-3.0" prefHeight="25.0" prefWidth="304.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+   <MenuBar fx:id="menuBar"  layoutX="24.0" layoutY="-3.0" prefHeight="25.0" prefWidth="304.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
       <Menu fx:id="menu1" mnemonicParsing="false" text="Menu">
          <MenuItem fx:id="menuItemBack" mnemonicParsing="false" onAction="#showMainMenu" text="Back to start" />
          <MenuItem fx:id="menuItem3" mnemonicParsing="false" onAction="#about" text="Information" />
@@ -85,7 +85,7 @@
       <children>
          <VBox layoutX="630.0" layoutY="26.0" spacing="25.0">
             <children>
-               <Button fx:id="buttonNewGame" mnemonicParsing="false" onAction="#startGame" prefHeight="50.0" prefWidth="130.0" text="Offline">
+               <Button fx:id="buttonOffline" mnemonicParsing="false" onAction="#startGame" prefHeight="50.0" prefWidth="130.0" text="Offline">
                   <font>
                      <Font name="System Bold" size="14.0" />
                   </font>
@@ -101,7 +101,7 @@
                      <Font name="System Bold" size="14.0" />
                   </font>
                </Button>
-               <Button fx:id="buttonQuit" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Quit" />
+               <Button fx:id="buttonQuit" onAction="#quit" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Quit" />
             </children>
          </VBox>
       </children>
@@ -110,7 +110,7 @@
       <children>
          <Button fx:id="backButton1" layoutX="285.0" layoutY="390.0" mnemonicParsing="false" onAction="#backFromLeaderBoard" prefHeight="32.0" prefWidth="106.0" text="Back" />
          <TextArea layoutX="63.0" layoutY="65.0" prefHeight="283.0" prefWidth="570.0" text="This is testing" />
-         <Label fx:id="labelLeaderBoard" alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="-6.0" prefHeight="31.0" prefWidth="669.0" text="Leaderboard">
+         <Label fx:id="labelLeaderBoard" alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="-6.0" prefHeight="31.0" prefWidth="669.0" text="Leader Board">
             <font>
                <Font size="26.0" />
             </font>

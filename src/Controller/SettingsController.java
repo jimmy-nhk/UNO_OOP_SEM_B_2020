@@ -15,12 +15,15 @@ public class SettingsController
 	@FXML private Slider sliderNumberOfStartingCards;
 	@FXML public RadioButton englishButton;
 	@FXML public RadioButton vietnameseButton;
+	@FXML public RadioButton theme1Button;
+	@FXML public RadioButton theme2Button;
 	@FXML public Button saveButton;
 	@FXML public Label languageLabel;
 	@FXML public Label volumeLabel;
 	@FXML public Label settingLabel;
 	@FXML public Label opponentLabel;
 	@FXML public Label startingCardLabel;
+	@FXML public Label themeLabel;
 	@FXML public Slider volumeSlider = new Slider();
 
 	private Stage stage;
@@ -38,6 +41,10 @@ public class SettingsController
 		ToggleGroup group = new ToggleGroup();
 		vietnameseButton.setToggleGroup(group);
 		englishButton.setToggleGroup(group);
+
+		ToggleGroup group1 = new ToggleGroup();
+		theme1Button.setToggleGroup(group1);
+		theme2Button.setToggleGroup(group1);
 		
 		Settings settings = mainController.settings;
 
@@ -101,13 +108,14 @@ public class SettingsController
 		LanguageController.setUpLabelText(startingCardLabel, "setting.startingCards");
 		LanguageController.setUpLabelText(volumeLabel, "setting.volume");
 		LanguageController.setUpLabelText(languageLabel, "setting.language");
-
+		LanguageController.setUpLabelText(themeLabel, "setting.theme");
 	}
 
 	private void setButtonBindingText() {
 		LanguageController.setUpRadioButtonText(englishButton, "setting.english");
 		LanguageController.setUpRadioButtonText(vietnameseButton, "setting.vietnamese");
 		LanguageController.setUpButtonText(saveButton, "setting.save");
-
+		LanguageController.setUpRadioButtonText(theme1Button, "setting.theme1");
+		LanguageController.setUpRadioButtonText(theme2Button, "setting.theme2");
 	}
 }

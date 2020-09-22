@@ -69,6 +69,8 @@ public class MainController {
     public Button buttonQuit;
     public Pane paneContainsBox;
     public Group paneContainsSetName;
+    @FXML
+    public Button buttonOffline;
     @FXML private Label labelLeaderBoard;
     @FXML private Pane leaderBoardPane1;
     @FXML private Button backButton1;
@@ -128,9 +130,6 @@ public class MainController {
     private MenuItem menuItem3;
     @FXML
     private MenuItem menuItemBack;
-
-    @FXML
-    private Button buttonNewGame;
     @FXML private Button backButton;
     @FXML private Button buttonSettings;
     private boolean playerHasDrawn;
@@ -278,7 +277,7 @@ public class MainController {
         btOnline.setVisible(true);
         buttonQuit.setVisible(true);
         btnLeaderBoard.setVisible(true);
-        buttonNewGame.setVisible(true);
+        buttonOffline.setVisible(true);
         buttonSettings.setVisible(true);
         menuBar.setVisible(true);
         paneContainsBox.setVisible(true);
@@ -288,7 +287,7 @@ public class MainController {
     public void hideMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         btnLeaderBoard.setVisible(false);
-        buttonNewGame.setVisible(false);
+        buttonOffline.setVisible(false);
         buttonSettings.setVisible(false);
         btOnline.setVisible(false);
         buttonQuit.setVisible(false);
@@ -1023,7 +1022,7 @@ public class MainController {
             Locale locale = SettingsController.locale;
             LanguageController.switchLanguage(locale);
             setButtonBindingText();
-//            setLabelBindingText();
+            setLabelBindingText();
             System.out.println(locale);
 
         } catch (Exception e1) {
@@ -1032,18 +1031,18 @@ public class MainController {
     }
 
     private void setLabelBindingText() {
-        LanguageController.setUpLabelText(labelWishColor, "chosenColor.pleaseChooseColor");
-        LanguageController.setUpLabelText(labelChallengeCounter, "menu.welcome");
         LanguageController.setUpLabelText(labelDirection, "menu.directionOfPlay");
-        LanguageController.setUpLabelText(labelAI1Name, "menu.computer1");
-        LanguageController.setUpLabelText(labelAI2Name, "menu.computer2");
-        LanguageController.setUpLabelText(labelAI3Name, "menu.computer1");
+        LanguageController.setUpText(menuItemBack, "menu.backToMenu");
+        LanguageController.setUpText(menuItem3, "menu.menuItem3");
     }
 
     private void setButtonBindingText() {
         LanguageController.setUpButtonText(buttonSettings, "menu.setting");
         LanguageController.setUpButtonText(buttonInfo, "menu.information");
-        LanguageController.setUpButtonText(buttonNewGame, "menu.newGame");
+        LanguageController.setUpButtonText(buttonOffline, "menu.offline");
+        LanguageController.setUpButtonText(btOnline, "menu.online");
+        LanguageController.setUpButtonText(buttonQuit, "menu.quit");
+        LanguageController.setUpButtonText(btnLeaderBoard, "menu.leaderBoard");
         LanguageController.setUpButtonText(buttonStart, "menu.start");
 
     }
@@ -1094,5 +1093,10 @@ public class MainController {
         backButton1.setVisible(false);
         labelLeaderBoard.setVisible(false);
         showMenu();
+    }
+
+    public void quit(ActionEvent actionEvent) {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+        System.exit(1);
     }
 }

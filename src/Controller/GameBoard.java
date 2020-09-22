@@ -6,6 +6,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 public class GameBoard {
@@ -54,6 +55,8 @@ public class GameBoard {
 
     // Determine whether to show the info
     private boolean showingInfo;
+
+    public static Locale locale = SettingsController.locale;
 
     public GameBoard(MainController mainController, int numberOfBots) {
         this.mainController = mainController;
