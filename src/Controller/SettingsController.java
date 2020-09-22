@@ -15,11 +15,14 @@ public class SettingsController
 	@FXML private Slider sliderNumberOfStartingCards;
 	@FXML public RadioButton englishButton;
 	@FXML public RadioButton vietnameseButton;
+	@FXML public RadioButton theme1Button;
+	@FXML public RadioButton theme2Button;
 	@FXML public Button saveButton;
 	@FXML public Label languageLabel;
 	@FXML public Label volumeLabel;
 	@FXML public Label settingLabel;
 	@FXML public Label opponentLabel;
+	@FXML public Label themeLabel;
 	@FXML public Label startingCardLabel;
 	@FXML public Slider volumeSlider = new Slider();
 
@@ -101,12 +104,14 @@ public class SettingsController
 		LanguageController.setUpLabelText(startingCardLabel, "setting.startingCards");
 		LanguageController.setUpLabelText(volumeLabel, "setting.volume");
 		LanguageController.setUpLabelText(languageLabel, "setting.language");
-
+		LanguageController.setUpLabelText(themeLabel, "setting.theme");
 	}
 
 	private void setButtonBindingText() {
 		LanguageController.setUpRadioButtonText(englishButton, "setting.english");
 		LanguageController.setUpRadioButtonText(vietnameseButton, "setting.vietnamese");
+		LanguageController.setUpRadioButtonText(theme1Button, "setting.theme1");
+		LanguageController.setUpRadioButtonText(theme2Button, "setting.theme2");
 		LanguageController.setUpButtonText(saveButton, "setting.save");
 
 	}

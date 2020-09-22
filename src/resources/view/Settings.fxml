@@ -11,98 +11,99 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="487.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SettingsController">
+<AnchorPane prefHeight="487.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SettingsController">
     <stylesheets>
-        <URL value="@/resources/css/Settings.css" />
+        <URL value="@/resources/css/Settings.css"/>
     </stylesheets>
-    <children>
-        <VBox layoutX="40.0" layoutY="65.0" prefHeight="364.0" prefWidth="522.0">
-            <children>
-                <HBox prefHeight="44.0" prefWidth="412.0">
-                    <children>
-                        <Label fx:id="opponentLabel" alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0" prefWidth="150.0" text="Opponent:" textAlignment="RIGHT">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                        </Label>
-                        <Slider fx:id="sliderNumberOfBots" blockIncrement="1.0" majorTickUnit="1.0" max="3.0" min="1.0" minorTickCount="0" prefHeight="44.0" prefWidth="230.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
-                            <HBox.margin>
-                                <Insets left="50.0" />
-                            </HBox.margin>
-                        </Slider>
-                    </children>
-                </HBox>
-                <HBox prefHeight="44.0" prefWidth="412.0">
-                    <children>
-                        <Label fx:id="startingCardLabel" alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0" prefWidth="150.0" text="Starting cards:">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                        </Label>
-                        <Slider fx:id="sliderNumberOfStartingCards" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" min="3.0" minorTickCount="0" prefHeight="44.0" prefWidth="233.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
-                            <HBox.margin>
-                                <Insets left="50.0" />
-                            </HBox.margin>
-                        </Slider>
-                    </children>
-                    <VBox.margin>
-                        <Insets top="25.0" />
-                    </VBox.margin>
-                </HBox>
-                <HBox prefHeight="44.0" prefWidth="412.0">
-                    <children>
-                        <Label fx:id="volumeLabel" alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0" prefWidth="150.0" text="Volume" translateY="32.0">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                            <HBox.margin>
-                                <Insets />
-                            </HBox.margin>
-                        </Label>
-                        <Slider fx:id="volumeSlider" onMouseClicked="#setActionForVolumeSlider" prefHeight="50.0" prefWidth="233.0" translateY="20.0">
-                            <HBox.margin>
-                                <Insets left="50.0" />
-                            </HBox.margin>
-                        </Slider>
-                    </children>
-                </HBox>
-                <HBox prefHeight="103.0" prefWidth="522.0" translateY="60.0">
-                    <children>
-                        <VBox prefHeight="54.0" prefWidth="135.0" translateX="200.0">
-                            <children>
-                                <RadioButton fx:id="englishButton" mnemonicParsing="false" onAction="#changeLanguageToEnglish" text="English" />
-                                <RadioButton fx:id="vietnameseButton" mnemonicParsing="false" onAction="#changeLanguageToVietnamese" prefHeight="30.0" prefWidth="139.0" text="Vietnamese" />
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <Label fx:id="languageLabel" alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0" prefWidth="150.0" text="Language" translateY="-30.0">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Label>
-            <HBox prefHeight="100.0" prefWidth="200.0" translateY="10.0">
-               <children>
-                  <Label text="Theme" translateX="100.0" />
-                  <VBox prefHeight="200.0" prefWidth="100.0" translateX="159.0">
-                     <children>
-                        <RadioButton mnemonicParsing="false" text="Theme 1" />
-                        <RadioButton mnemonicParsing="false" text="Theme 2" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            </children>
-        </VBox>
-        <Button fx:id="saveButton" layoutX="266.0" layoutY="447.0" mnemonicParsing="false" onAction="#save" prefHeight="26.0" prefWidth="87.0" text="Save">
+    <VBox layoutX="40.0" layoutY="65.0" prefHeight="364.0" prefWidth="522.0">
+        <HBox prefHeight="44.0" prefWidth="412.0">
+            <Label fx:id="opponentLabel" alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0"
+                   prefWidth="150.0" text="Opponent:" textAlignment="RIGHT">
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+            </Label>
+            <Slider fx:id="sliderNumberOfBots" blockIncrement="1.0" majorTickUnit="1.0" max="3.0" min="1.0"
+                    minorTickCount="0" prefHeight="44.0" prefWidth="230.0" showTickLabels="true"
+                    showTickMarks="true" snapToTicks="true">
+                <HBox.margin>
+                    <Insets left="50.0"/>
+                </HBox.margin>
+            </Slider>
+        </HBox>
+        <HBox prefHeight="44.0" prefWidth="412.0">
+            <VBox.margin>
+                <Insets top="25.0"/>
+            </VBox.margin>
+            <Label fx:id="startingCardLabel" alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0"
+                   prefWidth="150.0" text="Starting cards:">
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+            </Label>
+            <Slider fx:id="sliderNumberOfStartingCards" blockIncrement="1.0" majorTickUnit="1.0" max="10.0"
+                    min="3.0" minorTickCount="0" prefHeight="44.0" prefWidth="233.0" showTickLabels="true"
+                    showTickMarks="true" snapToTicks="true">
+                <HBox.margin>
+                    <Insets left="50.0"/>
+                </HBox.margin>
+            </Slider>
+        </HBox>
+        <HBox prefHeight="44.0" prefWidth="412.0">
+            <Label fx:id="volumeLabel" alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0"
+                   prefWidth="150.0" text="Volume" translateY="32.0">
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </Label>
+            <Slider fx:id="volumeSlider" onMouseClicked="#setActionForVolumeSlider" prefHeight="50.0"
+                    prefWidth="233.0" translateY="20.0">
+                <HBox.margin>
+                    <Insets left="50.0"/>
+                </HBox.margin>
+            </Slider>
+        </HBox>
+        <HBox prefHeight="103.0" prefWidth="522.0" translateY="50.0">
+            <VBox prefHeight="54.0" prefWidth="135.0" translateX="200.0">
+                <RadioButton fx:id="englishButton" mnemonicParsing="false"
+                             onAction="#changeLanguageToEnglish" text="English"/>
+                <RadioButton fx:id="vietnameseButton" mnemonicParsing="false"
+                             onAction="#changeLanguageToVietnamese" prefHeight="30.0" prefWidth="139.0"
+                             text="Vietnamese"/>
+            </VBox>
+        </HBox>
+        <Label fx:id="languageLabel" alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0" prefWidth="150.0"
+               text="Language" translateY="-30.0">
             <font>
-                <Font name="System Bold" size="12.0" />
+                <Font name="System Bold" size="14.0"/>
             </font>
-        </Button>
-      <Label fx:id="settingLabel" layoutX="264.0" layoutY="22.0" text="Setting">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Label>
-    </children>
+        </Label>
+        <HBox prefHeight="100.0" prefWidth="200.0" translateY="10.0">
+            <Label fx:id="themeLabel" alignment="TOP_RIGHT" contentDisplay="TOP" prefHeight="20.0"
+                   prefWidth="150.0" text="Theme">
+                <font>
+                    <Font name="System Bold" size="14.0"/>
+                </font>
+            </Label>
+            <VBox prefHeight="200.0" prefWidth="100.0" translateX="50.0">
+                <RadioButton fx:id="theme1Button" mnemonicParsing="false" text="Theme 1"/>
+                <RadioButton fx:id="theme2Button" mnemonicParsing="false" text="Theme 2" translateY="5.0"/>
+            </VBox>
+        </HBox>
+    </VBox>
+    <Button fx:id="saveButton" layoutX="266.0" layoutY="447.0" mnemonicParsing="false" onAction="#save"
+            prefHeight="30.0" prefWidth="87.0" text="Save">
+        <font>
+            <Font name="System Bold" size="12.0"/>
+        </font>
+    </Button>
+    <Label fx:id="settingLabel" layoutX="264.0" layoutY="22.0" text="Setting">
+        <font>
+          <Font size="30.0"/>
+        </font>
+    </Label>
 </AnchorPane>

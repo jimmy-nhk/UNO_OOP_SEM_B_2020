@@ -36,6 +36,7 @@ import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
@@ -72,6 +73,7 @@ public class MainController {
     public Group paneContainsSetName;
     public TextArea textLeaderBoard;
     public Pane paneContainsSetNameScene;
+    public Button buttonOffline;
     @FXML private Label labelLeaderBoard;
     @FXML private Pane leaderBoardPane1;
     @FXML private Button backButton1;
@@ -132,17 +134,15 @@ public class MainController {
     @FXML
     private MenuItem menuItemBack;
 
-    @FXML
-    private Button buttonNewGame;
     @FXML private Button backButton;
     @FXML private Button buttonSettings;
     private boolean playerHasDrawn;
     private Point2D PLAYER_STARTING_POINT;
     private Point2D AI_2_STARTING_POINT;
     private Point2D AI_3_STARTING_POINT;
-        ArrayList<String> namesList = new ArrayList<String>();
+    ArrayList<String> namesList = new ArrayList<String>();
     ArrayList<Integer> winList = new ArrayList<Integer>();
-
+    public Locale locale = SettingsController.locale;
 
     public void init() {
 
@@ -154,7 +154,6 @@ public class MainController {
 
         clearAll();
         showSetNameScene();
-
 
         settings = new Settings();
         try {
@@ -211,7 +210,11 @@ public class MainController {
 
         buttonStart.setOnAction(event -> {
             buttonStart.setVisible(false);
-            gameBoard.start();
+            try {
+                gameBoard.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
         buttonStart.setVisible(true);
     }
@@ -293,15 +296,11 @@ public class MainController {
 //                    if (i==namesList.size()-1){
 
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
-        });
+         });
     }
 
     public void hideSetNameScene() {
@@ -313,23 +312,25 @@ public class MainController {
 
 
     public void showMenu() {
-
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
         btOnline.setVisible(true);
         buttonQuit.setVisible(true);
         btnLeaderBoard.setVisible(true);
-        buttonNewGame.setVisible(true);
         buttonSettings.setVisible(true);
         menuBar.setVisible(true);
         paneContainsBox.setVisible(true);
 
     }
 
+    public void setBindingForMenuBar() {
+        LanguageController.setUpTextMenuBard(menuItemBack, "menu.backToStart");
+        LanguageController.setUpTextMenuBard(menuItem3, "menu.information");
+    }
+
     public void hideMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         btnLeaderBoard.setVisible(false);
-        buttonNewGame.setVisible(false);
         buttonSettings.setVisible(false);
         btOnline.setVisible(false);
         buttonQuit.setVisible(false);
@@ -470,7 +471,6 @@ public class MainController {
 
         imageViewDirection.setVisible(true);
         labelDirection.setVisible(true);
-
         if (direction.equals(Direction.RIGHT)) {
             imageViewDirection.setImage(new Image("/images/DIRECTION_RIGHT.png"));
         } else {
@@ -531,7 +531,6 @@ public class MainController {
         MainController main = this;
 
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<>() {
-            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
             Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
 
             @Override
@@ -586,8 +585,6 @@ public class MainController {
         translateTransition.setToX(-(view.getX() - deckPosition.getX()));
         translateTransition.setToY(-(view.getY() - deckPosition.getY()));
         translateTransition.setOnFinished(event -> {
-            Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
-
             if (gameBoard.isRunning()) {
                 if (newWishColor != null) {
                     showCircleWishColor(newWishColor);
@@ -597,7 +594,11 @@ public class MainController {
                 Card playedCard = gameBoard.getPlayer().playCard(card);
 
                 setPlayerDeck(gameBoard.getPlayer().getDeck());
-                gameBoard.playCard(playedCard, newWishColor);
+                try {
+                    gameBoard.playCard(playedCard, newWishColor);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -639,7 +640,11 @@ public class MainController {
                 }
                 Card playedCard = bot.playCard(card);
                 setBotDeck(bot);
-                gameBoard.playCard(playedCard, newWishColor);
+                try {
+                    gameBoard.playCard(playedCard, newWishColor);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -686,7 +691,11 @@ public class MainController {
                         gameBoard.setShowingInfo(false);
                         hideInfo();
                         drawCounter = 0;
-                        gameBoard.draw();
+                        try {
+                            gameBoard.draw();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -813,7 +822,11 @@ public class MainController {
                         gameBoard.setShowingInfo(false);
                         hideInfo();
                         drawCounter = 0;
-                        gameBoard.draw();
+                        try {
+                            gameBoard.draw();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -1056,7 +1069,7 @@ public class MainController {
             newController.init(newStage, this);
 
             newStage.initModality(Modality.APPLICATION_MODAL);
-            newStage.setResizable(true);
+            newStage.setResizable(false);
             newStage.showAndWait();
             Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
             settings.load();
@@ -1064,29 +1077,24 @@ public class MainController {
             Locale locale = SettingsController.locale;
             LanguageController.switchLanguage(locale);
             setButtonBindingText();
-//            setLabelBindingText();
-            System.out.println(locale);
-
+            setBindingForMenuBar();
         } catch (Exception e1) {
             e1.printStackTrace();
         }
     }
 
     private void setLabelBindingText() {
-        LanguageController.setUpLabelText(labelWishColor, "chosenColor.pleaseChooseColor");
-        LanguageController.setUpLabelText(labelChallengeCounter, "menu.welcome");
         LanguageController.setUpLabelText(labelDirection, "menu.directionOfPlay");
-        LanguageController.setUpLabelText(labelAI1Name, "menu.computer1");
-        LanguageController.setUpLabelText(labelAI2Name, "menu.computer2");
-        LanguageController.setUpLabelText(labelAI3Name, "menu.computer1");
     }
 
     private void setButtonBindingText() {
         LanguageController.setUpButtonText(buttonSettings, "menu.setting");
         LanguageController.setUpButtonText(buttonInfo, "information.informationLabel");
-        LanguageController.setUpButtonText(buttonNewGame, "menu.newGame");
+        LanguageController.setUpButtonText(buttonOffline, "menu.offline");
+        LanguageController.setUpButtonText(btOnline, "menu.online");
         LanguageController.setUpButtonText(buttonStart, "menu.start");
-
+        LanguageController.setUpButtonText(btnLeaderBoard, "menu.leaderBoard");
+        LanguageController.setUpButtonText(buttonQuit, "menu.quit");
     }
 
 
@@ -1122,7 +1130,7 @@ public class MainController {
 
     public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-hideMenu();
+        hideMenu();
         leaderBoardPane1.setVisible(true);
         backButton1.setVisible(true);
         labelLeaderBoard.setVisible(true);
@@ -1150,5 +1158,9 @@ hideMenu();
         backButton1.setVisible(false);
         labelLeaderBoard.setVisible(false);
         showMenu();
+    }
+
+    public void quit(ActionEvent actionEvent) {
+        System.exit(1);
     }
 }

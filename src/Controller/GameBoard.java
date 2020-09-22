@@ -6,6 +6,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 public class GameBoard {
@@ -16,7 +17,7 @@ public class GameBoard {
     private PlayedCards playedCards;
 
     // Player plays the game
-    private Player player;
+    public static Player player;
 
     // Bots for playing the game
     private ArrayList<Bot> bots;
@@ -83,7 +84,6 @@ public class GameBoard {
 
     // Create a new game
     public void newGame(int numberOfStartingCards) {
-
         deck = new Deck();
         deck.shuffle();
         playedCards = new PlayedCards();
@@ -140,11 +140,10 @@ public class GameBoard {
         }
     }
 
-    public void start() {
+    public void start() throws Exception {
 
         // Set the game playing
         isRunning = true;
-
         // Random players
         Random random = new Random();
         positionOfCurrentPlayer = random.nextInt(bots.size() + 1) + 1;
@@ -153,10 +152,10 @@ public class GameBoard {
         run();
     }
 
-    private void run() {
-
+    private void run() throws Exception {
         // Check if game is still running
         if (isRunning) {
+
             if (player.getDeckSize() == 0) {
 
                 // If deck is zero , then display the winner
@@ -190,10 +189,12 @@ public class GameBoard {
     }
 
     // Check skip card
-    public void checkSkipCard () {
+    public void checkSkipCard () throws Exception {
         if (skipped || !previousCard.getProperty().equals(Property.SKIP)) {
             if (positionOfCurrentPlayer == 1) {
-                mainController.setLabelCurrentPlayer(player.getName() + "'s turn");
+//                mainController.setLabelCurrentPlayer(player.getName() + "'s turn");
+                mainController.setLabelCurrentPlayer(GameBoard.player.getName() + " " + LanguageController.get("gameBoard.playerTurn"));
+                ;
 
                 ArrayList<Card> validDeck = player.getPossiblePlayableCards(previousCard, chosenColor, ifDrawnCard);
                 mainController.setValidPlayerDeck(player.getDeck(), validDeck);
@@ -204,7 +205,9 @@ public class GameBoard {
                 if (isRunning) {
                     Bot currentBot = bots.get(positionOfCurrentPlayer - 2);
 
-                    mainController.setLabelCurrentPlayer(currentBot.getName() + "'s turn");
+//                    mainController.setLabelCurrentPlayer(currentBot.getName() + "'s turn");
+                    mainController.setLabelCurrentPlayer(currentBot.getName()  + " " + LanguageController.get("gameBoard.playerTurn"));
+
 
                     mainController.setBotDeck(currentBot);
 
@@ -343,7 +346,7 @@ public class GameBoard {
     }
 
     // draw card
-    public void draw() {
+    public void draw() throws Exception {
         // set no drawn card is previously played
         ifDrawnCard = false;
         drawnCardsCount = 0;
@@ -354,7 +357,7 @@ public class GameBoard {
     }
 
     // Play card
-    public void playCard(Card card, Color chosenColor) {
+    public void playCard(Card card, Color chosenColor) throws Exception {
 
         playedCards.add(card);
         previousCard = card;

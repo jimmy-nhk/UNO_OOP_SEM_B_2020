@@ -39,7 +39,7 @@
     -fx-border-color: black;
 }
 
-#buttonNewGame{
+#buttonOffline{
     -fx-background-image: url('/imageCss/button.png');
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
