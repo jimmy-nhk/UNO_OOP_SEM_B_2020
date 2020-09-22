@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainPane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
-   <ImageView fx:id="iconDeck" fitHeight="120.0" fitWidth="80.0" layoutX="740.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true" />
+   <ImageView fx:id="iconDeck" fitHeight="120.0" fitWidth="80.0" layoutX="730.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true" />
    <ImageView fx:id="iconLastCard" fitHeight="120.0" fitWidth="80.0" layoutX="419.0" layoutY="349.0" pickOnBounds="true" preserveRatio="true" />
    <Label fx:id="labelCurrentPlayer" alignment="CENTER" contentDisplay="CENTER" layoutX="460.0" layoutY="550.0" prefHeight="31.0" prefWidth="286.0" text="labelCurrentPlayer" textAlignment="CENTER">
       <font>
@@ -31,22 +31,25 @@
          <Font name="System Bold" size="16.0" />
       </font>
    </Label>
-   <ImageView fx:id="imageViewWishColor" fitHeight="50.0" fitWidth="50.0" layoutX="593.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true" />
-   <HBox fx:id="hboxInfo" alignment="CENTER" layoutX="460.0" layoutY="769.0" prefHeight="25.0" prefWidth="338.0">
-      <Label fx:id="labelInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="255.0" text="DisplayInfo" textAlignment="CENTER">
+   <ImageView fx:id="imageViewWishColor" fitHeight="50.0" fitWidth="50.0" layoutX="585.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true" />
+   <HBox fx:id="hboxInfo" alignment="CENTER" layoutX="340.0" layoutY="761.0" prefHeight="45.0" prefWidth="542.0">
+      <Label fx:id="labelInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="433.0" text="DisplayInfo" textAlignment="CENTER">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
       <Button fx:id="buttonInfo" mnemonicParsing="false" text="OK">
          <HBox.margin>
             <Insets left="15.0" />
          </HBox.margin>
+         <font>
+            <Font size="24.0" />
+         </font>
       </Button>
    </HBox>
-   <Label fx:id="labelChallengeCounter" alignment="CENTER" contentDisplay="CENTER" layoutX="460.0" layoutY="500.0" prefHeight="27.0" prefWidth="306.0" text="Loser draws 12 card" textAlignment="CENTER">
+   <Label fx:id="labelChallengeCounter" alignment="CENTER" contentDisplay="CENTER" layoutX="450.0" layoutY="500.0" prefHeight="27.0" prefWidth="306.0" text="Loser draws 12 card" textAlignment="CENTER">
       <font>
-         <Font name="System Bold" size="21.0" />
+         <Font name="System Bold" size="24.0" />
       </font>
    </Label>
    <ImageView fx:id="imageViewDirection" fitHeight="40.0" fitWidth="40.0" layoutX="580.0" layoutY="277.0" pickOnBounds="true" preserveRatio="true" />
@@ -117,16 +120,17 @@
          </Label>
       </children>
    </Pane>
-   <Group fx:id="paneContainsSetName" layoutX="417.0" layoutY="376.0">
+   <Pane fx:id="paneContainsSetNameScene" layoutX="252.0" layoutY="215.0" prefHeight="396.0" prefWidth="669.0">
       <children>
-         <TextField fx:id="textGetName" layoutX="161.0" layoutY="3.0" />
-         <Label fx:id="labelSetName" text="Your name">
+         <TextField fx:id="textGetName" layoutX="313.0" layoutY="165.0" prefHeight="43.0" prefWidth="196.0" />
+         <Label fx:id="labelSetName" layoutX="107.0" layoutY="169.0" text="Your name">
             <font>
                <Font size="24.0" />
             </font>
          </Label>
-         <Button fx:id="btSetName" layoutX="106.0" layoutY="184.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="SET NAME" />
+         <Group fx:id="paneContainsSetName" />
+         <Button fx:id="btSetName" layoutX="300.0" layoutY="334.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="SET NAME" />
       </children>
-   </Group>
+   </Pane>
 
 </AnchorPane>
