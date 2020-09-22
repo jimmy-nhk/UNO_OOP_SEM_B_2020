@@ -1136,9 +1136,13 @@ hideMenu();
         fis.close();
         String string = "";
         for (int i = 0; i < namesList.size();i++) {
-            string += namesList.get(i) + "\t\t\t\twin:   " + winList.get(i).toString()+"\n";
-            textLeaderBoard.setText(string);
+            string += namesList.get(i);
+            for (int j = 0; j < (20-namesList.get(i).length());j++) {
+                string += " ";
+            }
+            string += "       win:   " + winList.get(i).toString()+"\n";
         }
+        textLeaderBoard.setText(string);
     }
 
     public void backFromLeaderBoard(ActionEvent actionEvent) {
