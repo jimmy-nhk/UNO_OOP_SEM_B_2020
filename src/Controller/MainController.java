@@ -137,7 +137,8 @@ public class MainController {
     private Point2D PLAYER_STARTING_POINT;
     private Point2D AI_2_STARTING_POINT;
     private Point2D AI_3_STARTING_POINT;
-
+        ArrayList<String> namesList = new ArrayList<String>();
+    ArrayList<Integer> winList = new ArrayList<Integer>();
 
 
     public void init() {
@@ -254,11 +255,50 @@ public class MainController {
         labelSetName.setTextFill(COLOR_BLUE);
 
 
-        btSetName.setOnAction(actionEvent -> {
+         btSetName.setOnAction(actionEvent -> {
             showMenu();
             playerName = textGetName.getText();
             hideSetNameScene();
             showMenu();
+            labelLogo.setText("WELCOME " + playerName + " TO UNO !!!"); // Set the text for the Main Menu
+            FileOutputStream fos = null;
+            try {
+
+                FileInputStream fis = new FileInputStream("listName");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                namesList = (ArrayList) ois.readObject();
+                ois.close();
+                fis.close();
+                FileInputStream fis1 = new FileInputStream("listWin");
+                ObjectInputStream ois1 = new ObjectInputStream(fis1);
+                winList = (ArrayList) ois1.readObject();
+                ois.close();
+                fis.close();
+                        namesList.add(playerName);
+                        winList.add(0);
+                        fos = new FileOutputStream("listName");
+                        ObjectOutputStream oos = new ObjectOutputStream(fos);
+                        oos.writeObject(namesList);
+                        oos.close();
+                        fos.close();
+                        FileOutputStream fos1 = new FileOutputStream("listWin");
+                        ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
+                        oos1.writeObject(winList);
+                        oos1.close();
+                        fos1.close();
+//                for (int i =0; i < namesList.size();i++) {
+//                    if (playerName.equals(namesList.get(i)))
+//                    {break;}
+//                    if (i==namesList.size()-1){
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
 
         });
     }
@@ -1081,11 +1121,26 @@ public class MainController {
 
     public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-        hideMenu();
+hideMenu();
         leaderBoardPane1.setVisible(true);
         backButton1.setVisible(true);
         labelLeaderBoard.setVisible(true);
         menuBar.setVisible(false);
+        FileInputStream fis = new FileInputStream("listName");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        namesList = (ArrayList) ois.readObject();
+        ois.close();
+        fis.close();
+        FileInputStream fis1 = new FileInputStream("listWin");
+        ObjectInputStream ois1 = new ObjectInputStream(fis1);
+        winList = (ArrayList) ois1.readObject();
+        ois.close();
+        fis.close();
+        String string = "";
+        for (int i = 0; i < namesList.size();i++) {
+            string += namesList.get(i) + "\t\t\t\twin:   " + winList.get(i).toString()+"\n";
+            textLeaderBoard.setText(string);
+        }
     }
 
     public void backFromLeaderBoard(ActionEvent actionEvent) {
