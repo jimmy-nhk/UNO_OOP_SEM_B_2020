@@ -84,28 +84,31 @@
          <MenuItem fx:id="menuItem3" mnemonicParsing="false" onAction="#about" text="Information" />
       </Menu>
    </MenuBar>
-   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-   <VBox layoutX="780.0" layoutY="230.0" spacing="30.0">
+   <Pane fx:id="paneContainsBox" layoutX="150.0" layoutY="178.0" prefHeight="409.0" prefWidth="896.0">
       <children>
-         <Button fx:id="buttonNewGame" mnemonicParsing="false" onAction="#startGame" prefHeight="50.0" prefWidth="130.0" text="Offline">
-            <font>
-               <Font name="System Bold" size="14.0" />
-            </font>
-         </Button>
-         <Button fx:id="btOnline" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Online" />
-         <Button fx:id="btnLeaderBoard" mnemonicParsing="false" onAction="#changeToLeaderBoard" prefHeight="50.0" prefWidth="130.0" text="LeaderBoard">
-            <font>
-               <Font name="System Bold" size="14.0" />
-            </font>
-         </Button>
-         <Button fx:id="buttonSettings" mnemonicParsing="false" onAction="#openSettings" prefHeight="50.0" prefWidth="130.0" text="Setting">
-            <font>
-               <Font name="System Bold" size="14.0" />
-            </font>
-         </Button>
-         <Button fx:id="buttonQuit" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Quit" />
+         <VBox layoutX="630.0" layoutY="26.0" spacing="25.0">
+            <children>
+               <Button fx:id="buttonNewGame" mnemonicParsing="false" onAction="#startGame" prefHeight="50.0" prefWidth="130.0" text="Offline">
+                  <font>
+                     <Font name="System Bold" size="14.0" />
+                  </font>
+               </Button>
+               <Button fx:id="btOnline" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Online" />
+               <Button fx:id="btnLeaderBoard" mnemonicParsing="false" onAction="#changeToLeaderBoard" prefHeight="50.0" prefWidth="130.0" text="LeaderBoard">
+                  <font>
+                     <Font name="System Bold" size="14.0" />
+                  </font>
+               </Button>
+               <Button fx:id="buttonSettings" mnemonicParsing="false" onAction="#openSettings" prefHeight="50.0" prefWidth="130.0" text="Setting">
+                  <font>
+                     <Font name="System Bold" size="14.0" />
+                  </font>
+               </Button>
+               <Button fx:id="buttonQuit" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Quit" />
+            </children>
+         </VBox>
       </children>
-   </VBox>
+   </Pane>
    <Pane fx:id="leaderBoardPane1" layoutX="250.0" layoutY="100.0" prefHeight="438.0" prefWidth="677.0">
       <children>
          <Button fx:id="backButton1" layoutX="285.0" layoutY="390.0" mnemonicParsing="false" onAction="#backFromLeaderBoard" prefHeight="32.0" prefWidth="106.0" text="Back" />
@@ -120,7 +123,7 @@
    <Pane fx:id="paneContainsSetNameScene" layoutX="252.0" layoutY="215.0" prefHeight="396.0" prefWidth="669.0">
       <children>
          <TextField fx:id="textGetName" layoutX="313.0" layoutY="165.0" prefHeight="43.0" prefWidth="196.0" />
-         <Label fx:id="labelSetName" layoutX="107.0" layoutY="169.0" prefHeight="29.0" prefWidth="125.0" text="Your name">
+         <Label fx:id="labelSetName" layoutX="107.0" layoutY="169.0" text="Your name">
             <font>
                <Font size="24.0" />
             </font>
