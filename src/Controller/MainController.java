@@ -128,10 +128,7 @@ public class MainController {
     private MenuItem menuItem3;
     @FXML
     private MenuItem menuItemBack;
-    @FXML
-    private ImageView imageViewLogo;
-    @FXML
-    private Label labelLogo;
+
     @FXML
     private Button buttonNewGame;
     @FXML private Button backButton;
@@ -151,10 +148,6 @@ public class MainController {
 
         clearAll();
         showSetNameScene();
-
-        labelLogo.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
-        buttonNewGame.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        buttonSettings.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 
 
         settings = new Settings();
@@ -254,7 +247,7 @@ public class MainController {
             playerName = textGetName.getText();
             hideSetNameScene();
             showMenu();
-            labelLogo.setText("WELCOME " + playerName + " TO UNO !!!"); // Set the text for the Main Menu
+
         });
     }
 
@@ -268,20 +261,17 @@ public class MainController {
     public void showMenu() {
 
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-        imageViewLogo.setVisible(true);
-        labelLogo.setVisible(true);
+
         btnLeaderBoard.setVisible(true);
         buttonNewGame.setVisible(true);
         buttonSettings.setVisible(true);
         menuBar.setVisible(true);
-        labelLogo.setTextFill(COLOR_RED);
+
     }
 
     public void hideMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         btnLeaderBoard.setVisible(false);
-        imageViewLogo.setVisible(false);
-        labelLogo.setVisible(false);
         buttonNewGame.setVisible(false);
         buttonSettings.setVisible(false);
     }
@@ -1035,7 +1025,6 @@ public class MainController {
     }
 
     private void setLabelBindingText() {
-        LanguageController.setUpLabelText(labelLogo, "menu.welcome");
         LanguageController.setUpLabelText(labelWishColor, "chosenColor.pleaseChooseColor");
         LanguageController.setUpLabelText(labelChallengeCounter, "menu.welcome");
         LanguageController.setUpLabelText(labelDirection, "menu.directionOfPlay");
