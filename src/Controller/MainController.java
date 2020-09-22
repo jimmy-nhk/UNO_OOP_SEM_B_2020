@@ -146,7 +146,7 @@ public class MainController {
 
         PLAYER_STARTING_POINT = new Point2D(250.0, stage.getScene().getHeight() - 50.0 - CARD_HEIGHT);
         AI_2_STARTING_POINT = new Point2D(stage.getScene().getWidth() - CARD_HEIGHT - 30, 70.0);
-        AI_3_STARTING_POINT = new Point2D(70.0, 80.0);
+        AI_3_STARTING_POINT = new Point2D(75.0, 70.0);
 
         clearAll();
         showSetNameScene();
