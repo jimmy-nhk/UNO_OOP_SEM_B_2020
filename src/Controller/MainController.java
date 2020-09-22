@@ -69,7 +69,6 @@ public class MainController {
     public Color chosenWishColor;
     public Button btOnline;
     public Button buttonQuit;
-    public Pane paneContainsBox;
     public Group paneContainsSetName;
     public TextArea textLeaderBoard;
     public Pane paneContainsSetNameScene;
@@ -319,7 +318,6 @@ public class MainController {
         btnLeaderBoard.setVisible(true);
         buttonSettings.setVisible(true);
         menuBar.setVisible(true);
-        paneContainsBox.setVisible(true);
 
     }
 
@@ -334,7 +332,6 @@ public class MainController {
         buttonSettings.setVisible(false);
         btOnline.setVisible(false);
         buttonQuit.setVisible(false);
-        paneContainsBox.setVisible(false);
     }
 
     public String getPlayerName() {
