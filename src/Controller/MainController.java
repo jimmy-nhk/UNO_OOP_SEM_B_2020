@@ -3,12 +3,12 @@ package Controller;
 import Model.*;
 import Model.Color;
 import javafx.event.ActionEvent;
+import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,10 +20,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
@@ -38,7 +34,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.awt.*;
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
@@ -48,13 +44,13 @@ import java.util.ResourceBundle;
 public class MainController {
 
     private final ResourceBundle bundle = ResourceBundle.getBundle("resources/", Locale.ENGLISH);
-    private final double CARD_HEIGHT = 90.0;
-    private final double CARD_WIDTH = 57.0;
-    private final double CARD_SPACING_LARGE = 14.0;
+    private final double CARD_HEIGHT = 120;
+    private final double CARD_WIDTH = 80;
+    private final double CARD_SPACING_LARGE = 16;
     private final double CARD_SPACING_MEDIUM = 0.0;
-    private final double CARD_SPACING_SMALL = -25.0;
-    private final double CARD_SPACING_ULTRA_SMALL = -35.0;
-    private final Point2D AI_1_STARTING_POINT = new Point2D(100.0, 75.0);
+    private final double CARD_SPACING_SMALL = -30;
+    private final double CARD_SPACING_ULTRA_SMALL = -40;
+    private final Point2D AI_1_STARTING_POINT = new Point2D(250, 75.0);
 
     // These color take from the internet the code of the color
     private final javafx.scene.paint.Color COLOR_YELLOW = javafx.scene.paint.Color.web("#FFAA00");
@@ -65,12 +61,14 @@ public class MainController {
     public GameBoard gameBoard;
     public int drawCounter;
     public Settings settings;
-    //    public AchievementHandler handler;
     public Stage stage;
     public Image icon = new Image("images/icon.png");
     public static final Sound backgroundMusic = new Sound("src/resources/sound/background.mp3");
     public Color chosenWishColor;
-    public TextArea textLeaderBoard;
+    public Button btOnline;
+    public Button buttonQuit;
+    public Pane paneContainsBox;
+    public Group paneContainsSetName;
     @FXML private Label labelLeaderBoard;
     @FXML private Pane leaderBoardPane1;
     @FXML private Button backButton1;
@@ -130,10 +128,7 @@ public class MainController {
     private MenuItem menuItem3;
     @FXML
     private MenuItem menuItemBack;
-    @FXML
-    private ImageView imageViewLogo;
-    @FXML
-    private Label labelLogo;
+
     @FXML
     private Button buttonNewGame;
     @FXML private Button backButton;
@@ -142,23 +137,20 @@ public class MainController {
     private Point2D PLAYER_STARTING_POINT;
     private Point2D AI_2_STARTING_POINT;
     private Point2D AI_3_STARTING_POINT;
-    ArrayList<String> namesList = new ArrayList<String>();
+        ArrayList<String> namesList = new ArrayList<String>();
     ArrayList<Integer> winList = new ArrayList<Integer>();
+
 
     public void init() {
 
         imageViewWishColor.setImage(new Image("/images/circle-all.png"));
 
-        PLAYER_STARTING_POINT = new Point2D(100.0, stage.getScene().getHeight() - 50.0 - CARD_HEIGHT);
+        PLAYER_STARTING_POINT = new Point2D(250.0, stage.getScene().getHeight() - 50.0 - CARD_HEIGHT);
         AI_2_STARTING_POINT = new Point2D(stage.getScene().getWidth() - CARD_HEIGHT - 30, 70.0);
-        AI_3_STARTING_POINT = new Point2D(60.0, 70.0);
+        AI_3_STARTING_POINT = new Point2D(70.0, 80.0);
 
         clearAll();
         showSetNameScene();
-
-        labelLogo.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
-        buttonNewGame.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        buttonSettings.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 
 
         settings = new Settings();
@@ -176,6 +168,10 @@ public class MainController {
     // Start the game
     public void startGame() {
         Sound startGameSound = new Sound("src/resources/sound/sound_launch.mp3");
+
+
+        this.stage.getScene().getStylesheets().remove("resources/css/MainGUI.css");
+        this.stage.getScene().getStylesheets().add("resources/css/GameBoardTheme.css");
 
         if (gameBoard != null) {
             gameBoard.stop();
@@ -228,6 +224,10 @@ public class MainController {
 
     // Show main menu
     public void showMainMenu() {
+
+        this.stage.getScene().getStylesheets().remove("resources/css/GameBoardTheme.css");
+        this.stage.getScene().getStylesheets().add("resources/css/MainGUI.css");
+
         Sound startGameSound = new Sound("src/resources/sound/sound_launch.mp3");
         if (gameBoard != null) {
             gameBoard.stop();
@@ -240,7 +240,9 @@ public class MainController {
         showMenu();
     }
 
+
     public void showSetNameScene() {
+        paneContainsSetName.setVisible(true);
         textGetName.setVisible(true);
         labelSetName.setVisible(true);
         btSetName.setVisible(true);
@@ -253,7 +255,7 @@ public class MainController {
         labelSetName.setTextFill(COLOR_BLUE);
 
 
-        btSetName.setOnAction(actionEvent -> {
+         btSetName.setOnAction(actionEvent -> {
             showMenu();
             playerName = textGetName.getText();
             hideSetNameScene();
@@ -302,6 +304,7 @@ public class MainController {
     }
 
     public void hideSetNameScene() {
+        paneContainsSetName.setVisible(false);
         textGetName.setVisible(false);
         labelSetName.setVisible(false);
         btSetName.setVisible(false);
@@ -311,22 +314,25 @@ public class MainController {
     public void showMenu() {
 
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-        imageViewLogo.setVisible(true);
-        labelLogo.setVisible(true);
+
+        btOnline.setVisible(true);
+        buttonQuit.setVisible(true);
         btnLeaderBoard.setVisible(true);
         buttonNewGame.setVisible(true);
         buttonSettings.setVisible(true);
         menuBar.setVisible(true);
-        labelLogo.setTextFill(COLOR_RED);
+        paneContainsBox.setVisible(true);
+
     }
 
     public void hideMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         btnLeaderBoard.setVisible(false);
-        imageViewLogo.setVisible(false);
-        labelLogo.setVisible(false);
         buttonNewGame.setVisible(false);
         buttonSettings.setVisible(false);
+        btOnline.setVisible(false);
+        buttonQuit.setVisible(false);
+        paneContainsBox.setVisible(false);
     }
 
     public String getPlayerName() {
@@ -433,17 +439,6 @@ public class MainController {
 
         labelInfo.setText(text);
         buttonInfo.setOnAction(event -> {
-//            if (gameBoard.getDrawnCardsCount() > 10) {
-//                try {
-
-//                    handler.unlockAchievement(5);
-//                    handler.saveAndLoad();
-
-//                } catch (Exception e) {
-//                    System.out.println(e.toString());
-//                }
-//
-//            }
             moveCardFromDeckToPlayer(gameBoard.getDeck().drawCards(gameBoard.getDrawnCardsCount(), gameBoard.getPlayedCards()));
         });
 
@@ -590,7 +585,6 @@ public class MainController {
         translateTransition.setToX(-(view.getX() - deckPosition.getX()));
         translateTransition.setToY(-(view.getY() - deckPosition.getY()));
         translateTransition.setOnFinished(event -> {
-//            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
             Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
 
             if (gameBoard.isRunning()) {
@@ -1063,11 +1057,37 @@ public class MainController {
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.setResizable(true);
             newStage.showAndWait();
+            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+            settings.load();
 
-        } catch (IOException e1) {
+            Locale locale = SettingsController.locale;
+            LanguageController.switchLanguage(locale);
+            setButtonBindingText();
+//            setLabelBindingText();
+            System.out.println(locale);
+
+        } catch (Exception e1) {
             e1.printStackTrace();
         }
     }
+
+    private void setLabelBindingText() {
+        LanguageController.setUpLabelText(labelWishColor, "chosenColor.pleaseChooseColor");
+        LanguageController.setUpLabelText(labelChallengeCounter, "menu.welcome");
+        LanguageController.setUpLabelText(labelDirection, "menu.directionOfPlay");
+        LanguageController.setUpLabelText(labelAI1Name, "menu.computer1");
+        LanguageController.setUpLabelText(labelAI2Name, "menu.computer2");
+        LanguageController.setUpLabelText(labelAI3Name, "menu.computer1");
+    }
+
+    private void setButtonBindingText() {
+        LanguageController.setUpButtonText(buttonSettings, "menu.setting");
+        LanguageController.setUpButtonText(buttonInfo, "menu.information");
+        LanguageController.setUpButtonText(buttonNewGame, "menu.newGame");
+        LanguageController.setUpButtonText(buttonStart, "menu.start");
+
+    }
+
 
     public void clearAll() {
         hideMenu();
@@ -1099,8 +1119,9 @@ public class MainController {
 
     }
 
-    public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
-        hideMenu();
+    public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+hideMenu();
         leaderBoardPane1.setVisible(true);
         backButton1.setVisible(true);
         labelLeaderBoard.setVisible(true);
@@ -1120,10 +1141,10 @@ public class MainController {
             string += namesList.get(i) + "\t\t\t\twin:   " + winList.get(i).toString()+"\n";
             textLeaderBoard.setText(string);
         }
-
     }
 
     public void backFromLeaderBoard(ActionEvent actionEvent) {
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         leaderBoardPane1.setVisible(false);
         backButton1.setVisible(false);
         labelLeaderBoard.setVisible(false);
