@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -34,7 +35,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.awt.*;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
@@ -69,6 +70,7 @@ public class MainController {
     public Button buttonQuit;
     public Pane paneContainsBox;
     public Group paneContainsSetName;
+    public TextArea textLeaderBoard;
     @FXML private Label labelLeaderBoard;
     @FXML private Pane leaderBoardPane1;
     @FXML private Button backButton1;
@@ -260,7 +262,6 @@ public class MainController {
             playerName = textGetName.getText();
             hideSetNameScene();
             showMenu();
-            labelLogo.setText("WELCOME " + playerName + " TO UNO !!!"); // Set the text for the Main Menu
             FileOutputStream fos = null;
             try {
 
@@ -1119,7 +1120,7 @@ public class MainController {
 
     }
 
-    public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException {
+    public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 hideMenu();
         leaderBoardPane1.setVisible(true);
