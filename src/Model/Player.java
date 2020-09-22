@@ -158,7 +158,7 @@ public class Player {
         if (validDeck.size() == 0) {
             if (challenge) {
                 gameBoard.setShowingInfo(true);
-                gameBoard.getController().showInfo("You can not deal card. Draw " + gameBoard.getDrawnCardsCount() + " cards.", gameBoard.getDrawnCardsCount());
+                gameBoard.getController().showInfo("You can not play card. Draw " + gameBoard.getDrawnCardsCount() + " cards.", gameBoard.getDrawnCardsCount());
             } else {
                 System.out.println("No valid cards --> please draw");
             }

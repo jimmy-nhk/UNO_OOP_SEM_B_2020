@@ -1,8 +1,17 @@
-#mainPane {
+#mainPane{
     -fx-background-image: url("/resources/images/firstTheme.jpg");
     -fx-background-size: 1200px 800px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+}
+
+#paneContainsSetNameScene {
+    /*-fx-background-image: url('/imageCss/pane.png');*/
+    -fx-background-size: 1200px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-background-color: #195D21;
 }
 
 .button{
@@ -49,21 +58,12 @@
 
 #paneContainsBox {
     -fx-background-image: url('/imageCss/pane.png');
-    -fx-background-size: 1200px;
+    -fx-background-size: 1095px 757px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
-    -fx-border-color: black;
 
 }
 
-#paneContainsSetName {
-    -fx-background-image: url('/imageCss/pane.png');
-    -fx-background-size: 1200px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-border-color: black;
-
-}
 
 #btOnline {
     -fx-background-image: url('/imageCss/button.png');

@@ -71,6 +71,7 @@ public class MainController {
     public Pane paneContainsBox;
     public Group paneContainsSetName;
     public TextArea textLeaderBoard;
+    public Pane paneContainsSetNameScene;
     @FXML private Label labelLeaderBoard;
     @FXML private Pane leaderBoardPane1;
     @FXML private Button backButton1;
@@ -244,7 +245,7 @@ public class MainController {
 
 
     public void showSetNameScene() {
-        paneContainsSetName.setVisible(true);
+        paneContainsSetNameScene.setVisible(true);
         textGetName.setVisible(true);
         labelSetName.setVisible(true);
         btSetName.setVisible(true);
@@ -254,7 +255,6 @@ public class MainController {
         btSetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 12));
         textGetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         labelSetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        labelSetName.setTextFill(COLOR_BLUE);
 
 
          btSetName.setOnAction(actionEvent -> {
@@ -305,7 +305,7 @@ public class MainController {
     }
 
     public void hideSetNameScene() {
-        paneContainsSetName.setVisible(false);
+        paneContainsSetNameScene.setVisible(false);
         textGetName.setVisible(false);
         labelSetName.setVisible(false);
         btSetName.setVisible(false);
@@ -1083,7 +1083,7 @@ public class MainController {
 
     private void setButtonBindingText() {
         LanguageController.setUpButtonText(buttonSettings, "menu.setting");
-        LanguageController.setUpButtonText(buttonInfo, "menu.information");
+        LanguageController.setUpButtonText(buttonInfo, "information.informationLabel");
         LanguageController.setUpButtonText(buttonNewGame, "menu.newGame");
         LanguageController.setUpButtonText(buttonStart, "menu.start");
 

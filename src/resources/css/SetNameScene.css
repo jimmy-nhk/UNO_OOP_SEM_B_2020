@@ -6,9 +6,9 @@
 }
 
 #labelSetName {
-    -fx-font-size: 20px;
+    -fx-font-size: 23px;
     -fx-font-family: "Arial Black";
-    -fx-background-color: #ffd438;
-    -fx-progress-color: #ff4650;
+    -fx-background-color: #FCAD04;
+    /*-fx-progress-color: #ff4650;*/
     -fx-fill: #3da25b;
 }
