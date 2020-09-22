@@ -16,7 +16,7 @@ public class Main extends Application
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/MainGUI.fxml"));
 			Parent root = (Parent)loader.load();
 
-			Scene scene = new Scene(root, 800, 650);
+			Scene scene = new Scene(root, 1200, 800);
 
 			scene.getStylesheets().add(getClass().getResource("resources/css/ColorChooser.css").toExternalForm());
 			scene.getStylesheets().add(getClass().getResource("resources/css/MainGUI.css").toExternalForm());
