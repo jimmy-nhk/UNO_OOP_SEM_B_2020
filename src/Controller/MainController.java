@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,7 +38,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.awt.*;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
@@ -69,6 +70,7 @@ public class MainController {
     public Image icon = new Image("images/icon.png");
     public static final Sound backgroundMusic = new Sound("src/resources/sound/background.mp3");
     public Color chosenWishColor;
+    public TextArea textLeaderBoard;
     @FXML private Label labelLeaderBoard;
     @FXML private Pane leaderBoardPane1;
     @FXML private Button backButton1;
@@ -140,6 +142,8 @@ public class MainController {
     private Point2D PLAYER_STARTING_POINT;
     private Point2D AI_2_STARTING_POINT;
     private Point2D AI_3_STARTING_POINT;
+    ArrayList<String> namesList = new ArrayList<String>();
+    ArrayList<Integer> winList = new ArrayList<Integer>();
 
     public void init() {
 
@@ -255,6 +259,45 @@ public class MainController {
             hideSetNameScene();
             showMenu();
             labelLogo.setText("WELCOME " + playerName + " TO UNO !!!"); // Set the text for the Main Menu
+            FileOutputStream fos = null;
+            try {
+
+                FileInputStream fis = new FileInputStream("listName");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                namesList = (ArrayList) ois.readObject();
+                ois.close();
+                fis.close();
+                FileInputStream fis1 = new FileInputStream("listWin");
+                ObjectInputStream ois1 = new ObjectInputStream(fis1);
+                winList = (ArrayList) ois1.readObject();
+                ois.close();
+                fis.close();
+                        namesList.add(playerName);
+                        winList.add(0);
+                        fos = new FileOutputStream("listName");
+                        ObjectOutputStream oos = new ObjectOutputStream(fos);
+                        oos.writeObject(namesList);
+                        oos.close();
+                        fos.close();
+                        FileOutputStream fos1 = new FileOutputStream("listWin");
+                        ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
+                        oos1.writeObject(winList);
+                        oos1.close();
+                        fos1.close();
+//                for (int i =0; i < namesList.size();i++) {
+//                    if (playerName.equals(namesList.get(i)))
+//                    {break;}
+//                    if (i==namesList.size()-1){
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
         });
     }
 
@@ -1020,38 +1063,11 @@ public class MainController {
             newStage.initModality(Modality.APPLICATION_MODAL);
             newStage.setResizable(true);
             newStage.showAndWait();
-            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-            settings.load();
 
-            Locale locale = SettingsController.locale;
-            LanguageController.switchLanguage(locale);
-            setButtonBindingText();
-//            setLabelBindingText();
-            System.out.println(locale);
-
-        } catch (Exception e1) {
+        } catch (IOException e1) {
             e1.printStackTrace();
         }
     }
-
-    private void setLabelBindingText() {
-        LanguageController.setUpLabelText(labelLogo, "menu.welcome");
-        LanguageController.setUpLabelText(labelWishColor, "chosenColor.pleaseChooseColor");
-        LanguageController.setUpLabelText(labelChallengeCounter, "menu.welcome");
-        LanguageController.setUpLabelText(labelDirection, "menu.directionOfPlay");
-        LanguageController.setUpLabelText(labelAI1Name, "menu.computer1");
-        LanguageController.setUpLabelText(labelAI2Name, "menu.computer2");
-        LanguageController.setUpLabelText(labelAI3Name, "menu.computer1");
-    }
-
-    private void setButtonBindingText() {
-        LanguageController.setUpButtonText(buttonSettings, "menu.setting");
-        LanguageController.setUpButtonText(buttonInfo, "menu.information");
-        LanguageController.setUpButtonText(buttonNewGame, "menu.newGame");
-        LanguageController.setUpButtonText(buttonStart, "menu.start");
-
-    }
-
 
     public void clearAll() {
         hideMenu();
@@ -1083,12 +1099,28 @@ public class MainController {
 
     }
 
-    public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException {
+    public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         hideMenu();
         leaderBoardPane1.setVisible(true);
         backButton1.setVisible(true);
         labelLeaderBoard.setVisible(true);
         menuBar.setVisible(false);
+        FileInputStream fis = new FileInputStream("listName");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        namesList = (ArrayList) ois.readObject();
+        ois.close();
+        fis.close();
+        FileInputStream fis1 = new FileInputStream("listWin");
+        ObjectInputStream ois1 = new ObjectInputStream(fis1);
+        winList = (ArrayList) ois1.readObject();
+        ois.close();
+        fis.close();
+        String string = "";
+        for (int i = 0; i < namesList.size();i++) {
+            string += namesList.get(i) + "\t\t\t\twin:   " + winList.get(i).toString()+"\n";
+            textLeaderBoard.setText(string);
+        }
+
     }
 
     public void backFromLeaderBoard(ActionEvent actionEvent) {
