@@ -1,4 +1,7 @@
+import Controller.LanguageController;
 import Controller.MainController;
+import Controller.Settings;
+import Controller.SettingsController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,6 +14,7 @@ public class Main extends Application
 	@Override
 	public void start(Stage stage)
 	{
+		LanguageController.switchLanguage(SettingsController.locale);
 		try
 		{
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/MainGUI.fxml"));
@@ -23,7 +27,7 @@ public class Main extends Application
 			scene.getStylesheets().add(getClass().getResource("resources/css/setNameScene.css").toExternalForm());
 			scene.getStylesheets().add(getClass().getResource("resources/css/Settings.css").toExternalForm());
 			stage.setResizable(true);
-			stage.setTitle("UNO TIME!!");
+			stage.setTitle(LanguageController.get("uno.Time"));
 
 			stage.setScene(scene);		
 
