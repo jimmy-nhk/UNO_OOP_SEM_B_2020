@@ -1,6 +1,6 @@
-#settingsScene {
+.root {
     -fx-background-image: url("/resources/images/firstTheme.jpg");
-    -fx-background-size: 700px 500px;
+    -fx-background-size: 700px 600px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
