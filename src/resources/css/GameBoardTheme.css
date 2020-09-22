@@ -1,9 +1,10 @@
 #mainPane {
-    -fx-background-image: url("/resources/images/firstTheme.jpg");
+    -fx-background-image: url("/resources/images/menuBG.jpg");
     -fx-background-size: 1200px 800px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
+
 
 .button{
     -fx-background-image: url('/imageCss/button.png');
@@ -109,8 +110,6 @@
     -fx-border-color: black;
 
 }
-
-
 
 #backButton1 {
     -fx-background-image: url('/imageCss/button.png');
