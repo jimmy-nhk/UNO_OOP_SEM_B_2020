@@ -2,6 +2,7 @@ package Model;
 
 import Controller.GameBoard;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class Player {
@@ -22,11 +23,48 @@ public class Player {
     }
 
     public void win() {
-
+        FileInputStream fis = null;
+        try {
+            ArrayList<String> namesList = new ArrayList<>();
+            ArrayList<Integer> winList = new ArrayList<>();
+            fis = new FileInputStream("listName");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            namesList = (ArrayList) ois.readObject();
+            ois.close();
+            fis.close();
+            FileInputStream fis1 = new FileInputStream("listWin");
+            ObjectInputStream ois1 = new ObjectInputStream(fis1);
+            winList = (ArrayList) ois1.readObject();
+            ois.close();
+            fis.close();
+            for (int i =0; i < namesList.size();i++) {
+                if (this.name.equals(namesList.get(i))) {
+                    int count = winList.get(i);
+                    winList.remove(i);
+                    winList.add(i,count+1);
+                }
+            }
+            FileOutputStream fos = new FileOutputStream("listName");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(namesList);
+            oos.close();
+            fos.close();
+            FileOutputStream fos1 = new FileOutputStream("listWin");
+            ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
+            oos1.writeObject(winList);
+            oos1.close();
+            fos1.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
         winsInARow++;
-    }
+        }
 
-    public void resetWinsInARow() {
+        public void resetWinsInARow() {
 
 
         winsInARow = 0;
