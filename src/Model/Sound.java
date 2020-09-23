@@ -29,7 +29,7 @@ public class Sound {
     // constructor
     public Sound(String soundURL) {
         try {
-           this.mediaPlayer = playMusic(soundURL);
+            this.mediaPlayer = playMusic(soundURL);
 
         } catch (Exception e) {
             System.out.println("Cannot load sound.");
@@ -63,7 +63,7 @@ public class Sound {
     }
 
     //adjust music volume:
-    public  void adjustMusicVolume(DoubleProperty volumeValue) {
+    public void adjustMusicVolume(DoubleProperty volumeValue) {
         mediaPlayer.volumeProperty().bind(volumeValue);
     }
 

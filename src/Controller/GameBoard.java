@@ -70,7 +70,7 @@ public class GameBoard {
         this.mainController = mainController;
         deck = new Deck();
         playedCards = new PlayedCards();
-        player = new Player(mainController.getPlayerName() +"", this);
+        player = new Player(mainController.getPlayerName() + "", this);
         bots = new ArrayList<>();
 
         if (numberOfBots == 1) {
@@ -195,13 +195,13 @@ public class GameBoard {
 
             checkSkipCard();
 
-            }
+        }
 
 
     }
 
     // Check skip card
-    public void checkSkipCard () {
+    public void checkSkipCard() {
         LanguageController.switchLanguage(SettingsController.locale);
         if (skipped || !previousCard.getProperty().equals(Property.SKIP)) {
             if (positionOfCurrentPlayer == 1) {
@@ -239,7 +239,7 @@ public class GameBoard {
     }
 
     // Check the direction of the code
-    public void determineIfChangeDirection (){
+    public void determineIfChangeDirection() {
         if (previousCard.getProperty().equals(Property.REVERSE) && !lastPlayerDraw) {
             if (direction.equals(Direction.RIGHT)) {
                 direction = Direction.LEFT;
@@ -302,7 +302,7 @@ public class GameBoard {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("UNO");
             alert.setHeaderText("");
-            alert.setContentText(name + " "+ LanguageController.get("victory.someoneElseWon"));
+            alert.setContentText(name + " " + LanguageController.get("victory.someoneElseWon"));
             alert.initOwner(mainController.stage);
             Stage dialogStage = (Stage) alert.getDialogPane().getScene().getWindow();
             dialogStage.getIcons().add(mainController.icon);
@@ -387,13 +387,13 @@ public class GameBoard {
     }
 
     // Update status
-    public void updateCardStatus (Card card){
+    public void updateCardStatus(Card card) {
         LanguageController.switchLanguage(SettingsController.locale);
         if (card.getProperty().equals(Property.DRAW_TWO)) {
             ifDrawnCard = true;
             drawnCardsCount += 2;
             mainController.showLabelChallengeCounter(LanguageController.get("gameBoard.loserDraw4Cards") + " " + drawnCardsCount
-                                                      + " " + LanguageController.get("gameBoard.card"));
+                    + " " + LanguageController.get("gameBoard.card"));
         } else if (card.getProperty().equals(Property.DRAW_FOUR)) {
             ifDrawnCard = true;
             drawnCardsCount += 4;

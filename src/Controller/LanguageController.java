@@ -28,7 +28,10 @@ import java.util.concurrent.Callable;
 public class LanguageController {
 
     public enum Language {ENGLISH, VIETNAMESE}
-    /** the current selected Locale. */
+
+    /**
+     * the current selected Locale.
+     */
     private static final ObjectProperty<Locale> locale;
 
     static {
@@ -67,6 +70,7 @@ public class LanguageController {
     public static ObjectProperty<Locale> localeProperty() {
         return locale;
     }
+
     //get messages keys from bundle:
     public static String get(final String key, final Object... args) {
         ResourceBundle bundle = ResourceBundle.getBundle("lang", getLocale());
@@ -91,7 +95,7 @@ public class LanguageController {
         button.textProperty().bind(createStringBinding(key));
     }
 
-    public static void setUpRadioButtonText(RadioButton button,final String key, final Object... args) {
+    public static void setUpRadioButtonText(RadioButton button, final String key, final Object... args) {
         button.textProperty().bind(createStringBinding(key));
     }
 
@@ -119,7 +123,7 @@ public class LanguageController {
     }
 
     // check if current locale is US
-    public static boolean isEnglish(){
+    public static boolean isEnglish() {
         return locale.get().getDisplayCountry().equals("United States");
     }
 }

@@ -16,28 +16,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 
-public class Deck
-{
+public class Deck {
     private Stack<Card> cards;
 
-    public Deck()
-    {
+    public Deck() {
         cards = new Stack<>();
 
-        for(Color currentColor : Color.values())
-        {
-            if(currentColor != Color.BLACK && currentColor != Color.ALL)
-            {
+        for (Color currentColor : Color.values()) {
+            if (currentColor != Color.BLACK && currentColor != Color.ALL) {
                 cards.add(new Card(Property.ZERO, currentColor, 0));
 
-                for(int i = 0; i < 2; i++)
-                {
+                for (int i = 0; i < 2; i++) {
                     cards.add(new Card(Property.ONE, currentColor, 0));
                     cards.add(new Card(Property.TWO, currentColor, 0));
                     cards.add(new Card(Property.THREE, currentColor, 0));
                     cards.add(new Card(Property.FOUR, currentColor, 0));
                     cards.add(new Card(Property.FIVE, currentColor, 0));
-                    cards.add(new Card(Property.SIX , currentColor, 0));
+                    cards.add(new Card(Property.SIX, currentColor, 0));
                     cards.add(new Card(Property.SEVEN, currentColor, 0));
                     cards.add(new Card(Property.EIGHT, currentColor, 0));
                     cards.add(new Card(Property.NINE, currentColor, 0));
@@ -60,39 +55,33 @@ public class Deck
         cards.add(new Card(Property.WILD, Color.BLACK, 5));
     }
 
-    public void shuffle()
-    {
+    public void shuffle() {
         Collections.shuffle(cards);
     }
 
-    public Card drawCard(PlayedCards playedCards)
-    {
+    public Card drawCard(PlayedCards playedCards) {
         if (cards.size() <= 0) {
             refill(playedCards);
         }
         return cards.pop();
     }
 
-    public ArrayList<Card> drawCards(int numberOfCards, PlayedCards deadDeck)
-    {
+    public ArrayList<Card> drawCards(int numberOfCards, PlayedCards deadDeck) {
         ArrayList<Card> drawnCards = new ArrayList<>();
-        for(int i = 0; i < numberOfCards; i++)
-        {
+        for (int i = 0; i < numberOfCards; i++) {
             drawnCards.add(drawCard(deadDeck));
         }
 
         return drawnCards;
     }
 
-    public void refill(PlayedCards deadDeck)
-    {
+    public void refill(PlayedCards deadDeck) {
         cards.addAll(deadDeck.getCards());
 
         shuffle();
     }
 
-    public Stack<Card> getCards()
-    {
+    public Stack<Card> getCards() {
         return cards;
     }
 

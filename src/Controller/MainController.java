@@ -72,9 +72,12 @@ public class MainController {
     public TextArea textLeaderBoard;
     public Pane paneContainsSetNameScene;
     public Button buttonOffline;
-    @FXML private Label labelLeaderBoard;
-    @FXML private Pane leaderBoardPane1;
-    @FXML private Button backButton1;
+    @FXML
+    private Label labelLeaderBoard;
+    @FXML
+    private Pane leaderBoardPane1;
+    @FXML
+    private Button backButton1;
     private String playerName;
     public boolean playerMustDraw;
     public TranslateTransition translateTransition;
@@ -132,13 +135,15 @@ public class MainController {
     @FXML
     private MenuItem menuItemBack;
 
-    @FXML private Button backButton;
-    @FXML private Button buttonSettings;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button buttonSettings;
     private boolean playerHasDrawn;
     private Point2D PLAYER_STARTING_POINT;
     private Point2D AI_2_STARTING_POINT;
     private Point2D AI_3_STARTING_POINT;
-        ArrayList<String> namesList = new ArrayList<String>();
+    ArrayList<String> namesList = new ArrayList<String>();
     ArrayList<Integer> winList = new ArrayList<Integer>();
 
 
@@ -222,9 +227,7 @@ public class MainController {
 
     // Show main menu
     public void showMainMenu() {
-
-
-        Sound startGameSound = new Sound("src/resources/sound/sound_launch.mp3");
+        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         if (gameBoard != null) {
             gameBoard.stop();
         }
@@ -249,7 +252,7 @@ public class MainController {
         labelSetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 
 
-         btSetName.setOnAction(actionEvent -> {
+        btSetName.setOnAction(actionEvent -> {
             showMenu();
             playerName = textGetName.getText();
             hideSetNameScene();
@@ -267,18 +270,18 @@ public class MainController {
                 winList = (ArrayList) ois1.readObject();
                 ois.close();
                 fis.close();
-                        namesList.add(playerName);
-                        winList.add(0);
-                        fos = new FileOutputStream("listName");
-                        ObjectOutputStream oos = new ObjectOutputStream(fos);
-                        oos.writeObject(namesList);
-                        oos.close();
-                        fos.close();
-                        FileOutputStream fos1 = new FileOutputStream("listWin");
-                        ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
-                        oos1.writeObject(winList);
-                        oos1.close();
-                        fos1.close();
+                namesList.add(playerName);
+                winList.add(0);
+                fos = new FileOutputStream("listName");
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(namesList);
+                oos.close();
+                fos.close();
+                FileOutputStream fos1 = new FileOutputStream("listWin");
+                ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
+                oos1.writeObject(winList);
+                oos1.close();
+                fos1.close();
 //                for (int i =0; i < namesList.size();i++) {
 //                    if (playerName.equals(namesList.get(i)))
 //                    {break;}
@@ -304,9 +307,6 @@ public class MainController {
 
 
     public void showMenu() {
-
-        Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-
         btOnline.setVisible(true);
         buttonQuit.setVisible(true);
         btnLeaderBoard.setVisible(true);
@@ -1109,18 +1109,7 @@ public class MainController {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(LanguageController.get("information.about") + " " + bundle.getString("app.name"));
         alert.setHeaderText(bundle.getString("app.name"));
-        alert.setContentText("\n" +
-                "This is a Java-based GUI program that simulates the real-life card gameBoard called UNO with a user-friendly interface.\n" +
-                "The program has two main screens: one for the main menu and one for the main gameBoard.\n" +
-                "UNO is an American card gameBoard with 4 players in a match.\n " +
-                "Players can play with their friends and family or with our built-in bots. \n" +
-                "Vacant spots in gameBoard will be replaced by bots.\n" +
-                "At the start of the gameBoard, each player has 7 cards. \n" +
-                "he pile of the other cards are placed facing down. \n" +
-                "When a card is discarded, the next player has to play a card which has the same number, color or action as the last discarded card. \n" +
-                "Apart from the cards with numbers, there are also Wild Cards which can carry multiple colors, Wild Draw Two/Four cards which make the next player draw two/four cards from the draw pile and Skip cards which enable the player to skip their turn.\n" +
-                "If a player does not have any cards with the same color or action as the last one on the discard pile or prefer not to discard even when they have the playable card, they must draw a card at the top of the draw pile. \n" +
-                "If that card can be discarded, the player can either play it or keep it and wait for the next turn. Other than that, the player can also put forward a Wild Card or Wild Draw Four card.");
+        alert.setContentText("\n" + LanguageController.get("information.contentAbout"));
 
         Stage dialogStage = (Stage) alert.getDialogPane().getScene().getWindow();
         dialogStage.getIcons().add(icon);
@@ -1147,8 +1136,8 @@ public class MainController {
         ois.close();
         fis.close();
         String string = "";
-        for (int i = 0; i < namesList.size();i++) {
-            string += namesList.get(i) + "\t\t\t\t" + "gameBoard.win" + " " + winList.get(i).toString()+"\n";
+        for (int i = 0; i < namesList.size(); i++) {
+            string += namesList.get(i) + "\t\t\t\t" + "gameBoard.win" + " " + winList.get(i).toString() + "\n";
             textLeaderBoard.setText(string);
         }
     }
@@ -1167,8 +1156,9 @@ public class MainController {
     }
 
     private boolean ifTheme1 = true;
+
     public void changeTheme(ActionEvent actionEvent) {
-        if (ifTheme1){
+        if (ifTheme1) {
             this.stage.getScene().getStylesheets().remove("resources/css/MainGUI.css");
             this.stage.getScene().getStylesheets().add("resources/css/Theme2.css");
             ifTheme1 = false;
