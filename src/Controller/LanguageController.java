@@ -39,6 +39,7 @@ import java.util.concurrent.Callable;
 
 public class LanguageController {
 
+    //2 languages only: Vietnamese and English
     public enum Language {ENGLISH, VIETNAMESE}
 
     /**
@@ -70,10 +71,11 @@ public class LanguageController {
         return getSupportedLocales().contains(sysDefault) ? sysDefault : Locale.ENGLISH;
     }
 
+    //get the locale to change:
     public static Locale getLocale() {
         return locale.get();
     }
-
+    //set locale:
     public static void setLocale(Locale locale) {
         localeProperty().set(locale);
         Locale.setDefault(locale);
@@ -88,13 +90,9 @@ public class LanguageController {
         ResourceBundle bundle = ResourceBundle.getBundle("lang", getLocale());
         return MessageFormat.format(bundle.getString(key), args);
     }
-
+    //create string binding:
     public static StringBinding createStringBinding(final String key, Object... args) {
         return Bindings.createStringBinding(() -> get(key, args), locale);
-    }
-
-    public static StringBinding createStringBinding(Callable<String> func) {
-        return Bindings.createStringBinding(func, locale);
     }
 
     // setup label text
@@ -106,11 +104,11 @@ public class LanguageController {
     public static void setUpButtonText(Button button, final String key, final Object... args) {
         button.textProperty().bind(createStringBinding(key));
     }
-
+    // setup radio button text
     public static void setUpRadioButtonText(RadioButton button, final String key, final Object... args) {
         button.textProperty().bind(createStringBinding(key));
     }
-
+    // setup menuItem text
     public static void setUpMenuItemText(MenuItem menuItem, final String key, final Object... args) {
         menuItem.textProperty().bind(createStringBinding(key));
     }

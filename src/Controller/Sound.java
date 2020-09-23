@@ -35,6 +35,7 @@ import java.net.URL;
 import java.nio.file.Paths;
 
 public class Sound {
+    //data field for Sound:
     private MediaPlayer mediaPlayer;
     private Media media;
 
@@ -48,12 +49,7 @@ public class Sound {
         }
     }
 
-    // play audio
-    public void play() {
-        this.mediaPlayer.seek(Duration.ZERO);
-        this.mediaPlayer.play();
-    }
-
+    //play music : get URL and play
     private MediaPlayer playMusic(String soundURL) {
         media = new Media(Paths.get(soundURL).toUri().toString());
         mediaPlayer = new MediaPlayer(media);
@@ -61,6 +57,7 @@ public class Sound {
         return mediaPlayer;
     }
 
+    //create media player to play:
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
@@ -69,19 +66,9 @@ public class Sound {
         this.mediaPlayer = mediaPlayer;
     }
 
-    // pause audio
-    public void pause() {
-        this.mediaPlayer.pause();
-    }
-
     //adjust music volume:
     public void adjustMusicVolume(DoubleProperty volumeValue) {
         mediaPlayer.volumeProperty().bind(volumeValue);
-    }
-
-    // stop audio
-    public void stop() {
-        this.mediaPlayer.stop();
     }
 
 }
