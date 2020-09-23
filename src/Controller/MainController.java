@@ -7,7 +7,6 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -15,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -78,7 +76,7 @@ public class MainController {
     @FXML
     private TableColumn<LeaderboardRow, String> colName;
     @FXML
-    private TableColumn<LeaderboardRow, String> colWin;
+    private TableColumn<LeaderboardRow, Integer> colWin;
     public Pane paneContainsSetNameScene;
     public Button buttonOffline;
     @FXML private ImageView imageLogo;
@@ -169,8 +167,8 @@ public class MainController {
      */
 
     public void init() {
-        colName.setCellValueFactory(new PropertyValueFactory<LeaderboardRow, String>("nameColumn"));
-        colWin.setCellValueFactory(new PropertyValueFactory<LeaderboardRow, String>("winColumn"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("nameColumn"));
+        colWin.setCellValueFactory(new PropertyValueFactory<>("winColumn"));
         // set timer
         timerLabel.textProperty().bind(timeSeconds.asString());
         timerLabel.setVisible(false);
@@ -1160,25 +1158,27 @@ public class MainController {
         backButton1.setVisible(true);
         labelLeaderBoard.setVisible(true);
         menuBar.setVisible(false);
+
         FileInputStream fis = new FileInputStream("listName");
         ObjectInputStream ois = new ObjectInputStream(fis);
         namesList = (ArrayList) ois.readObject();
         ois.close();
         fis.close();
+
         FileInputStream fis1 = new FileInputStream("listWin");
         ObjectInputStream ois1 = new ObjectInputStream(fis1);
         winList = (ArrayList) ois1.readObject();
-        ois.close();
-        fis.close();
-//        String string = "";
+        ois1.close();
+        fis1.close();
+
         List<LeaderboardRow> ldbr = new ArrayList<>();
         for (int i = 0; i < namesList.size(); i++) {
-            ldbr.add(new LeaderboardRow(namesList.get(i), winList.get(i).toString()));
-//            textLeaderBoard.setText(string);
+//            System.out.println(namesList.get(i) + "\t\t\t\t" + winList.get(i).toString());
+            ldbr.add(new LeaderboardRow(namesList.get(i), winList.get(i)));
         }
-        for (LeaderboardRow ldb: ldbr ) {
-            System.out.println(ldb.getNameColumn() + "\t\t\t\t" + "gameBoard.win" + " " + ldb.getWinColumn());
-        }
+//        for (LeaderboardRow ldb: ldbr ) {
+//            System.out.println(ldb.getNameColumn() + "\t\t\t\t" + ldb.getWinColumn());
+//        }
         leaderboardTable.getItems().setAll(ldbr);
     }
 
