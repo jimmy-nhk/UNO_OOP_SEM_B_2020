@@ -27,16 +27,17 @@ package Model;
 import java.util.ArrayList;
 
 public class PlayedCards {
+    //played card is the array list contains all the played card:
     private ArrayList<Card> cards;
-
+    //its constructor:
     public PlayedCards() {
         cards = new ArrayList<>();
     }
-
+    //add more played cards:
     public void add(Card card) {
         cards.add(card);
     }
-
+    //get the played cards:
     public ArrayList<Card> getCards() {
         return cards;
     }

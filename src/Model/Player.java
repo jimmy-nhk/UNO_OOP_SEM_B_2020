@@ -31,27 +31,28 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Player {
+    //data field:
     private String name;
     private ArrayList<Card> deck;
     private int winsInARow;
     private GameBoard gameBoard;
-
+    //constructor:
     public Player(String name, GameBoard gameBoard) {
         this.name = name;
         deck = new ArrayList<>();
         winsInARow = 0;
         this.gameBoard = gameBoard;
     }
-
+    //initialise each player with a deck:
     public void initialize() {
         deck = new ArrayList<>();
     }
-
+    //determine the winner:
     public void win() {
-        FileInputStream fis = null;
+        FileInputStream fis = null; //save the activity in a file for leader board:
         try {
-            ArrayList<String> namesList = new ArrayList<>();
-            ArrayList<Integer> winList = new ArrayList<>();
+            ArrayList<String> namesList;
+            ArrayList<Integer> winList;
             fis = new FileInputStream("listName");
             ObjectInputStream ois = new ObjectInputStream(fis);
             namesList = (ArrayList) ois.readObject();
@@ -79,43 +80,40 @@ public class Player {
             oos1.writeObject(winList);
             oos1.close();
             fos1.close();
-        } catch (FileNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
         }
         winsInARow++;
     }
 
+    //reset the win in a row:
     public void resetWinsInARow() {
-
-
         winsInARow = 0;
     }
-
+    //player draw a card:
     public void drawCard(Card card) {
         deck.add(card);
 
         gameBoard.getController().setPlayerDeck(deck);
     }
-
+     //player draw list of cards:
     public void drawCards(ArrayList<Card> cards) {
         deck.addAll(cards);
         gameBoard.getController().setPlayerDeck(deck);
         gameBoard.getController().hideInfo();
     }
 
+    //player play cards:
     public Card playCard(Card card) {
         deck.remove(card);
         return card;
     }
 
+    //check the card of player when they play cards:
     public ArrayList<Card> getPossiblePlayableCards(Card lastCard, Color wishColor, boolean challenge) {
         return getCards(lastCard, wishColor, challenge, deck);
     }
-
+     //get and check if the move is correct:
     static ArrayList<Card> getCards(Card lastCard, Color wishColor, boolean challenge, ArrayList<Card> deck) {
         ArrayList<Card> validCards = new ArrayList<>();
         if (challenge) {
@@ -163,19 +161,19 @@ public class Player {
 
         return validCards;
     }
-
+    //get the deck size:
     public int getDeckSize() {
         return deck.size();
     }
-
+    // get the player name:
     public String getName() {
         return name;
     }
-
+    //get deck:
     public ArrayList<Card> getDeck() {
         return deck;
     }
-
+    //update the player turns:
     public void turn(Card lastCard, Color wishColor, boolean challenge) {
         LanguageController.switchLanguage(SettingsController.locale);
         System.out.println("All cards on hand: \n" + deck);
