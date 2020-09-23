@@ -60,13 +60,15 @@ public class SettingsController {
     private MainController mainController;
     public static Locale locale = new Locale("en", "US");
 
+    // Initialize the Settings Controller
     public void init(Stage stage, MainController mainController) {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
         this.stage = stage;
         this.stage.setMinHeight(600);
-        this.mainController = mainController;
+        this.mainController = mainController; // Link the settings with the controller
 
+        // add it as a group
         ToggleGroup group = new ToggleGroup();
         vietnameseButton.setToggleGroup(group);
         englishButton.setToggleGroup(group);
@@ -78,22 +80,27 @@ public class SettingsController {
         sliderNumberOfStartingCards.setValue(settings.getNumberOfStartingCards());
     }
 
+    // Save the data selected by the user in the scene
     public void save() {
-        int numberOfAIs = (int) sliderNumberOfBots.getValue();
+        // Initialize the number of Bots and starting cards
+        int numberOfBots = (int) sliderNumberOfBots.getValue();
         int numberOfStartingCards = (int) sliderNumberOfStartingCards.getValue();
 
+        // Set the volume of the background music
         volumeSlider.setOnMouseClicked(e -> setActionForVolumeSlider());
         DoubleProperty volume = volumeSlider.valueProperty();
         int volumeAmount = volumeSlider.valueProperty().intValue();
 
 
+        // Change language buttons
         vietnameseButton.setOnAction(e -> locale = new Locale("vi", "VN"));
         englishButton.setOnAction(e -> locale = new Locale("en", "US"));
 
         MainController.backgroundMusic.adjustMusicVolume(volume);
 
-        mainController.settings = new Settings(numberOfAIs, numberOfStartingCards, locale, volumeAmount);
+        mainController.settings = new Settings(numberOfBots, numberOfStartingCards, locale, volumeAmount);
         try {
+            // save the data to the main controller
             mainController.settings.save();
             mainController.settings.load();
         } catch (Exception e) {
@@ -102,6 +109,7 @@ public class SettingsController {
         stage.close();
     }
 
+    /** Event handler for the sliders and buttons in this scene */
     @FXML
     private void setActionForVolumeSlider() {
         volumeSlider.setValue(volumeSlider.getValue());
@@ -125,6 +133,8 @@ public class SettingsController {
         setLabelBindingText();
 
     }
+
+    /** Binding the text to the label and button*/
 
     private void setLabelBindingText() {
         LanguageController.setUpLabelText(settingLabel, "setting.settingLabel");
