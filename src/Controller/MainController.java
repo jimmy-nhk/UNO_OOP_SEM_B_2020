@@ -69,7 +69,6 @@ public class MainController {
     public Button btOnline;
     public Button buttonQuit;
     public Pane paneContainsBox;
-    public Group paneContainsSetName;
     public TextArea textLeaderBoard;
     public Pane paneContainsSetNameScene;
     public Button buttonOffline;
@@ -172,9 +171,6 @@ public class MainController {
         Sound startGameSound = new Sound("src/resources/sound/sound_launch.mp3");
 
 
-        this.stage.getScene().getStylesheets().remove("resources/css/MainGUI.css");
-        this.stage.getScene().getStylesheets().add("resources/css/GameBoardTheme.css");
-
         if (gameBoard != null) {
             gameBoard.stop();
         }
@@ -227,8 +223,6 @@ public class MainController {
     // Show main menu
     public void showMainMenu() {
 
-        this.stage.getScene().getStylesheets().remove("resources/css/GameBoardTheme.css");
-        this.stage.getScene().getStylesheets().add("resources/css/MainGUI.css");
 
         Sound startGameSound = new Sound("src/resources/sound/sound_launch.mp3");
         if (gameBoard != null) {
@@ -244,7 +238,6 @@ public class MainController {
 
 
     public void showSetNameScene() {
-        paneContainsSetNameScene.setVisible(true);
         textGetName.setVisible(true);
         labelSetName.setVisible(true);
         btSetName.setVisible(true);
@@ -304,7 +297,6 @@ public class MainController {
     }
 
     public void hideSetNameScene() {
-        paneContainsSetNameScene.setVisible(false);
         textGetName.setVisible(false);
         labelSetName.setVisible(false);
         btSetName.setVisible(false);
@@ -547,8 +539,10 @@ public class MainController {
 
                                 newStage.getIcons().add(icon);
 
+
                                 ColorChooserController newController = fxmlLoader.getController();
                                 newController.init(newStage, main);
+
 
                                 newStage.initModality(Modality.APPLICATION_MODAL);
                                 newStage.setResizable(false);
@@ -1085,7 +1079,7 @@ public class MainController {
         LanguageController.setUpButtonText(buttonInfo, "information.informationLabel");
         LanguageController.setUpButtonText(buttonOffline, "menu.offline");
         LanguageController.setUpButtonText(btOnline, "menu.online");
-        LanguageController.setUpButtonText(buttonQuit, "menu.online");
+        LanguageController.setUpButtonText(buttonQuit, "menu.quit");
         LanguageController.setUpButtonText(btnLeaderBoard, "menu.leaderBoard");
         LanguageController.setUpButtonText(buttonStart, "menu.start");
 
@@ -1115,7 +1109,19 @@ public class MainController {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(LanguageController.get("information.about") + " " + bundle.getString("app.name"));
         alert.setHeaderText(bundle.getString("app.name"));
-        //alert.setContentText("Version:     " + bundle.getString("version.name") + "\r\nDate:      " + bundle.getString("version.date") + "\r\nAuthor:        Robert Goldmann\r\nCard images from:\nhttps://upload.wikimedia.org/wikipedia/commons/thumb/9/95/UNO_cards_deck.svg/800px-UNO_cards_deck.svg.png");
+        alert.setContentText("\n" +
+                "This is a Java-based GUI program that simulates the real-life card gameBoard called UNO with a user-friendly interface.\n" +
+                "The program has two main screens: one for the main menu and one for the main gameBoard.\n" +
+                "UNO is an American card gameBoard with 4 players in a match.\n " +
+                "Players can play with their friends and family or with our built-in bots. \n" +
+                "Vacant spots in gameBoard will be replaced by bots.\n" +
+                "At the start of the gameBoard, each player has 7 cards. \n" +
+                "he pile of the other cards are placed facing down. \n" +
+                "When a card is discarded, the next player has to play a card which has the same number, color or action as the last discarded card. \n" +
+                "Apart from the cards with numbers, there are also Wild Cards which can carry multiple colors, Wild Draw Two/Four cards which make the next player draw two/four cards from the draw pile and Skip cards which enable the player to skip their turn.\n" +
+                "If a player does not have any cards with the same color or action as the last one on the discard pile or prefer not to discard even when they have the playable card, they must draw a card at the top of the draw pile. \n" +
+                "If that card can be discarded, the player can either play it or keep it and wait for the next turn. Other than that, the player can also put forward a Wild Card or Wild Draw Four card.");
+
         Stage dialogStage = (Stage) alert.getDialogPane().getScene().getWindow();
         dialogStage.getIcons().add(icon);
         alert.showAndWait();
@@ -1147,6 +1153,7 @@ public class MainController {
         }
     }
 
+    // Action event handler
     public void backFromLeaderBoard(ActionEvent actionEvent) {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         leaderBoardPane1.setVisible(false);
@@ -1157,5 +1164,18 @@ public class MainController {
 
     public void quit(ActionEvent actionEvent) {
         System.exit(1);
+    }
+
+    private boolean ifTheme1 = true;
+    public void changeTheme(ActionEvent actionEvent) {
+        if (ifTheme1){
+            this.stage.getScene().getStylesheets().remove("resources/css/MainGUI.css");
+            this.stage.getScene().getStylesheets().add("resources/css/Theme2.css");
+            ifTheme1 = false;
+        } else {
+            this.stage.getScene().getStylesheets().remove("resources/css/Theme2.css");
+            this.stage.getScene().getStylesheets().add("resources/css/MainGUI.css");
+            ifTheme1 = true;
+        }
     }
 }

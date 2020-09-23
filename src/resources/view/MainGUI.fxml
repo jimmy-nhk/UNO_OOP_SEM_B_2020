@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -53,7 +52,7 @@
       </font>
    </Label>
    <ImageView fx:id="imageViewDirection" fitHeight="40.0" fitWidth="40.0" layoutX="580.0" layoutY="277.0" pickOnBounds="true" preserveRatio="true" />
-   <Label fx:id="labelDirection" layoutX="563.0" layoutY="247.0" text="Direction of play:">
+   <Label fx:id="labelDirection" layoutX="565.0" layoutY="255.0" text="Direction of play:">
       <font>
          <Font name="System Bold" size="12.0" />
       </font>
@@ -84,27 +83,27 @@
          <MenuItem fx:id="menuItem3" mnemonicParsing="false" onAction="#about" text="Information" />
       </Menu>
    </MenuBar>
-   <Pane fx:id="paneContainsBox" layoutX="150.0" layoutY="178.0" prefHeight="409.0" prefWidth="896.0">
+   <Pane fx:id="paneContainsBox" layoutX="530.0" layoutY="250.0">
       <children>
-         <VBox layoutX="630.0" layoutY="26.0" spacing="25.0">
+         <VBox spacing="25.0">
             <children>
-               <Button fx:id="buttonOffline" mnemonicParsing="false" onAction="#startGame" prefHeight="50.0" prefWidth="130.0" text="Offline">
+               <Button fx:id="buttonOffline" mnemonicParsing="false" onAction="#startGame" prefHeight="50.0" prefWidth="150.0" text="New Game">
                   <font>
                      <Font name="System Bold" size="14.0" />
                   </font>
                </Button>
-               <Button fx:id="btOnline" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Online" />
-               <Button fx:id="btnLeaderBoard" mnemonicParsing="false" onAction="#changeToLeaderBoard" prefHeight="50.0" prefWidth="130.0" text="LeaderBoard">
+               <Button fx:id="btOnline" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Theme" onAction="#changeTheme" />
+               <Button fx:id="btnLeaderBoard" mnemonicParsing="false" onAction="#changeToLeaderBoard" prefHeight="50.0" prefWidth="150.0" text="Leaderboard">
                   <font>
                      <Font name="System Bold" size="14.0" />
                   </font>
                </Button>
-               <Button fx:id="buttonSettings" mnemonicParsing="false" onAction="#openSettings" prefHeight="50.0" prefWidth="130.0" text="Setting">
+               <Button fx:id="buttonSettings" mnemonicParsing="false" onAction="#openSettings" prefHeight="50.0" prefWidth="150.0" text="Setting">
                   <font>
                      <Font name="System Bold" size="14.0" />
                   </font>
                </Button>
-               <Button fx:id="buttonQuit" onAction="#quit" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Quit" />
+               <Button fx:id="buttonQuit" mnemonicParsing="false" onAction="#quit" prefHeight="50.0" prefWidth="150.0" text="Quit" />
             </children>
          </VBox>
       </children>
@@ -120,17 +119,12 @@
          </Label>
       </children>
    </Pane>
-   <Pane fx:id="paneContainsSetNameScene" layoutX="252.0" layoutY="215.0" prefHeight="396.0" prefWidth="669.0">
-      <children>
-         <TextField fx:id="textGetName" layoutX="313.0" layoutY="165.0" prefHeight="43.0" prefWidth="196.0" />
-         <Label fx:id="labelSetName" layoutX="107.0" layoutY="169.0" text="Your name">
-            <font>
-               <Font size="24.0" />
-            </font>
-         </Label>
-         <Group fx:id="paneContainsSetName" />
-         <Button fx:id="btSetName" layoutX="300.0" layoutY="334.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="SET NAME" />
-      </children>
-   </Pane>
+   <TextField fx:id="textGetName" layoutX="615.0" layoutY="380.0" prefHeight="43.0" prefWidth="207.0" />
+   <Label fx:id="labelSetName" layoutX="441.0" layoutY="384.0" prefHeight="29.0" prefWidth="166.0" text="Your name">
+      <font>
+         <Font size="24.0" />
+      </font>
+   </Label>
+   <Button fx:id="btSetName" layoutX="552.0" layoutY="549.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="SET NAME" />
 
 </AnchorPane>

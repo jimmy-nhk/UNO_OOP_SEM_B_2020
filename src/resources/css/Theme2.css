@@ -1,16 +1,25 @@
-#mainPane {
-    -fx-background-image: url("/resources/images/menuBG.jpg");
+#mainPane{
+    -fx-background-image: url("/resources/images/themeBackGround2.png");
     -fx-background-size: 1200px 800px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
+/*#paneContainsSetNameScene {*/
+/*    !*-fx-background-image: url('/imageCss/pane.png');*!*/
+/*    -fx-background-size: 1200px;*/
+/*    -fx-background-repeat: no-repeat;*/
+/*    -fx-background-position: center;*/
+/*    -fx-border-color: black;*/
+/*    -fx-background-color: #195D21;*/
+/*}*/
 
 .button{
     /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+    -fx-background-color: #0276B6;
     /*-fx-background-color:*/
     /*        #3c7fb1,*/
     /*        linear-gradient(#fafdfe, #e8f5fc),*/
@@ -29,14 +38,18 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #0276B6;
+
 }
 
-#buttonNewGame{
+#buttonOffline{
     /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #0276B6;
+
 }
 
 #buttonSettings {
@@ -45,26 +58,18 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #0276B6;
+
 
 }
 
 #paneContainsBox {
-    /*-fx-background-image: url('/imageCss/pane.png');*/
-    -fx-background-size: 1200px;
+    -fx-background-size: 1095px 757px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
-    -fx-border-color: black;
 
 }
 
-#paneContainsSetName {
-    /*-fx-background-image: url('/imageCss/pane.png');*/
-    -fx-background-size: 1200px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-border-color: black;
-
-}
 
 #btOnline {
     /*-fx-background-image: url('/imageCss/button.png');*/
@@ -72,6 +77,8 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #0276B6;
+
 
 }
 
@@ -81,6 +88,8 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #0276B6;
+
 
 }
 
@@ -90,6 +99,8 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #0276B6;
+
 
 }
 
@@ -100,13 +111,18 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #0276B6;
+
 }
 
 #btnLeaderBoard{
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #0276B6;
+
 
 }
 
@@ -116,4 +132,6 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #0276B6;
+
 }
