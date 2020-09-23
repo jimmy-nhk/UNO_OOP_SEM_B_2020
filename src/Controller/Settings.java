@@ -53,7 +53,7 @@ public class Settings implements Serializable {
             }
         }
     }
-
+//  Default setting if settings scene is not triggered
     public void createStandardValues() {
         numberOfBots = 1;
         numberOfStartingCards = 7;

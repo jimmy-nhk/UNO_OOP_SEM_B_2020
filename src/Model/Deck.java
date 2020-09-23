@@ -33,7 +33,7 @@ public class Deck {
 
     public Deck() {
         cards = new Stack<>();
-
+//      to add all card to the deck
         for (Color currentColor : Color.values()) {
             if (currentColor != Color.BLACK && currentColor != Color.ALL) {
                 cards.add(new Card(Property.ZERO, currentColor, 0));
@@ -70,14 +70,14 @@ public class Deck {
     public void shuffle() {
         Collections.shuffle(cards);
     }
-
+//  in combination with method refill() to manage the empty deck
     public Card drawCard(PlayedCards playedCards) {
         if (cards.size() <= 0) {
             refill(playedCards);
         }
         return cards.pop();
     }
-
+//  every card on the table should be added in a array deadDeck
     public ArrayList<Card> drawCards(int numberOfCards, PlayedCards deadDeck) {
         ArrayList<Card> drawnCards = new ArrayList<>();
         for (int i = 0; i < numberOfCards; i++) {
@@ -97,4 +97,6 @@ public class Deck {
         return cards;
     }
 
+
 }
+

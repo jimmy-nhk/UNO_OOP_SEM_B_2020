@@ -46,6 +46,7 @@ public class Card {
         return value;
     }
 
+//  To compare 2 cards (playable or not)   
     public boolean equals(Card other) {
         return property.equals(other.getProperty()) && color.equals(other.getColor());
     }
