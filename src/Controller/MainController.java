@@ -24,34 +24,29 @@ https://www.geeksforgeeks.org/javafx-duration-class/ - JavaFX | Duration Class
 package Controller;
 
 import Model.*;
-import Model.Color;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
-import javafx.animation.TranslateTransition;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
-import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -69,13 +64,18 @@ import java.util.*;
 class LeaderboardRow {
     public String name;
     public String win;
-    public LeaderboardRow(String name, String win){
-        this.name = name; this.win = win;
+
+    public LeaderboardRow(String name, String win) {
+        this.name = name;
+        this.win = win;
     }
 }
 
 public class MainController {
 
+    public static final Sound backgroundMusic = new Sound("src/resources/sound/background.mp3");
+    // Timer
+    private static final Integer STARTTIME = 40;
     private final ResourceBundle bundle = ResourceBundle.getBundle("resources/", Locale.ENGLISH);
     private final double CARD_HEIGHT = 120;
     private final double CARD_WIDTH = 80;
@@ -84,7 +84,6 @@ public class MainController {
     private final double CARD_SPACING_SMALL = -30;
     private final double CARD_SPACING_ULTRA_SMALL = -40;
     private final Point2D AI_1_STARTING_POINT = new Point2D(250, 75.0);
-
     // These color take from the internet the code of the color
     private final javafx.scene.paint.Color COLOR_YELLOW = javafx.scene.paint.Color.web("#FFAA00");
     private final javafx.scene.paint.Color COLOR_RED = javafx.scene.paint.Color.web("#FF5555");
@@ -97,20 +96,24 @@ public class MainController {
     public Settings settings;
     public Stage stage;
     public Image icon = new Image("images/icon.png");
-    public static final Sound backgroundMusic = new Sound("src/resources/sound/background.mp3");
     public Color chosenWishColor;
     public Button btOnline;
     public Button buttonQuit;
     public Pane paneContainsBox;
+    public Pane paneContainsSetNameScene;
+    public Button buttonOffline;
+    public boolean playerMustDraw;
+    public TranslateTransition translateTransition;
+    ArrayList<String> namesList = new ArrayList<String>();
+    ArrayList<Integer> winList = new ArrayList<Integer>();
     @FXML
     private TableView<LeaderboardRow> leaderboardTable;
     @FXML
     private TableColumn<LeaderboardRow, String> colName;
     @FXML
     private TableColumn<LeaderboardRow, String> colWin;
-    public Pane paneContainsSetNameScene;
-    public Button buttonOffline;
-    @FXML private ImageView imageLogo;
+    @FXML
+    private ImageView imageLogo;
     @FXML
     private Label labelLeaderBoard;
     @FXML
@@ -118,8 +121,6 @@ public class MainController {
     @FXML
     private Button backButton1;
     private String playerName;
-    public boolean playerMustDraw;
-    public TranslateTransition translateTransition;
     @FXML
     private TextField textGetName;
     @FXML
@@ -128,7 +129,6 @@ public class MainController {
     private Button btSetName;
     @FXML
     private Button btnLeaderBoard;
-
     @FXML
     private ImageView iconLastCard;
     @FXML
@@ -173,15 +173,10 @@ public class MainController {
     private MenuItem menuItem3;
     @FXML
     private MenuItem menuItemBack;
-
-
-    // Timer
-    private static final Integer STARTTIME = 40;
     private Timeline timeline;
     private IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME);
     @FXML
     private Label timerLabel;
-
     @FXML
     private Button backButton;
     @FXML
@@ -190,9 +185,7 @@ public class MainController {
     private Point2D PLAYER_STARTING_POINT;
     private Point2D AI_2_STARTING_POINT;
     private Point2D AI_3_STARTING_POINT;
-    ArrayList<String> namesList = new ArrayList<String>();
-    ArrayList<Integer> winList = new ArrayList<Integer>();
-
+    private boolean ifTheme1 = true;
 
     /**
      * INITIALIZE GAME UI
@@ -274,6 +267,10 @@ public class MainController {
         buttonStart.setVisible(true);
     }
 
+    /**
+     * Intialize the button as well as theme in the main menu
+     */
+    // Set font for the game
     public void setFontForGame() {
         labelAI1Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         labelAI2Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
@@ -296,7 +293,6 @@ public class MainController {
 
         showMenu();
     }
-
 
     public void showSetNameScene() {
         textGetName.setVisible(true);
@@ -340,10 +336,6 @@ public class MainController {
                 oos1.writeObject(winList);
                 oos1.close();
                 fos1.close();
-//                for (int i =0; i < namesList.size();i++) {
-//                    if (playerName.equals(namesList.get(i)))
-//                    {break;}
-//                    if (i==namesList.size()-1){
 
 
             } catch (FileNotFoundException e) {
@@ -362,7 +354,6 @@ public class MainController {
         labelSetName.setVisible(false);
         btSetName.setVisible(false);
     }
-
 
     public void showMenu() {
         imageLogo.setVisible(true);
@@ -447,6 +438,7 @@ public class MainController {
         labelWishColor.setVisible(true);
     }
 
+    // Show image color
     public void showImageViewWishColor() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
@@ -533,7 +525,7 @@ public class MainController {
         timeSeconds.set(STARTTIME);
         timeline = new Timeline();
         timeline.getKeyFrames().add(
-                new KeyFrame(Duration.seconds(STARTTIME+1),
+                new KeyFrame(Duration.seconds(STARTTIME + 1),
                         new KeyValue(timeSeconds, 0)));
         timeline.playFromStart();
     }
@@ -542,6 +534,9 @@ public class MainController {
         iconLastCard.setImage(createCard(card, true).getImage());
     }
 
+    /**
+     * Animation for the cards and players as well as bots
+     */
     private Image createEmptyBackCard() {
         return new Image("images/card-back.png");
     }
@@ -561,6 +556,7 @@ public class MainController {
         imageView.setFitWidth(CARD_WIDTH);
         imageView.setSmooth(true);
 
+        // Set the dark color for unplayable cards and bright color for playable cards
         if (!valid) {
             SnapshotParameters parameters = new SnapshotParameters();
             parameters.setFill(javafx.scene.paint.Color.TRANSPARENT);
@@ -630,6 +626,7 @@ public class MainController {
         return imageView;
     }
 
+    // Move played cards to the played deck
     public void moveCardToDeadDeck(ImageView view, Card card, Color newWishColor) {
         Point2D deckPosition = iconLastCard.localToScene(Point2D.ZERO);
 
@@ -663,6 +660,7 @@ public class MainController {
         }
     }
 
+    // Move bot card to the played deck
     public void moveBotCardToPlayedCards(Bot bot, int currentPlayer, Card card, int cardPosition, Color newWishColor) {
         ObservableList<Node> nodes = mainPane.getChildren();
         ArrayList<Integer> possibleNodes = new ArrayList<>();
@@ -705,6 +703,7 @@ public class MainController {
         }
     }
 
+    // Distribute card to player
     public void moveCardFromDeckToPlayer(ArrayList<Card> cards) {
         if (gameBoard.isRunning()) {
             Point2D deckPosition = iconDeck.localToScene(Point2D.ZERO);
@@ -794,6 +793,7 @@ public class MainController {
         }
     }
 
+    // get the position of the bottom card ( bottom player )
     private double getPositionOfBottomCard(Bot bot) {
         double maxHeight = stage.getScene().getHeight() - ((AI_2_STARTING_POINT.getY() + 40.0) * 2) - CARD_WIDTH;
         int deckSize = bot.getDeckSize();
@@ -813,7 +813,7 @@ public class MainController {
         }
     }
 
-
+    // Distribute card to bots
     public void moveCardFromDeckToBot(Bot bot, ArrayList<Card> cards) {
         if (gameBoard.isRunning()) {
             Card card = gameBoard.getDeck().drawCard(gameBoard.getPlayedCards());
@@ -931,6 +931,7 @@ public class MainController {
         }
     }
 
+    // Set playable cards for player to choose
     public void setValidPlayerDeck(ArrayList<Card> deck, ArrayList<Card> validDeck) {
         clearPlayerDeck();
 
@@ -975,6 +976,7 @@ public class MainController {
         }
     }
 
+    // Clear the bot deck
     public void clearBotDeck(Bot bot) {
         ObservableList<Node> nodes = mainPane.getChildren();
         Iterator<Node> iterator = nodes.iterator();
@@ -1130,6 +1132,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Binding the language for the label
+     */
+
     private void setLabelBindingText() {
         LanguageController.setUpLabelText(labelDirection, "gameBoard.directionOfPlay");
     }
@@ -1151,7 +1157,7 @@ public class MainController {
 
     }
 
-
+    // Clear all the label and themes
     public void clearAll() {
         hideMenu();
         hideWishColor();
@@ -1167,7 +1173,7 @@ public class MainController {
         iconLastCard.setImage(null);
     }
 
-
+    // Display information
     public void about() {
         LanguageController.switchLanguage(SettingsController.locale);
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
@@ -1184,6 +1190,7 @@ public class MainController {
 
     }
 
+    // Event handler to change the leaderboard
     public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         hideMenu();
@@ -1205,7 +1212,7 @@ public class MainController {
         List<LeaderboardRow> ldbr = new ArrayList<>();
         for (int i = 0; i < namesList.size(); i++) {
 //            string += namesList.get(i) + "\t\t\t\t" + "gameBoard.win" + " " + winList.get(i).toString() + "\n";
-            ldbr.add(new LeaderboardRow(namesList.get(i),winList.get(i).toString()));
+            ldbr.add(new LeaderboardRow(namesList.get(i), winList.get(i).toString()));
 //            textLeaderBoard.setText(string);
         }
         leaderboardTable.getItems().setAll(ldbr);
@@ -1224,8 +1231,7 @@ public class MainController {
         System.exit(1);
     }
 
-    private boolean ifTheme1 = true;
-
+    // Change theme
     public void changeTheme(ActionEvent actionEvent) {
         if (ifTheme1) {
             this.stage.getScene().getStylesheets().remove("resources/css/MainGUI.css");
@@ -1240,7 +1246,6 @@ public class MainController {
             labelInfo.setTextFill(COLOR_BLACK);
             labelInfo.setTextFill(COLOR_BLACK);
             imageLogo.setImage(new Image("resources/images/icon3.png"));
-
 
 
         } else {
