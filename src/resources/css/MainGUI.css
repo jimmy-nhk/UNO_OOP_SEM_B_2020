@@ -132,3 +132,81 @@
     -fx-background-color: #f99c00;
 
 }
+
+#labelWishColor {
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-font-size: 15px;
+
+}
+
+
+#labelAI1Name {
+    -fx-font-size: 23px;
+    -fx-font-family: "Arial Black";
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: black;
+}
+
+#labelAI2Name {
+    -fx-font-size: 23px;
+    -fx-font-family: "Arial Black";
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: black;
+}
+
+#labelAI3Name {
+    -fx-font-size: 23px;
+    -fx-font-family: "Arial Black";
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: black;
+}
+
+#labelChallengeCounter {
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: black;
+}
+
+#labelCurrentPlayer {
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: black;
+}
+
+#labelDirection {
+    -fx-fill: #3da25b;
+    -fx-text-fill: black;
+}
+
+#labelInfo {
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: black;
+}
+
+#labelWishColor {
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-font-size: 15px;
+
+}
+
+#labelAI1Name {
+    -fx-font-family: "Arial Black";
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: black;
+}

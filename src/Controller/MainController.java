@@ -58,7 +58,8 @@ public class MainController {
     private final javafx.scene.paint.Color COLOR_RED = javafx.scene.paint.Color.web("#FF5555");
     private final javafx.scene.paint.Color COLOR_BLUE = javafx.scene.paint.Color.web("#5555FD");
     private final javafx.scene.paint.Color COLOR_GREEN = javafx.scene.paint.Color.web("#55AA55");
-
+    private final javafx.scene.paint.Color COLOR_WHITE = javafx.scene.paint.Color.web("#FFFFFF");
+    private final javafx.scene.paint.Color COLOR_BLACK = javafx.scene.paint.Color.web("#000000");
     public GameBoard gameBoard;
     public int drawCounter;
     public Settings settings;
@@ -72,6 +73,7 @@ public class MainController {
     public TextArea textLeaderBoard;
     public Pane paneContainsSetNameScene;
     public Button buttonOffline;
+    @FXML private ImageView imageLogo;
     @FXML
     private Label labelLeaderBoard;
     @FXML
@@ -150,6 +152,8 @@ public class MainController {
     public void init() {
 
         imageViewWishColor.setImage(new Image("/images/circle-all.png"));
+
+        imageLogo.setImage(new Image("resources/images/icon.png"));
 
         PLAYER_STARTING_POINT = new Point2D(250.0, stage.getScene().getHeight() - 50.0 - CARD_HEIGHT);
         AI_2_STARTING_POINT = new Point2D(stage.getScene().getWidth() - CARD_HEIGHT - 30, 70.0);
@@ -307,6 +311,7 @@ public class MainController {
 
 
     public void showMenu() {
+        imageLogo.setVisible(true);
         btOnline.setVisible(true);
         buttonQuit.setVisible(true);
         btnLeaderBoard.setVisible(true);
@@ -318,6 +323,7 @@ public class MainController {
 
     public void hideMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
+        imageLogo.setVisible(false);
         btnLeaderBoard.setVisible(false);
         buttonSettings.setVisible(false);
         btOnline.setVisible(false);
@@ -1162,10 +1168,32 @@ public class MainController {
             this.stage.getScene().getStylesheets().remove("resources/css/MainGUI.css");
             this.stage.getScene().getStylesheets().add("resources/css/Theme2.css");
             ifTheme1 = false;
+            labelAI1Name.setTextFill(COLOR_BLACK);
+            labelAI2Name.setTextFill(COLOR_BLACK);
+            labelAI3Name.setTextFill(COLOR_BLACK);
+            labelChallengeCounter.setTextFill(COLOR_BLACK);
+            labelCurrentPlayer.setTextFill(COLOR_BLACK);
+            labelDirection.setTextFill(COLOR_BLACK);
+            labelInfo.setTextFill(COLOR_BLACK);
+            labelInfo.setTextFill(COLOR_BLACK);
+            imageLogo.setImage(new Image("resources/images/icon3.png"));
+
+
+
         } else {
             this.stage.getScene().getStylesheets().remove("resources/css/Theme2.css");
             this.stage.getScene().getStylesheets().add("resources/css/MainGUI.css");
             ifTheme1 = true;
+            labelAI1Name.setTextFill(COLOR_WHITE);
+            labelAI2Name.setTextFill(COLOR_WHITE);
+            labelAI3Name.setTextFill(COLOR_WHITE);
+            labelChallengeCounter.setTextFill(COLOR_WHITE);
+            labelCurrentPlayer.setTextFill(COLOR_WHITE);
+            labelDirection.setTextFill(COLOR_WHITE);
+            labelInfo.setTextFill(COLOR_WHITE);
+            labelInfo.setTextFill(COLOR_WHITE);
+            imageLogo.setImage(new Image("resources/images/icon.png"));
+
         }
     }
 }

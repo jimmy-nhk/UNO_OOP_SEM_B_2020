@@ -3,10 +3,12 @@
   Course: INTE2512 Object-Oriented Programming
   Semester: 2020B
   Assessment: Final Project
-  Created date: dd/mm/yyyy (e.g. 31/03/2019)
-  By: Your name (Your studen id)
-  Last modified: dd/mm/yyyy (e.g. 05/04/2019)
-  By: Your name (Your studen id)
+ Team members:
+        1. Nguyen Dang Huynh Chau - s3777214
+        2. Nguyen Hoang Khang - s3802040
+        3. Nguyen Dinh Dang Nguyen - s3759957
+        4. Bui Thanh Huy - s3740934
+        5. Nguyen Phuoc Nhu Phuc - s3819660
   Acknowledgement: If you use any resources, acknowledge here. Failure to do so will be considered as plagiarism.
 */
 package Model;

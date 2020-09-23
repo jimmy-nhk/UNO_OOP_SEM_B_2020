@@ -30,7 +30,7 @@
          <Font name="System Bold" size="16.0" />
       </font>
    </Label>
-   <ImageView fx:id="imageViewWishColor" fitHeight="50.0" fitWidth="50.0" layoutX="585.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true" />
+   <ImageView fx:id="imageViewWishColor" fitHeight="50.0" fitWidth="50.0" layoutX="590.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true" />
    <HBox fx:id="hboxInfo" alignment="CENTER" layoutX="340.0" layoutY="761.0" prefHeight="45.0" prefWidth="542.0">
       <Label fx:id="labelInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="433.0" text="DisplayInfo" textAlignment="CENTER">
          <font>
@@ -83,7 +83,7 @@
          <MenuItem fx:id="menuItem3" mnemonicParsing="false" onAction="#about" text="Information" />
       </Menu>
    </MenuBar>
-   <Pane fx:id="paneContainsBox" layoutX="530.0" layoutY="250.0">
+   <Pane fx:id="paneContainsBox" layoutX="780.0" layoutY="250.0">
       <children>
          <VBox spacing="25.0">
             <children>
@@ -92,7 +92,7 @@
                      <Font name="System Bold" size="14.0" />
                   </font>
                </Button>
-               <Button fx:id="btOnline" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Theme" onAction="#changeTheme" />
+               <Button fx:id="btOnline" mnemonicParsing="false" onAction="#changeTheme" prefHeight="50.0" prefWidth="150.0" text="Theme" />
                <Button fx:id="btnLeaderBoard" mnemonicParsing="false" onAction="#changeToLeaderBoard" prefHeight="50.0" prefWidth="150.0" text="Leaderboard">
                   <font>
                      <Font name="System Bold" size="14.0" />
@@ -126,5 +126,6 @@
       </font>
    </Label>
    <Button fx:id="btSetName" layoutX="552.0" layoutY="549.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="SET NAME" />
+   <ImageView fx:id="imageLogo" fitHeight="380.0" fitWidth="550.0" layoutX="200.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
 
 </AnchorPane>
