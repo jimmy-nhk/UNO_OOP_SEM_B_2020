@@ -7,6 +7,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -43,24 +44,6 @@ import javafx.util.Duration;
 import java.io.*;
 import java.util.*;
 
-class LeaderboardRow {
-    private String nameColumn;
-    private String winColumn;
-    public LeaderboardRow(String nameColumn, String winColumn){
-        this.nameColumn = nameColumn; this.winColumn = winColumn;
-    }
-
-    public LeaderboardRow() {
-    }
-
-    public String getNameColumn() {
-        return nameColumn;
-    }
-
-    public String getWinColumn() {
-        return nameColumn;
-    }
-}
 
 public class MainController {
 
@@ -1193,7 +1176,7 @@ public class MainController {
             ldbr.add(new LeaderboardRow(namesList.get(i), winList.get(i).toString()));
 //            textLeaderBoard.setText(string);
         }
-        for ( LeaderboardRow ldb: ldbr ) {
+        for (LeaderboardRow ldb: ldbr ) {
             System.out.println(ldb.getNameColumn() + "\t\t\t\t" + "gameBoard.win" + " " + ldb.getWinColumn());
         }
         leaderboardTable.getItems().setAll(ldbr);
