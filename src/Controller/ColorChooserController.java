@@ -44,6 +44,7 @@ public class ColorChooserController {
     @FXML
     private Rectangle rectGreen;
 
+    // create a pane choose color
     public void init(Stage stage, MainController mainController) {
         LanguageController.switchLanguage(SettingsController.locale);
         setBindingTextChoseColor();

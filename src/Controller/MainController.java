@@ -1,30 +1,12 @@
-/*
-  RMIT University Vietnam
-  Course: INTE2512 Object-Oriented Programming
-  Semester: 2020B
-  Assessment: Final Project
- Team members:
-        1. Nguyen Dang Huynh Chau - s3777214
-        2. Nguyen Hoang Khang - s3802040
-        3. Nguyen Dinh Dang Nguyen - s3759957
-        4. Bui Thanh Huy - s3740934
-        5. Nguyen Phuoc Nhu Phuc - s3819660
-  Acknowledgement:
-https://www.geeksforgeeks.org/stack-class-in-java/ - Stack Class in Java
-https://www.javatpoint.com/enum-in-java#:~:text=Java%20Enums%20can%20be%20thought,own%20data%20type%20like%20classes. - Java Enums
-https://www.geeksforgeeks.org/collections-shuffle-java-examples/ - Collections.shuffle() in Java with Examples
-https://www.javatpoint.com/java-map - Java Map Interface
-https://www.geeksforgeeks.org/serialization-in-java/ - Serialization and Deserialization in Java with Example
-https://www.baeldung.com/a-guide-to-java-sockets - A Guide to Java Sockets
-https://www.educba.com/javafx-alert/ - Introduction to JavaFX Alert
-https://www.tutorialspoint.com/java/util/java_util_locale.htm - Java.util.Locale Class
-https://stackoverflow.com/questions/22490064/how-to-use-javafx-mediaplayer-correctly - How to use JavaFX MediaPlayer correctly?
-https://www.geeksforgeeks.org/javafx-duration-class/ - JavaFX | Duration Class
-*/
 package Controller;
 
 import Model.*;
 import Model.Color;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -34,6 +16,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -58,11 +41,15 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
+class LeaderboardRow {
+    public String name;
+    public String win;
+    public LeaderboardRow(String name, String win){
+        this.name = name; this.win = win;
+    }
+}
 
 public class MainController {
 
@@ -92,7 +79,12 @@ public class MainController {
     public Button btOnline;
     public Button buttonQuit;
     public Pane paneContainsBox;
-    public TextArea textLeaderBoard;
+    @FXML
+    private TableView<LeaderboardRow> leaderboardTable;
+    @FXML
+    private TableColumn<LeaderboardRow, String> colName;
+    @FXML
+    private TableColumn<LeaderboardRow, String> colWin;
     public Pane paneContainsSetNameScene;
     public Button buttonOffline;
     @FXML private ImageView imageLogo;
@@ -159,6 +151,14 @@ public class MainController {
     @FXML
     private MenuItem menuItemBack;
 
+
+    // Timer
+    private static final Integer STARTTIME = 40;
+    private Timeline timeline;
+    private IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME);
+    @FXML
+    private Label timerLabel;
+
     @FXML
     private Button backButton;
     @FXML
@@ -171,7 +171,15 @@ public class MainController {
     ArrayList<Integer> winList = new ArrayList<Integer>();
 
 
+    /**
+     * INITIALIZE GAME UI
+     */
     public void init() {
+        colName.setCellValueFactory(new PropertyValueFactory<LeaderboardRow, String>("name"));
+        colWin.setCellValueFactory(new PropertyValueFactory<LeaderboardRow, String>("win"));
+        // set timer
+        timerLabel.textProperty().bind(timeSeconds.asString());
+        timerLabel.setVisible(false);
 
         imageViewWishColor.setImage(new Image("/images/circle-all.png"));
 
@@ -238,6 +246,7 @@ public class MainController {
         buttonStart.setOnAction(event -> {
             buttonStart.setVisible(false);
             gameBoard.start();
+            timerLabel.setVisible(true);
         });
         buttonStart.setVisible(true);
     }
@@ -286,12 +295,12 @@ public class MainController {
             FileOutputStream fos = null;
             try {
 
-                FileInputStream fis = new FileInputStream("listName");
+                FileInputStream fis = new FileInputStream("saveName");
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 namesList = (ArrayList) ois.readObject();
                 ois.close();
                 fis.close();
-                FileInputStream fis1 = new FileInputStream("listWin");
+                FileInputStream fis1 = new FileInputStream("saveWin");
                 ObjectInputStream ois1 = new ObjectInputStream(fis1);
                 winList = (ArrayList) ois1.readObject();
                 ois.close();
@@ -338,6 +347,7 @@ public class MainController {
         buttonQuit.setVisible(true);
         btnLeaderBoard.setVisible(true);
         buttonSettings.setVisible(true);
+        timerLabel.setVisible(false);
         menuBar.setVisible(true);
         paneContainsBox.setVisible(true);
 
@@ -386,8 +396,6 @@ public class MainController {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
         hideImageViewWishColor();
-
-
 
         switch (color) {
             case YELLOW:
@@ -496,6 +504,15 @@ public class MainController {
 
     public void setLabelCurrentPlayer(String text) {
         labelCurrentPlayer.setText(text);
+        if (timeline != null) {
+            timeline.stop();
+        }
+        timeSeconds.set(STARTTIME);
+        timeline = new Timeline();
+        timeline.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(STARTTIME+1),
+                        new KeyValue(timeSeconds, 0)));
+        timeline.playFromStart();
     }
 
     public void setPreviousCard(Card card) {
@@ -1161,11 +1178,14 @@ public class MainController {
         winList = (ArrayList) ois1.readObject();
         ois.close();
         fis.close();
-        String string = "";
+//        String string = "";
+        List<LeaderboardRow> ldbr = new ArrayList<>();
         for (int i = 0; i < namesList.size(); i++) {
-            string += namesList.get(i) + "\t\t\t\t" + "gameBoard.win" + " " + winList.get(i).toString() + "\n";
-            textLeaderBoard.setText(string);
+//            string += namesList.get(i) + "\t\t\t\t" + "gameBoard.win" + " " + winList.get(i).toString() + "\n";
+            ldbr.add(new LeaderboardRow(namesList.get(i),winList.get(i).toString()));
+//            textLeaderBoard.setText(string);
         }
+        leaderboardTable.getItems().setAll(ldbr);
     }
 
     // Action event handler
