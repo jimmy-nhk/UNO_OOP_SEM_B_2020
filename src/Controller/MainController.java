@@ -44,10 +44,21 @@ import java.io.*;
 import java.util.*;
 
 class LeaderboardRow {
-    public String name;
-    public String win;
-    public LeaderboardRow(String name, String win){
-        this.name = name; this.win = win;
+    private String nameColumn;
+    private String winColumn;
+    public LeaderboardRow(String nameColumn, String winColumn){
+        this.nameColumn = nameColumn; this.winColumn = winColumn;
+    }
+
+    public LeaderboardRow() {
+    }
+
+    public String getNameColumn() {
+        return nameColumn;
+    }
+
+    public String getWinColumn() {
+        return nameColumn;
     }
 }
 
@@ -170,13 +181,13 @@ public class MainController {
     ArrayList<String> namesList = new ArrayList<String>();
     ArrayList<Integer> winList = new ArrayList<Integer>();
 
-
     /**
      * INITIALIZE GAME UI
      */
+
     public void init() {
-        colName.setCellValueFactory(new PropertyValueFactory<LeaderboardRow, String>("name"));
-        colWin.setCellValueFactory(new PropertyValueFactory<LeaderboardRow, String>("win"));
+        colName.setCellValueFactory(new PropertyValueFactory<LeaderboardRow, String>("nameColumn"));
+        colWin.setCellValueFactory(new PropertyValueFactory<LeaderboardRow, String>("winColumn"));
         // set timer
         timerLabel.textProperty().bind(timeSeconds.asString());
         timerLabel.setVisible(false);
@@ -1128,7 +1139,6 @@ public class MainController {
 
     }
 
-
     public void clearAll() {
         hideMenu();
         hideWishColor();
@@ -1143,7 +1153,6 @@ public class MainController {
         iconDeck.setImage(null);
         iconLastCard.setImage(null);
     }
-
 
     public void about() {
         LanguageController.switchLanguage(SettingsController.locale);
@@ -1181,9 +1190,11 @@ public class MainController {
 //        String string = "";
         List<LeaderboardRow> ldbr = new ArrayList<>();
         for (int i = 0; i < namesList.size(); i++) {
-//            string += namesList.get(i) + "\t\t\t\t" + "gameBoard.win" + " " + winList.get(i).toString() + "\n";
-            ldbr.add(new LeaderboardRow(namesList.get(i),winList.get(i).toString()));
+            ldbr.add(new LeaderboardRow(namesList.get(i), winList.get(i).toString()));
 //            textLeaderBoard.setText(string);
+        }
+        for ( LeaderboardRow ldb: ldbr ) {
+            System.out.println(ldb.getNameColumn() + "\t\t\t\t" + "gameBoard.win" + " " + ldb.getWinColumn());
         }
         leaderboardTable.getItems().setAll(ldbr);
     }
