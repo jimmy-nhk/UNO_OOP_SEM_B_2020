@@ -189,6 +189,7 @@ public class MainController {
      * INITIALIZE GAME UI
      */
 
+    // create the game
     public void init() {
         colName.setCellValueFactory(new PropertyValueFactory<>("nameColumn"));
         colWin.setCellValueFactory(new PropertyValueFactory<>("winColumn"));
@@ -266,6 +267,7 @@ public class MainController {
         buttonStart.setVisible(true);
     }
 
+    // set font for the game
     public void setFontForGame() {
         labelAI1Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         labelAI2Name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
@@ -290,6 +292,7 @@ public class MainController {
     }
 
 
+    // show set name scene
     public void showSetNameScene() {
         textGetName.setVisible(true);
         labelSetName.setVisible(true);
@@ -302,6 +305,7 @@ public class MainController {
         labelSetName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 
 
+        // Set button for saving the name
         btSetName.setOnAction(actionEvent -> {
             showMenu();
             playerName = textGetName.getText();
@@ -332,10 +336,6 @@ public class MainController {
                 oos1.writeObject(winList);
                 oos1.close();
                 fos1.close();
-//                for (int i =0; i < namesList.size();i++) {
-//                    if (playerName.equals(namesList.get(i)))
-//                    {break;}
-//                    if (i==namesList.size()-1){
 
 
             } catch (FileNotFoundException e) {
@@ -349,13 +349,14 @@ public class MainController {
         });
     }
 
+    // hide the set name scene
     public void hideSetNameScene() {
         textGetName.setVisible(false);
         labelSetName.setVisible(false);
         btSetName.setVisible(false);
     }
 
-
+    // show menu
     public void showMenu() {
         imageLogo.setVisible(true);
         btOnline.setVisible(true);
@@ -368,6 +369,7 @@ public class MainController {
 
     }
 
+    // hide menu
     public void hideMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         imageLogo.setVisible(false);
@@ -378,14 +380,17 @@ public class MainController {
         paneContainsBox.setVisible(false);
     }
 
+    // get player name
     public String getPlayerName() {
         return playerName;
     }
 
+    // set player name
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
+    // set label name for player and bots
     public void setLabelNames(Player player, ArrayList<Bot> bots) {
         labelAI2Name.setVisible(false);
         labelAI3Name.setVisible(false);
@@ -406,6 +411,9 @@ public class MainController {
         }
     }
 
+    /** Show the content of the gui and hide when is needed */
+
+    // show Circle wish color
     public void showCircleWishColor(Color color) {
         LanguageController.switchLanguage(SettingsController.locale);
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
@@ -447,6 +455,7 @@ public class MainController {
         imageViewWishColor.setVisible(true);
     }
 
+    // hide the circle when do not need
     public void hideCircleWishColor() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
@@ -454,6 +463,7 @@ public class MainController {
         circleWishColor.setVisible(false);
     }
 
+    // hide the image when do not need
     public void hideImageViewWishColor() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
@@ -474,6 +484,7 @@ public class MainController {
         hboxInfo.setVisible(false);
     }
 
+    // when needed to draw, show INFO
     public void showInfo(String text, int numberOfCards) {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
@@ -490,6 +501,7 @@ public class MainController {
         labelChallengeCounter.setVisible(false);
     }
 
+    // Display the message for drawing how many cards
     public void showLabelChallengeCounter(String text) {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
@@ -497,6 +509,7 @@ public class MainController {
         labelChallengeCounter.setVisible(true);
     }
 
+    // hide image view
     public void hideImageViewDirection() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
@@ -504,6 +517,7 @@ public class MainController {
         labelDirection.setVisible(false);
     }
 
+    // set image view direction for the game
     public void setImageViewDirection(Direction direction) {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
@@ -517,6 +531,7 @@ public class MainController {
         }
     }
 
+    // label for current player on the game board
     public void setLabelCurrentPlayer(String text) {
         labelCurrentPlayer.setText(text);
         if (timeline != null) {
@@ -530,6 +545,9 @@ public class MainController {
         timeline.playFromStart();
     }
 
+    /** Animation for the game board */
+
+    // set previous card
     public void setPreviousCard(Card card) {
         iconLastCard.setImage(createCard(card, true).getImage());
     }
@@ -538,6 +556,7 @@ public class MainController {
         return new Image("images/card-back.png");
     }
 
+    // set image back card
     private ImageView createBackCard() {
         ImageView imageView = new ImageView(new Image("images/card-back.png"));
         imageView.setFitHeight(CARD_HEIGHT);
@@ -553,6 +572,7 @@ public class MainController {
         imageView.setFitWidth(CARD_WIDTH);
         imageView.setSmooth(true);
 
+        /** Set the color for the dark color card when unplayable and bright color card when playable*/
         if (!valid) {
             SnapshotParameters parameters = new SnapshotParameters();
             parameters.setFill(javafx.scene.paint.Color.TRANSPARENT);
@@ -578,6 +598,7 @@ public class MainController {
         }
         MainController main = this;
 
+        // When the image is clicked, go to the played deck
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<>() {
             Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
 
@@ -587,6 +608,7 @@ public class MainController {
                     if (valid) {
                         if (card.getProperty().equals(Property.WILD) || card.getProperty().equals(Property.DRAW_FOUR)) {
                             try {
+                                // Open the scene for choosing color
                                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ColorChooser.fxml"));
 
                                 Parent root = fxmlLoader.load();
@@ -599,7 +621,7 @@ public class MainController {
 
 
                                 ColorChooserController newController = fxmlLoader.getController();
-                                newController.init(newStage, main);
+                                newController.init(newStage, main); // intialize the scene
 
 
                                 newStage.initModality(Modality.APPLICATION_MODAL);
@@ -613,6 +635,7 @@ public class MainController {
                             chosenWishColor = null;
                         }
 
+                        // Move card to the played deck
                         moveCardToDeadDeck(imageView, card, chosenWishColor);
                     }
                 }
@@ -622,9 +645,11 @@ public class MainController {
         return imageView;
     }
 
+    // Move card to the played deck
     public void moveCardToDeadDeck(ImageView view, Card card, Color newWishColor) {
         Point2D deckPosition = iconLastCard.localToScene(Point2D.ZERO);
 
+        // Create the animation for the translating
         translateTransition = new TranslateTransition();
         translateTransition.setDuration(Duration.millis(500));
         translateTransition.setNode(view);
@@ -634,6 +659,7 @@ public class MainController {
         translateTransition.setFromY(0);
         translateTransition.setToX(-(view.getX() - deckPosition.getX()));
         translateTransition.setToY(-(view.getY() - deckPosition.getY()));
+
         translateTransition.setOnFinished(event -> {
             Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
 
@@ -645,6 +671,7 @@ public class MainController {
                 }
                 Card playedCard = gameBoard.getPlayer().playCard(card);
 
+                // Set again the player deck
                 setPlayerDeck(gameBoard.getPlayer().getDeck());
                 gameBoard.playCard(playedCard, newWishColor);
             }
@@ -655,6 +682,7 @@ public class MainController {
         }
     }
 
+    // Move card from bot to the played cards
     public void moveBotCardToPlayedCards(Bot bot, int currentPlayer, Card card, int cardPosition, Color newWishColor) {
         ObservableList<Node> nodes = mainPane.getChildren();
         ArrayList<Integer> possibleNodes = new ArrayList<>();
@@ -670,6 +698,7 @@ public class MainController {
 
         Point2D deckPosition = iconLastCard.localToScene(Point2D.ZERO);
 
+        // set the animation
         translateTransition = new TranslateTransition();
         translateTransition.setDuration(Duration.millis(500));
         translateTransition.setNode(view);
@@ -697,6 +726,7 @@ public class MainController {
         }
     }
 
+    // distribute card to player
     public void moveCardFromDeckToPlayer(ArrayList<Card> cards) {
         if (gameBoard.isRunning()) {
             Point2D deckPosition = iconDeck.localToScene(Point2D.ZERO);
@@ -705,7 +735,9 @@ public class MainController {
             view.setId("drawAnimation");
             view.setX(deckPosition.getX());
             view.setY(deckPosition.getY());
+            // add the cards here
             mainPane.getChildren().add(view);
+
 
             translateTransition = new TranslateTransition();
             translateTransition.setDuration(Duration.millis(500));
@@ -748,6 +780,7 @@ public class MainController {
 
     // Get the position of Right Player
     private double getPositionOfRightCard(Bot bot) {
+
         if (bot == null) {
             double maxWidth = stage.getScene().getWidth() - (PLAYER_STARTING_POINT.getX() * 2) - CARD_WIDTH;
             int deckSize = gameBoard.getPlayer().getDeckSize();
@@ -786,6 +819,7 @@ public class MainController {
         }
     }
 
+    // get the position of the bottom card
     private double getPositionOfBottomCard(Bot bot) {
         double maxHeight = stage.getScene().getHeight() - ((AI_2_STARTING_POINT.getY() + 40.0) * 2) - CARD_WIDTH;
         int deckSize = bot.getDeckSize();
