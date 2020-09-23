@@ -1037,7 +1037,7 @@ public class MainController {
 
     public void openSettings() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/Settings.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/SettingsGUI.fxml"));
 
             Parent root = fxmlLoader.load();
             Stage newStage = new Stage();
