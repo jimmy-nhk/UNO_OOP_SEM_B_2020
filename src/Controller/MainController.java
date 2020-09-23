@@ -2,6 +2,11 @@ package Controller;
 
 import Model.*;
 import Model.Color;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -39,7 +44,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 
 public class MainController {
 
@@ -136,6 +140,14 @@ public class MainController {
     @FXML
     private MenuItem menuItemBack;
 
+
+    // Timer
+    private static final Integer STARTTIME = 40;
+    private Timeline timeline;
+    private IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME);
+    @FXML
+    private Label timerLabel;
+
     @FXML
     private Button backButton;
     @FXML
@@ -148,7 +160,14 @@ public class MainController {
     ArrayList<Integer> winList = new ArrayList<Integer>();
 
 
+    /**
+     * INITIALIZE GAME UI
+     */
     public void init() {
+
+        // set timer
+        timerLabel.textProperty().bind(timeSeconds.asString());
+        timerLabel.setVisible(false);
 
         imageViewWishColor.setImage(new Image("/images/circle-all.png"));
 
@@ -215,6 +234,7 @@ public class MainController {
         buttonStart.setOnAction(event -> {
             buttonStart.setVisible(false);
             gameBoard.start();
+            timerLabel.setVisible(true);
         });
         buttonStart.setVisible(true);
     }
@@ -315,6 +335,7 @@ public class MainController {
         buttonQuit.setVisible(true);
         btnLeaderBoard.setVisible(true);
         buttonSettings.setVisible(true);
+        timerLabel.setVisible(false);
         menuBar.setVisible(true);
         paneContainsBox.setVisible(true);
 
@@ -363,8 +384,6 @@ public class MainController {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
         hideImageViewWishColor();
-
-
 
         switch (color) {
             case YELLOW:
@@ -473,6 +492,15 @@ public class MainController {
 
     public void setLabelCurrentPlayer(String text) {
         labelCurrentPlayer.setText(text);
+        if (timeline != null) {
+            timeline.stop();
+        }
+        timeSeconds.set(STARTTIME);
+        timeline = new Timeline();
+        timeline.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(STARTTIME+1),
+                        new KeyValue(timeSeconds, 0)));
+        timeline.playFromStart();
     }
 
     public void setPreviousCard(Card card) {

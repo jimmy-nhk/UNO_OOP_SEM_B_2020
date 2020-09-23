@@ -24,13 +24,13 @@
          <Font name="System Bold" size="19.0" />
       </font>
    </Label>
-   <Circle fx:id="circleWishColor" fill="DODGERBLUE" layoutX="595.0" layoutY="410.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-   <Label fx:id="labelWishColor" layoutX="565.0" layoutY="360.0" text="Chosen color">
+   <Circle fx:id="circleWishColor" fill="DODGERBLUE" layoutX="704.0" layoutY="297.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+   <Label fx:id="labelWishColor" layoutX="652.0" layoutY="248.0" text="Chosen color">
       <font>
-         <Font name="System Bold" size="16.0" />
+         <Font name="System Bold" size="12.0" />
       </font>
    </Label>
-   <ImageView fx:id="imageViewWishColor" fitHeight="50.0" fitWidth="50.0" layoutX="590.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true" />
+   <ImageView fx:id="imageViewWishColor" fitHeight="50.0" fitWidth="50.0" layoutX="684.0" layoutY="266.0" pickOnBounds="true" preserveRatio="true" />
    <HBox fx:id="hboxInfo" alignment="CENTER" layoutX="340.0" layoutY="761.0" prefHeight="45.0" prefWidth="542.0">
       <Label fx:id="labelInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="433.0" text="DisplayInfo" textAlignment="CENTER">
          <font>
@@ -51,8 +51,8 @@
          <Font name="System Bold" size="24.0" />
       </font>
    </Label>
-   <ImageView fx:id="imageViewDirection" fitHeight="40.0" fitWidth="40.0" layoutX="580.0" layoutY="277.0" pickOnBounds="true" preserveRatio="true" />
-   <Label fx:id="labelDirection" layoutX="565.0" layoutY="255.0" text="Direction of play:">
+   <ImageView fx:id="imageViewDirection" fitHeight="40.0" fitWidth="40.0" layoutX="532.0" layoutY="280.0" pickOnBounds="true" preserveRatio="true" />
+   <Label fx:id="labelDirection" layoutX="504.0" layoutY="255.0" text="Direction of play:">
       <font>
          <Font name="System Bold" size="12.0" />
       </font>
@@ -127,5 +127,10 @@
    </Label>
    <Button fx:id="btSetName" layoutX="552.0" layoutY="549.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" text="SET NAME" />
    <ImageView fx:id="imageLogo" fitHeight="380.0" fitWidth="550.0" layoutX="200.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" />
+   <Label fx:id="timerLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="457.0" layoutY="372.0" prefHeight="27.0" prefWidth="306.0" text="timerLabel" textAlignment="CENTER" textFill="#fd5959">
+      <font>
+         <Font name="System Bold" size="36.0" />
+      </font>
+   </Label>
 
 </AnchorPane>
