@@ -14,7 +14,6 @@
 
 package Controller;
 
-import Model.Sound;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
