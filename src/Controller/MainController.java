@@ -16,6 +16,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -40,10 +41,15 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
+
+class LeaderboardRow {
+    public String name;
+    public String win;
+    public LeaderboardRow(String name, String win){
+        this.name = name; this.win = win;
+    }
+}
 
 public class MainController {
 
@@ -73,7 +79,12 @@ public class MainController {
     public Button btOnline;
     public Button buttonQuit;
     public Pane paneContainsBox;
-    public TextArea textLeaderBoard;
+    @FXML
+    private TableView<LeaderboardRow> leaderboardTable;
+    @FXML
+    private TableColumn<LeaderboardRow, String> colName;
+    @FXML
+    private TableColumn<LeaderboardRow, String> colWin;
     public Pane paneContainsSetNameScene;
     public Button buttonOffline;
     @FXML private ImageView imageLogo;
@@ -164,7 +175,8 @@ public class MainController {
      * INITIALIZE GAME UI
      */
     public void init() {
-
+        colName.setCellValueFactory(new PropertyValueFactory<LeaderboardRow, String>("name"));
+        colWin.setCellValueFactory(new PropertyValueFactory<LeaderboardRow, String>("win"));
         // set timer
         timerLabel.textProperty().bind(timeSeconds.asString());
         timerLabel.setVisible(false);
@@ -283,12 +295,12 @@ public class MainController {
             FileOutputStream fos = null;
             try {
 
-                FileInputStream fis = new FileInputStream("listName");
+                FileInputStream fis = new FileInputStream("saveName");
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 namesList = (ArrayList) ois.readObject();
                 ois.close();
                 fis.close();
-                FileInputStream fis1 = new FileInputStream("listWin");
+                FileInputStream fis1 = new FileInputStream("saveWin");
                 ObjectInputStream ois1 = new ObjectInputStream(fis1);
                 winList = (ArrayList) ois1.readObject();
                 ois.close();
@@ -1166,11 +1178,14 @@ public class MainController {
         winList = (ArrayList) ois1.readObject();
         ois.close();
         fis.close();
-        String string = "";
+//        String string = "";
+        List<LeaderboardRow> ldbr = new ArrayList<>();
         for (int i = 0; i < namesList.size(); i++) {
-            string += namesList.get(i) + "\t\t\t\t" + "gameBoard.win" + " " + winList.get(i).toString() + "\n";
-            textLeaderBoard.setText(string);
+//            string += namesList.get(i) + "\t\t\t\t" + "gameBoard.win" + " " + winList.get(i).toString() + "\n";
+            ldbr.add(new LeaderboardRow(namesList.get(i),winList.get(i).toString()));
+//            textLeaderBoard.setText(string);
         }
+        leaderboardTable.getItems().setAll(ldbr);
     }
 
     // Action event handler
