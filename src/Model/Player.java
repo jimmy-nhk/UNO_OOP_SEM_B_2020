@@ -1,6 +1,8 @@
 package Model;
 
 import Controller.GameBoard;
+import Controller.LanguageController;
+import Controller.SettingsController;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -152,13 +154,14 @@ public class Player {
     }
 
     public void turn(Card lastCard, Color wishColor, boolean challenge) {
+        LanguageController.switchLanguage(SettingsController.locale);
         System.out.println("All cards on hand: \n" + deck);
         ArrayList<Card> validDeck = getPossiblePlayableCards(lastCard, wishColor, challenge);
         System.out.println("validCards: \n" + validDeck);
         if (validDeck.size() == 0) {
             if (challenge) {
                 gameBoard.setShowingInfo(true);
-                gameBoard.getController().showInfo("You can not play card. Draw " + gameBoard.getDrawnCardsCount() + " cards.", gameBoard.getDrawnCardsCount());
+                gameBoard.getController().showInfo(LanguageController.get("gameBoard.showInfo") + " " + gameBoard.getDrawnCardsCount() + " " + LanguageController.get("gameBoard.card"), gameBoard.getDrawnCardsCount());
             } else {
                 System.out.println("No valid cards --> please draw");
             }

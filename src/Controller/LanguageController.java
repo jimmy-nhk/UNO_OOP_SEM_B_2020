@@ -6,6 +6,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 
 import java.text.MessageFormat;
@@ -80,6 +81,10 @@ public class LanguageController {
 
     public static void setUpRadioButtonText(RadioButton button,final String key, final Object... args) {
         button.textProperty().bind(createStringBinding(key));
+    }
+
+    public static void setUpMenuItemText(MenuItem menuItem, final String key, final Object... args) {
+        menuItem.textProperty().bind(createStringBinding(key));
     }
 
     // Get the Locale object of a language

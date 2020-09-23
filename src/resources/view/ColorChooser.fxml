@@ -11,7 +11,7 @@
    <stylesheets>
       <URL value = "@/resources/css/ColorChooser.css"></URL>
    </stylesheets>
-   <Label layoutX="39.0" layoutY="29.0" text="Please choose a color">
+   <Label fx:id="chooseColor" layoutX="39.0" layoutY="29.0" text="Please choose a color">
       <font>
          <Font name="System Bold" size="18.0"/>
       </font>

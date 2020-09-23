@@ -191,9 +191,10 @@ public class GameBoard {
 
     // Check skip card
     public void checkSkipCard () {
+        LanguageController.switchLanguage(SettingsController.locale);
         if (skipped || !previousCard.getProperty().equals(Property.SKIP)) {
             if (positionOfCurrentPlayer == 1) {
-                mainController.setLabelCurrentPlayer(player.getName() + "'s turn");
+                mainController.setLabelCurrentPlayer(player.getName() + " " + LanguageController.get("gameBoard.turn"));
 
                 ArrayList<Card> validDeck = player.getPossiblePlayableCards(previousCard, chosenColor, ifDrawnCard);
                 mainController.setValidPlayerDeck(player.getDeck(), validDeck);
@@ -203,8 +204,7 @@ public class GameBoard {
             } else {
                 if (isRunning) {
                     Bot currentBot = bots.get(positionOfCurrentPlayer - 2);
-
-                    mainController.setLabelCurrentPlayer(currentBot.getName() + "'s turn");
+                    mainController.setLabelCurrentPlayer(currentBot.getName() + " " + LanguageController.get("gameBoard.turn"));
 
                     mainController.setBotDeck(currentBot);
 
@@ -263,6 +263,7 @@ public class GameBoard {
 
     //  if the game is ended, display winning message
     private void end(String name) {
+        LanguageController.switchLanguage(SettingsController.locale);
         mainController.clearAllDecks(bots);
         mainController.clearAll();
         System.err.println("Player " + name + " wins!");
@@ -274,9 +275,9 @@ public class GameBoard {
             player.win();
 
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Victory!");
+            alert.setTitle("UNO");
             alert.setHeaderText("");
-            alert.setContentText("You won!");
+            alert.setContentText(LanguageController.get("victory.youWon"));
             alert.initOwner(mainController.stage);
             Stage dialogStage = (Stage) alert.getDialogPane().getScene().getWindow();
             dialogStage.getIcons().add(mainController.icon);
@@ -288,9 +289,9 @@ public class GameBoard {
             player.resetWinsInARow();
 
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Defeated!");
+            alert.setTitle("UNO");
             alert.setHeaderText("");
-            alert.setContentText(name + " has won.");
+            alert.setContentText(name + " "+ LanguageController.get("victory.someoneElseWon"));
             alert.initOwner(mainController.stage);
             Stage dialogStage = (Stage) alert.getDialogPane().getScene().getWindow();
             dialogStage.getIcons().add(mainController.icon);
@@ -376,14 +377,17 @@ public class GameBoard {
 
     // Update status
     public void updateCardStatus (Card card){
+        LanguageController.switchLanguage(SettingsController.locale);
         if (card.getProperty().equals(Property.DRAW_TWO)) {
             ifDrawnCard = true;
             drawnCardsCount += 2;
-            mainController.showLabelChallengeCounter("Loser draws " + drawnCardsCount + " cards");
+            mainController.showLabelChallengeCounter(LanguageController.get("gameBoard.loserDraw4Cards") + " " + drawnCardsCount
+                                                      + " " + LanguageController.get("gameBoard.card"));
         } else if (card.getProperty().equals(Property.DRAW_FOUR)) {
             ifDrawnCard = true;
             drawnCardsCount += 4;
-            mainController.showLabelChallengeCounter("Loser draws " + drawnCardsCount + " cards");
+            mainController.showLabelChallengeCounter(LanguageController.get("gameBoard.loserDraw4Cards") + " " + drawnCardsCount
+                    + " " + LanguageController.get("gameBoard.card"));
         } else {
             ifDrawnCard = false;
             drawnCardsCount = 0;

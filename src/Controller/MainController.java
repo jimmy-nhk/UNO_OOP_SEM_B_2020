@@ -72,6 +72,7 @@ public class MainController {
     public Group paneContainsSetName;
     public TextArea textLeaderBoard;
     public Pane paneContainsSetNameScene;
+    public Button buttonOffline;
     @FXML private Label labelLeaderBoard;
     @FXML private Pane leaderBoardPane1;
     @FXML private Button backButton1;
@@ -132,8 +133,6 @@ public class MainController {
     @FXML
     private MenuItem menuItemBack;
 
-    @FXML
-    private Button buttonNewGame;
     @FXML private Button backButton;
     @FXML private Button buttonSettings;
     private boolean playerHasDrawn;
@@ -319,7 +318,6 @@ public class MainController {
         btOnline.setVisible(true);
         buttonQuit.setVisible(true);
         btnLeaderBoard.setVisible(true);
-        buttonNewGame.setVisible(true);
         buttonSettings.setVisible(true);
         menuBar.setVisible(true);
         paneContainsBox.setVisible(true);
@@ -329,7 +327,6 @@ public class MainController {
     public void hideMenu() {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
         btnLeaderBoard.setVisible(false);
-        buttonNewGame.setVisible(false);
         buttonSettings.setVisible(false);
         btOnline.setVisible(false);
         buttonQuit.setVisible(false);
@@ -365,6 +362,7 @@ public class MainController {
     }
 
     public void showCircleWishColor(Color color) {
+        LanguageController.switchLanguage(SettingsController.locale);
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
         hideImageViewWishColor();
@@ -395,7 +393,7 @@ public class MainController {
             default:
                 break;
         }
-
+        labelWishColor.setText(LanguageController.get("gameBoard.chosenColor"));
         labelWishColor.setVisible(true);
     }
 
@@ -531,7 +529,6 @@ public class MainController {
         MainController main = this;
 
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<>() {
-            Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
             Sound dealCardSound = new Sound("src/resources/sound/Card_Dealing.mp3");
 
             @Override
@@ -1064,7 +1061,8 @@ public class MainController {
             Locale locale = SettingsController.locale;
             LanguageController.switchLanguage(locale);
             setButtonBindingText();
-//            setLabelBindingText();
+            setLabelBindingText();
+            setMenuItemText();
             System.out.println(locale);
 
         } catch (Exception e1) {
@@ -1073,18 +1071,22 @@ public class MainController {
     }
 
     private void setLabelBindingText() {
-        LanguageController.setUpLabelText(labelWishColor, "chosenColor.pleaseChooseColor");
-        LanguageController.setUpLabelText(labelChallengeCounter, "menu.welcome");
-        LanguageController.setUpLabelText(labelDirection, "menu.directionOfPlay");
-        LanguageController.setUpLabelText(labelAI1Name, "menu.computer1");
-        LanguageController.setUpLabelText(labelAI2Name, "menu.computer2");
-        LanguageController.setUpLabelText(labelAI3Name, "menu.computer1");
+        LanguageController.setUpLabelText(labelDirection, "gameBoard.directionOfPlay");
+    }
+
+    private void setMenuItemText() {
+        LanguageController.setUpMenuItemText(menuItemBack, "menu.backToStart");
+        LanguageController.setUpMenuItemText(menuItem3, "menu.information");
+
     }
 
     private void setButtonBindingText() {
         LanguageController.setUpButtonText(buttonSettings, "menu.setting");
         LanguageController.setUpButtonText(buttonInfo, "information.informationLabel");
-        LanguageController.setUpButtonText(buttonNewGame, "menu.newGame");
+        LanguageController.setUpButtonText(buttonOffline, "menu.offline");
+        LanguageController.setUpButtonText(btOnline, "menu.online");
+        LanguageController.setUpButtonText(buttonQuit, "menu.online");
+        LanguageController.setUpButtonText(btnLeaderBoard, "menu.leaderBoard");
         LanguageController.setUpButtonText(buttonStart, "menu.start");
 
     }
@@ -1107,10 +1109,11 @@ public class MainController {
 
 
     public void about() {
+        LanguageController.switchLanguage(SettingsController.locale);
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("About " + bundle.getString("app.name"));
+        alert.setTitle(LanguageController.get("information.about") + " " + bundle.getString("app.name"));
         alert.setHeaderText(bundle.getString("app.name"));
         //alert.setContentText("Version:     " + bundle.getString("version.name") + "\r\nDate:      " + bundle.getString("version.date") + "\r\nAuthor:        Robert Goldmann\r\nCard images from:\nhttps://upload.wikimedia.org/wikipedia/commons/thumb/9/95/UNO_cards_deck.svg/800px-UNO_cards_deck.svg.png");
         Stage dialogStage = (Stage) alert.getDialogPane().getScene().getWindow();
@@ -1122,7 +1125,7 @@ public class MainController {
 
     public void changeToLeaderBoard(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
-hideMenu();
+        hideMenu();
         leaderBoardPane1.setVisible(true);
         backButton1.setVisible(true);
         labelLeaderBoard.setVisible(true);
@@ -1139,7 +1142,7 @@ hideMenu();
         fis.close();
         String string = "";
         for (int i = 0; i < namesList.size();i++) {
-            string += namesList.get(i) + "\t\t\t\twin:   " + winList.get(i).toString()+"\n";
+            string += namesList.get(i) + "\t\t\t\t" + "gameBoard.win" + " " + winList.get(i).toString()+"\n";
             textLeaderBoard.setText(string);
         }
     }
@@ -1150,5 +1153,9 @@ hideMenu();
         backButton1.setVisible(false);
         labelLeaderBoard.setVisible(false);
         showMenu();
+    }
+
+    public void quit(ActionEvent actionEvent) {
+        System.exit(1);
     }
 }
