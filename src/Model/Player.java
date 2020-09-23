@@ -51,11 +51,11 @@ public class Player {
             winList = (ArrayList) ois1.readObject();
             ois.close();
             fis.close();
-            for (int i =0; i < namesList.size();i++) {
+            for (int i = 0; i < namesList.size(); i++) {
                 if (this.name.equals(namesList.get(i))) {
                     int count = winList.get(i);
                     winList.remove(i);
-                    winList.add(i,count+1);
+                    winList.add(i, count + 1);
                 }
             }
             FileOutputStream fos = new FileOutputStream("listName");
@@ -76,9 +76,9 @@ public class Player {
             ex.printStackTrace();
         }
         winsInARow++;
-        }
+    }
 
-        public void resetWinsInARow() {
+    public void resetWinsInARow() {
 
 
         winsInARow = 0;
