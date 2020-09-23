@@ -12,7 +12,7 @@
   Acknowledgement: If you use any resources, acknowledge here. Failure to do so will be considered as plagiarism.
 */
 
-package Model;
+package Controller;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.Slider;

@@ -11,7 +11,7 @@
         5. Nguyen Phuoc Nhu Phuc - s3819660
   Acknowledgement: If you use any resources, acknowledge here. Failure to do so will be considered as plagiarism.
 */
-package Model;
+package Controller;
 
 // This class for indicating direction
 public enum Direction {
