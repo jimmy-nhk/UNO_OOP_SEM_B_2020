@@ -49,12 +49,12 @@ public class Bot {
     public int getID() {
         return id;
     }
-
+//  draw 1 card by ActionEvent
     public void drawCard(Card card) {
         deck.add(card);
         gameBoard.getController().setBotDeck(this);
     }
-
+//  draw multiple cards by function cards
     public void drawCards(ArrayList<Card> cards) {
         deck.addAll(cards);
         gameBoard.getController().setBotDeck(this);
@@ -80,7 +80,8 @@ public class Bot {
     public ArrayList<Card> getDeck() {
         return deck;
     }
-
+//  method to check in each bot's turn
+//  automatically generate every move
     public void turn(Card lastCard, Color wishColor, boolean challenge) {
         System.out.println("All cards on hand: \n" + deck);
         ArrayList<Card> validDeck = getValidCards(lastCard, wishColor, challenge);
@@ -137,7 +138,7 @@ public class Bot {
         }
         return 0;
     }
-
+//  assist generating move
     private Color getBestColor() {
         int[] times = new int[4];
 
