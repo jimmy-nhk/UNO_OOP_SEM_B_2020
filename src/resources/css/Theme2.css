@@ -135,3 +135,72 @@
     -fx-background-color: #0276B6;
 
 }
+
+#labelAI1Name {
+    -fx-font-size: 23px;
+    -fx-font-family: "Arial Black";
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: white;
+}
+
+#labelAI2Name {
+    -fx-font-size: 23px;
+    -fx-font-family: "Arial Black";
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: white;
+}
+
+#labelAI3Name {
+    -fx-font-size: 23px;
+    -fx-font-family: "Arial Black";
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: white;
+}
+
+#labelChallengeCounter {
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: black;
+}
+
+#labelCurrentPlayer {
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: white;
+}
+
+#labelDirection {
+    -fx-fill: #3da25b;
+    -fx-text-fill: white;
+}
+
+#labelInfo {
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: white;
+}
+
+#labelWishColor {
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-font-size: 15px;
+
+}
+
+#labelAI1Name {
+    -fx-font-family: "Arial Black";
+    /*-fx-background-color: #FCAD04;*/
+    /*-fx-progress-color: #ff4650;*/
+    -fx-fill: #3da25b;
+    -fx-text-fill: white;
+}
