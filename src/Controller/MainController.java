@@ -365,7 +365,6 @@ public class MainController {
 
         hideImageViewWishColor();
 
-        Sound buttonClickingSound1 = new Sound("src/resources/sound/sound_button_click.mp3");
 
 
         switch (color) {
@@ -399,7 +398,6 @@ public class MainController {
         Sound buttonClickingSound = new Sound("src/resources/sound/sound_button_click.mp3");
 
         hideCircleWishColor();
-        Sound buttonClickingSound1 = new Sound("src/resources/sound/sound_button_click.mp3");
 
         imageViewWishColor.setVisible(true);
     }
