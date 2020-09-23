@@ -1,3 +1,15 @@
+/*
+  RMIT University Vietnam
+  Course: INTE2512 Object-Oriented Programming
+  Semester: 2020B
+  Assessment: Final Project
+  Created date: dd/mm/yyyy (e.g. 31/03/2019)
+  By: Your name (Your studen id)
+  Last modified: dd/mm/yyyy (e.g. 05/04/2019)
+  By: Your name (Your studen id)
+  Acknowledgement: If you use any resources, acknowledge here. Failure to do so will be considered as plagiarism.
+*/
+
 package Controller;
 
 import java.io.*;
@@ -35,7 +47,7 @@ public class Settings implements Serializable {
         numberOfStartingCards = 7;
     }
 
-    // Save the data
+    // Save the data from settings
     public void save() throws Exception {
         FileOutputStream fileOut = new FileOutputStream("src\\settings.config");
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -44,7 +56,7 @@ public class Settings implements Serializable {
         fileOut.close();
     }
 
-    // Load the data from the file
+    // Load the data from the settings
     public void load() throws Exception {
         FileInputStream fileIn = new FileInputStream("src\\settings.config");
         ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -73,4 +85,5 @@ public class Settings implements Serializable {
     public int getNumberOfStartingCards() {
         return numberOfStartingCards;
     }
+
 }

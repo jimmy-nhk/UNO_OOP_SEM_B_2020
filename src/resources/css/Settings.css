@@ -6,7 +6,7 @@
 }
 
 .button{
-    -fx-background-image: url('/imageCss/button.png');
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 155px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;

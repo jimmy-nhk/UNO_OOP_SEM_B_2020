@@ -1,21 +1,21 @@
 #mainPane{
-    -fx-background-image: url("/resources/images/firstTheme.jpg");
+    -fx-background-image: url("/resources/images/menuBG.jpg");
     -fx-background-size: 1200px 800px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
-#paneContainsSetNameScene {
-    /*-fx-background-image: url('/imageCss/pane.png');*/
-    -fx-background-size: 1200px;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-border-color: black;
-    -fx-background-color: #195D21;
-}
+/*#paneContainsSetNameScene {*/
+/*    !*-fx-background-image: url('/imageCss/pane.png');*!*/
+/*    -fx-background-size: 1200px;*/
+/*    -fx-background-repeat: no-repeat;*/
+/*    -fx-background-position: center;*/
+/*    -fx-border-color: black;*/
+/*    -fx-background-color: #195D21;*/
+/*}*/
 
 .button{
-    -fx-background-image: url('/imageCss/button.png');
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
@@ -29,91 +29,106 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 15;
+    -fx-background-color: #f99c00;
     /*-fx-font-size: 14px;*/
 }
 #buttonStart{
-    -fx-background-image: url('/imageCss/button.png');
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #f99c00;
+
 }
 
 #buttonOffline{
-    -fx-background-image: url('/imageCss/button.png');
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #f99c00;
+
 }
 
 #buttonSettings {
-    -fx-background-image: url('/imageCss/button.png');
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+    -fx-background-color: #f99c00;
     -fx-border-color: black;
 
 }
 
 #paneContainsBox {
-    -fx-background-image: url('/imageCss/pane.png');
     -fx-background-size: 1095px 757px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+
 
 }
 
 
 #btOnline {
-    -fx-background-image: url('/imageCss/button.png');
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #f99c00;
+
 
 }
 
 #buttonQuit {
-    -fx-background-image: url('/imageCss/button.png');
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+    -fx-background-color: #f99c00;
     -fx-border-color: black;
 
 }
 
 #btSetName {
-    -fx-background-image: url('/imageCss/button.png');
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #f99c00;
+
 
 }
 
 
 #buttonInfo {
-    -fx-background-image: url('/imageCss/button.png');
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 155px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #f99c00;
+
 }
 
 #btnLeaderBoard{
-    -fx-background-image: url('/imageCss/button.png');
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
-    -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+    -fx-background-color: #f99c00;
     -fx-border-color: black;
 
 }
 
 #backButton1 {
-    -fx-background-image: url('/imageCss/button.png');
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-color: black;
+    -fx-background-color: #f99c00;
+
 }

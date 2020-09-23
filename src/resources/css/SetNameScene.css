@@ -1,5 +1,5 @@
 #btSetName{
-    -fx-background-image: url('/imageCss/button.png');
+    /*-fx-background-image: url('/imageCss/button.png');*/
     -fx-background-size: 270px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
@@ -8,7 +8,7 @@
 #labelSetName {
     -fx-font-size: 23px;
     -fx-font-family: "Arial Black";
-    -fx-background-color: #FCAD04;
+    /*-fx-background-color: #FCAD04;*/
     /*-fx-progress-color: #ff4650;*/
     -fx-fill: #3da25b;
 }

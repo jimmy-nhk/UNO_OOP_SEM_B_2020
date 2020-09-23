@@ -1,3 +1,15 @@
+/*
+  RMIT University Vietnam
+  Course: INTE2512 Object-Oriented Programming
+  Semester: 2020B
+  Assessment: Final Project
+  Created date: dd/mm/yyyy (e.g. 31/03/2019)
+  By: Your name (Your studen id)
+  Last modified: dd/mm/yyyy (e.g. 05/04/2019)
+  By: Your name (Your studen id)
+  Acknowledgement: If you use any resources, acknowledge here. Failure to do so will be considered as plagiarism.
+*/
+
 package Controller;
 
 import Model.Sound;
@@ -15,11 +27,8 @@ public class SettingsController
 	@FXML private Slider sliderNumberOfStartingCards;
 	@FXML public RadioButton englishButton;
 	@FXML public RadioButton vietnameseButton;
-	@FXML public RadioButton theme1Button;
-	@FXML public RadioButton theme2Button;
 	@FXML public Button saveButton;
 	@FXML public Label languageLabel;
-	@FXML public Label themeButton;
 	@FXML public Label volumeLabel;
 	@FXML public Label settingLabel;
 	@FXML public Label opponentLabel;
@@ -42,9 +51,7 @@ public class SettingsController
 		vietnameseButton.setToggleGroup(group);
 		englishButton.setToggleGroup(group);
 
-		ToggleGroup group1 = new ToggleGroup();
-		theme1Button.setToggleGroup(group1);
-		theme2Button.setToggleGroup(group1);
+
 		
 		Settings settings = mainController.settings;
 
@@ -60,6 +67,7 @@ public class SettingsController
 		volumeSlider.setOnMouseClicked(e -> setActionForVolumeSlider());
 		DoubleProperty volume = volumeSlider.valueProperty();
 		int volumeAmount = volumeSlider.valueProperty().intValue();
+
 
 		vietnameseButton.setOnAction(e -> locale = new Locale("vi", "VN"));
 		englishButton.setOnAction(e -> locale = new Locale("en", "US"));
@@ -108,7 +116,6 @@ public class SettingsController
 		LanguageController.setUpLabelText(startingCardLabel, "setting.startingCards");
 		LanguageController.setUpLabelText(volumeLabel, "setting.volume");
 		LanguageController.setUpLabelText(languageLabel, "setting.language");
-		LanguageController.setUpLabelText(themeButton, "setting.language");
 
 
 	}
@@ -116,8 +123,6 @@ public class SettingsController
 	private void setButtonBindingText() {
 		LanguageController.setUpRadioButtonText(englishButton, "setting.english");
 		LanguageController.setUpRadioButtonText(vietnameseButton, "setting.vietnamese");
-		LanguageController.setUpRadioButtonText(theme1Button, "setting.theme1");
-		LanguageController.setUpRadioButtonText(theme2Button, "setting.theme2");
 		LanguageController.setUpButtonText(saveButton, "setting.save");
 
 	}
