@@ -2,6 +2,8 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/Controller/MainGUI.fxml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Model/MainController.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/resources/imageCss/menuBG.jpg" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/resources/imageCss/pane.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/resources/images/REVERSE-BLUE.png" charset="UTF-8" />
