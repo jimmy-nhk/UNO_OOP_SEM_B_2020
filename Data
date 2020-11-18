@@ -1,0 +1,15 @@
+the algorithm has space efficient. Space is also issues.
+
+A1. We will calculate the ratio of the demand, instead of divided into the middle. 
+loglogN
+A2. Reverse the array,
+-  Split the array in the k element.
+- Reverse all 2 sub-arrays.
+
+1. we create 3 variables: currentLow , currentHigh, potentialLow.
+Check the range of currentLow and currentHigh. 
+if the point is lower than currentLow, then it is potentialLow
+then check potentialLow if the range of potentialLow vs currentHigh is bigger than the range of currentLow and currentHigh. 
+If so, currentLow is potentialLow.
+
+Do the Q2(pseudocode) and Q4(code)
